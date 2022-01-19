@@ -1,0 +1,27 @@
+<resources>
+
+    <style name="Theme.TreeSpot" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+
+    </style>
+
+    <style name="Theme.TreeSpot.Button" parent="Widget.MaterialComponents.Button">
+        <item name="color">@color/primaryColor</item>
+    </style>
+
+    <style name="Theme.TreeSpot.Button.Alt" parent="Widget.MaterialComponents.Button">
+        <item name="color">@color/secondaryColor</item>
+    </style>
+
+    <style name="Theme.TreeSpot.CircleProgress" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="trackThickness">10dp</item>
+    </style>
+
+    <style name="Theme.TreeSpot.BottomNav" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="backgroundTint">@color/primaryColor</item>
+        <item name="itemIconTint">@color/md_white_1000</item>
+        <item name="itemTextColor">@color/md_white_1000</item>
+    </style>
+</resources>

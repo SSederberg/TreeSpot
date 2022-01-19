@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottom_nav_spots"
+        android:enabled="true"
+        android:icon="@drawable/ic_map"
+        android:title="@string/my_spots"/>
+
+    <item
+        android:id="@+id/bottom_nav_take_spot"
+        android:enabled="true"
+        android:icon="@drawable/ic_add_circle_outline"
+        android:title="@string/capture_spot"
+        />
+
+    <item
+        android:id="@+id/bottom_nav_friends"
+        android:enabled="true"
+        android:icon="@drawable/ic_friends"
+        android:title="@string/my_friends"/>
+
+
+</menu>
