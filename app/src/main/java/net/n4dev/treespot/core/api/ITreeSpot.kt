@@ -3,7 +3,7 @@ package net.n4dev.treespot.core.api
 import java.util.UUID
 import java.util.Date
 
-open interface ITreeSpot : IEntity {
+interface ITreeSpot : IEntity {
 
     fun getSpotID() :  UUID
     fun setSpotID(uuid: UUID)
@@ -19,4 +19,7 @@ open interface ITreeSpot : IEntity {
 
     fun getLongWest() : String
     fun setLongWest(string: String)
+
+    fun getSpotDescription() : String
+    fun setSpotDescription(description : String)
 }

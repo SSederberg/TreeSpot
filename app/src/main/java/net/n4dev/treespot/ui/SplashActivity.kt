@@ -3,6 +3,7 @@ package net.n4dev.treespot.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import net.n4dev.treespot.BuildConfig
+import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.databinding.ActivitySplashBinding
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DeviceConnectionHelper
@@ -22,6 +23,8 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
         initializeFolders()
         performFirstRunCheck()
+
+        TreeSpotApplication.getClient(this)
     }
 
     private fun performFirstRunCheck() {
@@ -47,7 +50,7 @@ class SplashActivity : AppCompatActivity() {
                 if(doesUserAccountExist()) {
 
                 } else {
-                    //Error  here, internet connection required for setup.
+
                 }
             }
 
@@ -60,6 +63,9 @@ class SplashActivity : AppCompatActivity() {
         prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
     }
 
+    /**
+     * Establish app folder structure for media storage
+     */
     private fun initializeFolders() {
         val imageFolder  = File(ActivityUtil.getAppImagesDirectory(this))
         val videoFolder = File(ActivityUtil.getAppVideosDirectory(this))

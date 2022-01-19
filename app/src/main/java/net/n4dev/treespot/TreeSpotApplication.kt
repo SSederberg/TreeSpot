@@ -6,7 +6,6 @@ import io.appwrite.Client
 
 class TreeSpotApplication: Application() {
 
-
     companion object {
 
         fun getClient(context: Context): Client {

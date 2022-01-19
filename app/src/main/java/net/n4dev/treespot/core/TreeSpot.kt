@@ -11,6 +11,7 @@ class TreeSpot : ITreeSpot {
     private lateinit var spotOwner : IUser
     private lateinit var latNorth : String
     private lateinit var longWest : String
+    private lateinit var description: String
 
 
     override fun getSpotID(): UUID {
@@ -51,6 +52,14 @@ class TreeSpot : ITreeSpot {
 
     override fun setLongWest(string: String) {
         this.longWest = string
+    }
+
+    override fun getSpotDescription(): String {
+        return description
+    }
+
+    override fun setSpotDescription(description: String) {
+        this.description = description
     }
 
     override fun getType(): String {

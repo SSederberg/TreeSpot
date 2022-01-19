@@ -11,24 +11,23 @@
         style="@style/Theme.TreeSpot.CircleProgress"
         android:layout_width="150dp"
         android:layout_height="200dp"
-        app:indicatorSize="150dp"
         android:layout_marginTop="32dp"
         android:indeterminate="true"
+        app:indicatorSize="150dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/splash_lottie" />
+        app:layout_constraintTop_toBottomOf="@+id/splash_logo" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/splash_lottie"
+    <ImageView
+        android:id="@+id/splash_logo"
         android:layout_width="250dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="64dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="56dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_tree_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="false"
-        app:lottie_url="https://assets1.lottiefiles.com/packages/lf20_ehzqyrnb.json" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
