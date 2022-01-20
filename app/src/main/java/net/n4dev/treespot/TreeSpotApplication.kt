@@ -10,7 +10,7 @@ class TreeSpotApplication: Application() {
 
         fun getClient(context: Context): Client {
             return Client(context)
-                .setEndpoint("http://192.168.1.245")
+                .setEndpoint("http://192.168.1.245/v1")
 //                .setEndpoint("http://localhost")
                 .setProject("treespot-dev")
                 .setSelfSigned(true);

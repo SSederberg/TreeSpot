@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -29,6 +30,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        dataBinding false
     }
 
 
@@ -48,7 +50,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
     def room_version = "2.4.1"
 
     implementation "androidx.room:room-runtime:$room_version"
@@ -60,11 +62,16 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$work_version"
     implementation "androidx.work:work-multiprocess:$work_version"
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+
     implementation('io.appwrite:sdk-for-android:0.3.0')
 
     implementation group: 'commons-validator', name: 'commons-validator', version: '1.7'
-
-    implementation 'com.airbnb.android:lottie:4.2.2'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'

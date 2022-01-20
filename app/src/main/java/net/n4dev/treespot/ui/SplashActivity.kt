@@ -23,8 +23,6 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
         initializeFolders()
         performFirstRunCheck()
-
-        TreeSpotApplication.getClient(this)
     }
 
     private fun performFirstRunCheck() {
