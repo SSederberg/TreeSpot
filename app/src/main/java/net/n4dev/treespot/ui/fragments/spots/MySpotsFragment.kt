@@ -1,4 +1,4 @@
-package net.n4dev.treespot.ui.fragments
+package net.n4dev.treespot.ui.fragments.spots
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -37,7 +37,7 @@ class MySpotsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentMySpotsBinding.inflate(inflater, container, false)
         return binding.root
