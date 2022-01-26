@@ -14,6 +14,9 @@ interface IUser : IEntity {
     fun getUserID() : UUID
     fun setUserID(userID : UUID)
 
+    fun getLocalID() : Int
+    fun setLocalID(int: Int)
+
     fun getAccountCreationDate() : Date
     fun setAccountCreationDate(date: Date)
 
@@ -24,5 +27,6 @@ interface IUser : IEntity {
     fun getUserFriends() : List<IUser>
     fun addFriend(friendUUID: UUID)
     fun removeFriend(friendUUID: UUID)
+
 
 }

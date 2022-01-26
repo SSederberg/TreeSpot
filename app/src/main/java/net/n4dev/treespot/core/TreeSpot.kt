@@ -1,16 +1,21 @@
 package net.n4dev.treespot.core
 
+import androidx.room.Entity
+import androidx.room.Fts4
 import net.n4dev.treespot.core.api.ITreeSpot
 import net.n4dev.treespot.core.api.IUser
 import java.util.*
 
-class TreeSpot : ITreeSpot {
+@Fts4
+@Entity
+class TreeSpot(
+    private var spotOwner: IUser,
+    private var latNorth: String,
+    private var longWest: String
+) : ITreeSpot {
 
-    private lateinit var creationDate: Date
-    private lateinit var spotUUID: UUID
-    private lateinit var spotOwner : IUser
-    private lateinit var latNorth : String
-    private lateinit var longWest : String
+    private var creationDate: Date
+    private var spotUUID: UUID
     private lateinit var description: String
 
 
@@ -77,6 +82,11 @@ class TreeSpot : ITreeSpot {
 
     override fun isTreeSpot(): Boolean {
         return true
+    }
+
+    init {
+        this.spotUUID = UUID.randomUUID()
+        this.creationDate = Date()
     }
 
 }

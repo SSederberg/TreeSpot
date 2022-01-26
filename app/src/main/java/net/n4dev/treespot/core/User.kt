@@ -1,10 +1,19 @@
 package net.n4dev.treespot.core
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import net.n4dev.treespot.core.api.ITreeSpot
 import net.n4dev.treespot.core.api.IUser
 import java.util.*
 
+@Entity
 class User : IUser {
+
+    constructor(username: String, emailAddress: String) {
+        this.username = username
+        this.emailAddress = emailAddress
+    }
+
 
     private lateinit var username: String
     private lateinit var emailAddress : String
@@ -12,6 +21,7 @@ class User : IUser {
     private lateinit var accountCreationDate : Date
     private lateinit var userSpots : List<ITreeSpot>
     private lateinit var userFriends : List<IUser>
+
 
     override fun getUserName(): String {
         return username
@@ -35,6 +45,14 @@ class User : IUser {
 
     override fun setUserID(userID: UUID) {
         this.userID = userID
+    }
+
+    override fun getLocalID(): Int {
+        return localUID
+    }
+
+    override fun setLocalID(int: Int) {
+        this.localUID = int;
     }
 
     override fun getAccountCreationDate(): Date {
