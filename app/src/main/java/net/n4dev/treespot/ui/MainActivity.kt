@@ -9,8 +9,8 @@ import androidx.fragment.app.replace
 import com.google.android.material.navigation.NavigationBarView
 import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.ActivityMainBinding
-import net.n4dev.treespot.ui.fragments.MyFriendsFragment
-import net.n4dev.treespot.ui.fragments.MySpotsFragment
+import net.n4dev.treespot.ui.fragments.friends.MyFriendsFragment
+import net.n4dev.treespot.ui.fragments.spots.MySpotsFragment
 
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
 

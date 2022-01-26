@@ -3,14 +3,13 @@ package net.n4dev.treespot.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import net.n4dev.treespot.BuildConfig
-import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.databinding.ActivitySplashBinding
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DeviceConnectionHelper
 import java.io.File
 
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : TreeSpotActivity() {
 
     private lateinit var binding : ActivitySplashBinding
     private val PREFS_NAME = "TreeSpotPrefsFile"
@@ -36,6 +35,8 @@ class SplashActivity : AppCompatActivity() {
 
                 if(doesUserAccountExist()) {
                     ActivityUtil.startActivity(MainActivity::class.java, this)
+                } else {
+                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, this)
                 }
             return;
 
@@ -43,7 +44,7 @@ class SplashActivity : AppCompatActivity() {
             // TODO This is a new install (or the user cleared the shared preferences)
 
             if(DeviceConnectionHelper.isConnected(this)) {
-
+                ActivityUtil.startActivity(RegisterAccountActivity::class.java, this)
             } else {
                 if(doesUserAccountExist()) {
 
