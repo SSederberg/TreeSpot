@@ -1,47 +1,59 @@
 package net.n4dev.treespot.core
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Fts4
+import androidx.room.PrimaryKey
+import net.n4dev.treespot.core.TreeSpot.Companion.name
 import net.n4dev.treespot.core.api.ITreeSpot
 import net.n4dev.treespot.core.api.IUser
 import java.util.*
 
 @Fts4
-@Entity
+@Entity(tableName = name)
 class TreeSpot(
-    private var spotOwner: IUser,
-    private var latNorth: String,
-    private var longWest: String
+    @ColumnInfo(name = SPOT_OWNER) private var spotOwnerID: UUID,
+    @ColumnInfo(name = SPOT_LAT_NORTH) private var latNorth: String,
+    @ColumnInfo(name = SPOT_LONG_WEST) private var longWest: String
 ) : ITreeSpot {
 
-    private var creationDate: Date
-    private var spotUUID: UUID
-    private lateinit var description: String
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = LOCAL_UID) var localUID = 0
 
+    @ColumnInfo(name = CREATION_DATE) private val creationDate: Date = Date()
+    @ColumnInfo(name = SPOT_UUID) private val spotUUID: UUID = UUID.randomUUID()
+    @ColumnInfo(name = SPOT_DESCRIPTION) private lateinit var description: String
+
+    companion object {
+        const val LOCAL_UID = "localuid"
+        const val CREATION_DATE = "CREATION_DATE"
+        const val SPOT_UUID = "SPOT_UUID"
+        const val SPOT_OWNER = "SPOT_OWNER"
+        const val SPOT_DESCRIPTION = "SPOT_DESCRIPTION"
+        const val SPOT_LAT_NORTH = "SPOT_LAT_NORTH"
+        const val SPOT_LONG_WEST = "SPOT_LONG_WEST"
+        const val name = "TREESPOT_SPOT"
+    }
 
     override fun getSpotID(): UUID {
         return spotUUID
     }
 
-    override fun setSpotID(uuid: UUID) {
-        this.spotUUID = uuid
+    override fun setSpotID(uuid: UUID) {}
+
+    override fun setSpotOwnerID(user: IUser) {
+        this.spotOwnerID = user.getUserID()
     }
 
-    override fun setSpotOwner(user: IUser) {
-        this.spotOwner = user
-    }
-
-    override fun getSpotOwner(): IUser {
-        return  spotOwner
+    override fun getSpotOwnerID(): UUID {
+        return  spotOwnerID
     }
 
     override fun getSpotCreationDate(): Date {
         return creationDate
     }
 
-    override fun setSpotCreationDate(date: Date) {
-        this.creationDate = date
-    }
+    override fun setSpotCreationDate(date: Date) { }
 
     override fun getLatNorth(): String {
         return latNorth
@@ -83,10 +95,4 @@ class TreeSpot(
     override fun isTreeSpot(): Boolean {
         return true
     }
-
-    init {
-        this.spotUUID = UUID.randomUUID()
-        this.creationDate = Date()
-    }
-
 }

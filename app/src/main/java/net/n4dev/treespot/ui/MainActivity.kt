@@ -12,7 +12,7 @@ import net.n4dev.treespot.databinding.ActivityMainBinding
 import net.n4dev.treespot.ui.fragments.friends.MyFriendsFragment
 import net.n4dev.treespot.ui.fragments.spots.MySpotsFragment
 
-class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
+class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListener {
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var fragmentManager: FragmentManager

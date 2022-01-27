@@ -1,4 +1,8 @@
 package net.n4dev.treespot.db.dao
 
-class TreeSpotDAO {
+import net.n4dev.treespot.core.api.ITreeSpot
+
+abstract class TreeSpotDAO : IEntityDAO<ITreeSpot> {
+
+
 }

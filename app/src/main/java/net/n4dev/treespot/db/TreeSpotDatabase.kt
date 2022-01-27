@@ -1,24 +1,16 @@
 package net.n4dev.treespot.db
 
 import androidx.room.Database
-import androidx.room.DatabaseConfiguration
-import androidx.room.InvalidationTracker
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteOpenHelper
+import net.n4dev.treespot.core.TreeSpot
+import net.n4dev.treespot.core.User
+import net.n4dev.treespot.db.dao.TreeSpotDAO
+import net.n4dev.treespot.db.dao.UserDAO
 
-class TreeSpotDatabase : RoomDatabase() {
+@Database(entities = [User::class, TreeSpot::class], version = 0, exportSchema = false)
+abstract class TreeSpotDatabase : RoomDatabase() {
 
-
-    override fun createOpenHelper(config: DatabaseConfiguration?): SupportSQLiteOpenHelper {
-        TODO("Not yet implemented")
-    }
-
-    override fun createInvalidationTracker(): InvalidationTracker {
-        TODO("Not yet implemented")
-    }
-
-    override fun clearAllTables() {
-        TODO("Not yet implemented")
-    }
+    abstract fun userDAO(): UserDAO
+    abstract fun treeSpotDAO() : TreeSpotDAO
 
 }

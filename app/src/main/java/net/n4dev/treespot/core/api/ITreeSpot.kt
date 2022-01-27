@@ -8,8 +8,8 @@ interface ITreeSpot : IEntity {
     fun getSpotID() :  UUID
     fun setSpotID(uuid: UUID)
 
-    fun setSpotOwner(user : IUser)
-    fun getSpotOwner() : IUser
+    fun setSpotOwnerID(user : IUser)
+    fun getSpotOwnerID() : UUID
 
     fun getSpotCreationDate() : Date
     fun setSpotCreationDate(date: Date)

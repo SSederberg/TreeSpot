@@ -1,8 +1,10 @@
 package net.n4dev.treespot.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import io.zeko.db.sql.Query
 import net.n4dev.treespot.BuildConfig
+import net.n4dev.treespot.core.User
+import net.n4dev.treespot.core.api.IUser
 import net.n4dev.treespot.databinding.ActivitySplashBinding
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DeviceConnectionHelper
@@ -74,6 +76,12 @@ class SplashActivity : TreeSpotActivity() {
     }
 
     private fun doesUserAccountExist() : Boolean {
-        return true
+        val userExistsQuery = Query().fields("*")
+            .from(User.name)
+
+        val returnedList = super.loadUser(userExistsQuery)
+
+        return returnedList.size != 0
+
     }
 }

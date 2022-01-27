@@ -1,27 +1,36 @@
 package net.n4dev.treespot.core
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import net.n4dev.treespot.core.User.Companion.name
 import net.n4dev.treespot.core.api.ITreeSpot
 import net.n4dev.treespot.core.api.IUser
-import java.util.*
+import java.util.UUID
+import java.util.Date
 
-@Entity
-class User : IUser {
+@Entity(tableName = name)
+class User(@ColumnInfo(name = USER_USERNAME) private var username: String,
+           @ColumnInfo(name = USER_EMAIL_ADDRESS) private var emailAddress: String) : IUser {
 
-    constructor(username: String, emailAddress: String) {
-        this.username = username
-        this.emailAddress = emailAddress
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = USER_LOCAL_UID) var localUID = 0
+
+   @ColumnInfo(name = USER_ID) private val userID : UUID = UUID.randomUUID()
+   @ColumnInfo(name = USER_CREATION_DATE) private lateinit var accountCreationDate : Date
+   @Ignore private lateinit var userSpots : List<ITreeSpot>
+   @Ignore private lateinit var userFriends : List<IUser>
+
+    companion object {
+        const val USER_LOCAL_UID = "USER_LOCAL_UID"
+        const val USER_USERNAME = "USER_USERNAME"
+        const val USER_EMAIL_ADDRESS = "USER_EMAIL_ADDRESS"
+        const val USER_ID = "USER_ID"
+        const val USER_CREATION_DATE = "USER_CREATION_DATE"
+        const val name = "TREESPOT_USER"
     }
-
-
-    private lateinit var username: String
-    private lateinit var emailAddress : String
-    private lateinit var userID : UUID
-    private lateinit var accountCreationDate : Date
-    private lateinit var userSpots : List<ITreeSpot>
-    private lateinit var userFriends : List<IUser>
-
 
     override fun getUserName(): String {
         return username
@@ -43,9 +52,7 @@ class User : IUser {
         return userID
     }
 
-    override fun setUserID(userID: UUID) {
-        this.userID = userID
-    }
+    override fun setUserID(userID: UUID) {}
 
     override fun getLocalID(): Int {
         return localUID
@@ -96,10 +103,10 @@ class User : IUser {
     }
 
     override fun isUser(): Boolean {
-        TODO("Not yet implemented")
+       return true
     }
 
     override fun isTreeSpot(): Boolean {
-        TODO("Not yet implemented")
+        return false
     }
 }
