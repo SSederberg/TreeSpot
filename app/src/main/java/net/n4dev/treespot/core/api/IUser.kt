@@ -5,8 +5,8 @@ import java.util.Date
 
 interface IUser : IEntity {
 
-    fun getUserName() : String
-    fun setUserName(username : String)
+    fun getusername() : String
+    fun setusername(username : String)
 
     fun getEmailAddress() : String
     fun setEmailAddress(email : String)
@@ -17,8 +17,8 @@ interface IUser : IEntity {
     fun getLocalID() : Int
     fun setLocalID(int: Int)
 
-    fun getAccountCreationDate() : Date
-    fun setAccountCreationDate(date: Date)
+    fun getAccountCreationDate() : Long
+    fun setAccountCreationDate(date : Long)
 
     fun getUserSpots() : List<ITreeSpot>
     fun assignSpot(treespot : ITreeSpot)

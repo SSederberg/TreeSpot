@@ -1,11 +1,13 @@
 package net.n4dev.treespot.ui
 
 import android.os.Bundle
+import androidx.room.Room
 import io.zeko.db.sql.Query
 import net.n4dev.treespot.BuildConfig
 import net.n4dev.treespot.core.User
 import net.n4dev.treespot.core.api.IUser
 import net.n4dev.treespot.databinding.ActivitySplashBinding
+import net.n4dev.treespot.db.TreeSpotDatabase
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DeviceConnectionHelper
 import java.io.File
@@ -22,6 +24,10 @@ class SplashActivity : TreeSpotActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val db = Room.databaseBuilder(this, TreeSpotDatabase::class.java, "treespot")
+            .build()
+
         initializeFolders()
         performFirstRunCheck()
     }

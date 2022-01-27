@@ -1,7 +1,6 @@
 package net.n4dev.treespot.ui
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Dao
 import androidx.room.Room
 import io.zeko.db.sql.Query
 import net.n4dev.treespot.core.api.IEntity
@@ -13,17 +12,14 @@ import net.n4dev.treespot.db.dao.IEntityDAO
 
 open class TreeSpotActivity : AppCompatActivity() {
 
-    private val db = Room.databaseBuilder(applicationContext,
-                        TreeSpotDatabase::class.java,
-                            "treespot")
-                            .build()
+    private var db : TreeSpotDatabase? = null
 
     fun loadUser(query: Query) : ArrayList<IUser> {
         var returnedList: ArrayList<IEntity>
         val convertedList : ArrayList<IUser> = ArrayList()
 
         val loadThread = Thread {
-            returnedList = db.userDAO().find(query.toSql())
+            returnedList = getDatabase().userDAO().find(query.toSql())
 
             returnedList.forEach {
                 convertedList.add(it as IUser)
@@ -41,7 +37,7 @@ open class TreeSpotActivity : AppCompatActivity() {
         val convertedList : ArrayList<ITreeSpot> = ArrayList()
 
         val loadThread = Thread {
-            returnedList = db.treeSpotDAO().find(query.toSql())
+            returnedList = getDatabase().treeSpotDAO().find(query.toSql())
 
             returnedList.forEach {
                 convertedList.add(it as ITreeSpot)
@@ -56,10 +52,18 @@ open class TreeSpotActivity : AppCompatActivity() {
     }
 
     fun getUserDB() : IEntityDAO<IUser> {
-        return db.userDAO()
+        return getDatabase().userDAO()
     }
 
     fun getTreeSpotDB() : IEntityDAO<ITreeSpot>{
-        return db.treeSpotDAO()
+        return getDatabase().treeSpotDAO()
+    }
+
+    private fun getDatabase() : TreeSpotDatabase {
+        if(db == null) {
+
+        }
+
+        return db as TreeSpotDatabase
     }
 }

@@ -11,7 +11,7 @@ import java.util.*
 
 @Fts4
 @Entity(tableName = name)
-class TreeSpot(
+data class TreeSpot(
     @ColumnInfo(name = SPOT_OWNER) private var spotOwnerID: UUID,
     @ColumnInfo(name = SPOT_LAT_NORTH) private var latNorth: String,
     @ColumnInfo(name = SPOT_LONG_WEST) private var longWest: String
@@ -20,7 +20,7 @@ class TreeSpot(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = LOCAL_UID) var localUID = 0
 
-    @ColumnInfo(name = CREATION_DATE) private val creationDate: Date = Date()
+    @ColumnInfo(name = CREATION_DATE) private val creationDate: Long = -1
     @ColumnInfo(name = SPOT_UUID) private val spotUUID: UUID = UUID.randomUUID()
     @ColumnInfo(name = SPOT_DESCRIPTION) private lateinit var description: String
 
@@ -49,11 +49,11 @@ class TreeSpot(
         return  spotOwnerID
     }
 
-    override fun getSpotCreationDate(): Date {
+    override fun getSpotCreationDate(): Long {
         return creationDate
     }
 
-    override fun setSpotCreationDate(date: Date) { }
+    override fun setSpotCreationDate(date: Long) { }
 
     override fun getLatNorth(): String {
         return latNorth

@@ -11,8 +11,8 @@ interface ITreeSpot : IEntity {
     fun setSpotOwnerID(user : IUser)
     fun getSpotOwnerID() : UUID
 
-    fun getSpotCreationDate() : Date
-    fun setSpotCreationDate(date: Date)
+    fun getSpotCreationDate() : Long
+    fun setSpotCreationDate(date: Long)
 
     fun getLatNorth() : String
     fun setLatNorth(string: String)

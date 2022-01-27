@@ -2,6 +2,7 @@ package net.n4dev.treespot.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import net.n4dev.treespot.core.TreeSpot
 import net.n4dev.treespot.core.User
 import net.n4dev.treespot.db.dao.TreeSpotDAO

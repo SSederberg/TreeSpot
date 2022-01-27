@@ -11,7 +11,7 @@ import java.util.UUID
 import java.util.Date
 
 @Entity(tableName = name)
-class User(@ColumnInfo(name = USER_USERNAME) private var username: String,
+data class User(@ColumnInfo(name = USER_USERNAME) private var username: String,
            @ColumnInfo(name = USER_EMAIL_ADDRESS) private var emailAddress: String) : IUser {
 
 
@@ -19,8 +19,8 @@ class User(@ColumnInfo(name = USER_USERNAME) private var username: String,
     @ColumnInfo(name = USER_LOCAL_UID) var localUID = 0
 
    @ColumnInfo(name = USER_ID) private val userID : UUID = UUID.randomUUID()
-   @ColumnInfo(name = USER_CREATION_DATE) private lateinit var accountCreationDate : Date
-   @Ignore private lateinit var userSpots : List<ITreeSpot>
+    @ColumnInfo(name = USER_CREATION_DATE) private var accountCreationDate: Long = -1
+    @Ignore private lateinit var userSpots : List<ITreeSpot>
    @Ignore private lateinit var userFriends : List<IUser>
 
     companion object {
@@ -32,11 +32,11 @@ class User(@ColumnInfo(name = USER_USERNAME) private var username: String,
         const val name = "TREESPOT_USER"
     }
 
-    override fun getUserName(): String {
+    override fun getusername(): String {
         return username
     }
 
-    override fun setUserName(username: String) {
+    override fun setusername(username: String) {
         this.username = username
     }
 
@@ -62,11 +62,11 @@ class User(@ColumnInfo(name = USER_USERNAME) private var username: String,
         this.localUID = int;
     }
 
-    override fun getAccountCreationDate(): Date {
+    override fun getAccountCreationDate(): Long {
         return accountCreationDate
     }
 
-    override fun setAccountCreationDate(date: Date) {
+    override fun setAccountCreationDate(date: Long) {
         this.accountCreationDate = date
     }
 
