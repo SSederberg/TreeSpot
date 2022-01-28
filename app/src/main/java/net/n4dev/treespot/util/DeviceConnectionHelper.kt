@@ -14,11 +14,6 @@ class DeviceConnectionHelper {
             return isConnected
         }
 
-        fun isConnectionMetered(context: Context) : Boolean {
-            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val isMetered = cm.isActiveNetworkMetered()
-            return isMetered
-        }
     }
 
 }

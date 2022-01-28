@@ -5,16 +5,18 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import com.orhanobut.logger.Logger
+import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account
-import kotlinx.coroutines.*
-import net.n4dev.treespot.TreeSpotApplication
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import net.n4dev.treespot.core.User
 import net.n4dev.treespot.databinding.ActivityRegisterAccountBinding
 import net.n4dev.treespot.util.ActivityUtil
 import org.apache.commons.validator.routines.EmailValidator
 import java.util.*
 
-class RegisterAccountActivity : AppCompatActivity(), View.OnClickListener {
+class RegisterAccountActivity : TreeSpotActivity() {
 
     private lateinit var binding : ActivityRegisterAccountBinding
     private lateinit var validator: EmailValidator
@@ -25,13 +27,14 @@ class RegisterAccountActivity : AppCompatActivity(), View.OnClickListener {
         validator = EmailValidator.getInstance()
         setContentView(binding.root)
 
-        binding.registerCreateAccount.setOnClickListener(this)
+        binding.registerCreateAccount.setOnClickListener(onRegister)
+        binding.registerLogin.setOnClickListener(onSignIn)
         binding.registerAccountPasswordText.addTextChangedListener(onGenericText)
         binding.registerAccountPasswordConfirmText.addTextChangedListener(onGenericText)
         binding.registerEmailAddressText.addTextChangedListener(onGenericText)
     }
 
-    override fun onClick(view: View?) {
+    private val onRegister = View.OnClickListener { l ->
         val userName = binding.registerUsername.editText?.text.toString()
         val address = binding.registerEmailAddress.editText?.text.toString()
         val password = binding.registerAccountPassword.editText?.text.toString()
@@ -41,15 +44,17 @@ class RegisterAccountActivity : AppCompatActivity(), View.OnClickListener {
         if (isValidAddress(address)) {
 
             if(password == passwordConfirm && (password.length >= 8 && passwordConfirm.length >= 8)) {
-                GlobalScope.launch(Dispatchers.IO) {
-                    createAccount(userName, address, password, context)
-                }
+                createAccount(userName, address, password, context)
             } else {
                 binding.registerAccountPasswordConfirmText.error = "Passwords Do Not Match"
             }
         } else {
             binding.registerEmailAddress.error = "Invalid Email Address!"
         }
+    }
+
+    private val onSignIn = View.OnClickListener { l ->
+        ActivityUtil.startActivity(LoginActivity::class.java, this)
     }
 
     private val onGenericText: TextWatcher = object : TextWatcher {
@@ -65,11 +70,27 @@ class RegisterAccountActivity : AppCompatActivity(), View.OnClickListener {
         return validator.isValid(address)
     }
 
-    private suspend fun createAccount(userName : String, address: String, password : String, context: Context)  {
-        val client  = TreeSpotApplication.getClient(context)
-        val account = Account(client)
-        account.create(UUID.randomUUID().toString(), address, password, userName)
-        ActivityUtil.startActivity(MainActivity::class.java, context)
+    private fun createAccount(userName : String, address: String, password : String, context: Context) = GlobalScope.launch  {
+      try {
+          val client  = getAppWrite()
+          val account = Account(client)
+          val accountID = UUID.randomUUID().toString()
+          val accountResponse = account.create(accountID, address, password, userName)
+          val sessionResponse = account.createSession(address, password)
+          val sessionID = sessionResponse.id
+
+          val newUser = User(userName, address)
+
+          val prefs = getSharedPreferences()
+          prefs.edit().putString(PREF_ACTIVE_USERNAME_ID, accountID).apply()
+          prefs.edit().putString(PREF_ACTIVE_SESSION_ID, sessionID).apply()
+
+
+          ActivityUtil.startActivity(MainActivity::class.java, context)
+      }catch(exception : AppwriteException) {
+          exception.printStackTrace()
+          ActivityUtil.snack(binding.root, "A user is already registered with that email address!", true)
+      }
     }
 
 

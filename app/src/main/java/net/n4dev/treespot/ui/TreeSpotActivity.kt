@@ -1,69 +1,65 @@
 package net.n4dev.treespot.ui
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
+import com.orhanobut.logger.PrettyFormatStrategy
+import io.appwrite.Client
 import io.zeko.db.sql.Query
-import net.n4dev.treespot.core.api.IEntity
-import net.n4dev.treespot.core.api.ITreeSpot
-import net.n4dev.treespot.core.api.IUser
+import net.n4dev.treespot.TreeSpotApplication
+import net.n4dev.treespot.core.TreeSpot
+import net.n4dev.treespot.core.User
 import net.n4dev.treespot.db.TreeSpotDatabase
-import net.n4dev.treespot.db.dao.IEntityDAO
 
 
 open class TreeSpotActivity : AppCompatActivity() {
 
     private var db : TreeSpotDatabase? = null
+    val PREFS_NAME = "TreeSpotPrefsFile"
+    val PREF_VERSION_CODE_KEY = "version_code"
+    val DOESNT_EXIST = -1
+    val PREF_ACTIVE_USERNAME_ID = "active_username"
+    val PREF_ACTIVE_SESSION_ID = "active_session"
 
-    fun loadUser(query: Query) : ArrayList<IUser> {
-        var returnedList: ArrayList<IEntity>
-        val convertedList : ArrayList<IUser> = ArrayList()
+    val developmentFormatStrategy = PrettyFormatStrategy.newBuilder()
+        .showThreadInfo(true)
+        .tag("TreeSpot")
+        .methodCount(3)
+        .build()
+
+    fun loadUser(query: Query) : ArrayList<User> {
+        var returnedList: ArrayList<User> = ArrayList()
+        val sql = query.toSql()
 
         val loadThread = Thread {
-            returnedList = getDatabase().userDAO().find(query.toSql())
 
-            returnedList.forEach {
-                convertedList.add(it as IUser)
-            }
         }
 
         loadThread.start()
         loadThread.join()
 
-        return convertedList
+        return returnedList
     }
 
-    fun loadTreeSpot(query: Query) : ArrayList<ITreeSpot> {
-        var returnedList: ArrayList<IEntity>
-        val convertedList : ArrayList<ITreeSpot> = ArrayList()
+    fun loadTreeSpot(query: Query) : ArrayList<TreeSpot> {
+        var returnedList: ArrayList<TreeSpot> = ArrayList()
 
         val loadThread = Thread {
-            returnedList = getDatabase().treeSpotDAO().find(query.toSql())
 
-            returnedList.forEach {
-                convertedList.add(it as ITreeSpot)
-            }
         }
 
         loadThread.start()
         loadThread.join()
 
-        return convertedList
+        return returnedList
 
     }
 
-    fun getUserDB() : IEntityDAO<IUser> {
-        return getDatabase().userDAO()
+
+    fun getSharedPreferences() : SharedPreferences{
+        return getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
     }
 
-    fun getTreeSpotDB() : IEntityDAO<ITreeSpot>{
-        return getDatabase().treeSpotDAO()
-    }
-
-    private fun getDatabase() : TreeSpotDatabase {
-        if(db == null) {
-
-        }
-
-        return db as TreeSpotDatabase
+    fun getAppWrite() : Client {
+        return TreeSpotApplication.getClient(applicationContext)
     }
 }

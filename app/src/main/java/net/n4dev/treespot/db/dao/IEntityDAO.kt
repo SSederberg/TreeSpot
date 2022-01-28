@@ -6,11 +6,11 @@ import net.n4dev.treespot.core.api.IEntity
 
 interface IEntityDAO<E> {
 
-    @Insert fun insert(obj : E)
+     fun insert(obj : E)
 
-    @RawQuery fun find(query : Query) : ArrayList<IEntity>
+    fun find(query : Query) : ArrayList<E>
 
-    @RawQuery fun find(string: String) : ArrayList<IEntity>
+     fun find(string: String) : ArrayList<E>
 
-    @Delete fun delete(obj: E)
+    fun delete(obj: E)
 }

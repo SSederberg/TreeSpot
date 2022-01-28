@@ -5,17 +5,17 @@ import java.util.Date
 
 interface IUser : IEntity {
 
-    fun getusername() : String
-    fun setusername(username : String)
+    fun getUsername() : String
+    fun setUsername(username : String)
 
     fun getEmailAddress() : String
     fun setEmailAddress(email : String)
 
-    fun getUserID() : UUID
-    fun setUserID(userID : UUID)
+    fun getUserID() : String
+    fun setUserID(userID : String)
 
-    fun getLocalID() : Int
-    fun setLocalID(int: Int)
+    fun getLocalUID() : Long
+    fun setLocalUID(int: Long)
 
     fun getAccountCreationDate() : Long
     fun setAccountCreationDate(date : Long)

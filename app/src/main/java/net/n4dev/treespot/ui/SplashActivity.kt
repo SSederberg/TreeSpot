@@ -1,13 +1,15 @@
 package net.n4dev.treespot.ui
 
 import android.os.Bundle
-import androidx.room.Room
-import io.zeko.db.sql.Query
+import com.orhanobut.logger.AndroidLogAdapter
+import com.orhanobut.logger.Logger
+import io.appwrite.exceptions.AppwriteException
+import io.appwrite.extensions.toJson
+import io.appwrite.services.Account
+import io.zeko.db.sql.dsl.isNotNull
+import kotlinx.coroutines.*
 import net.n4dev.treespot.BuildConfig
-import net.n4dev.treespot.core.User
-import net.n4dev.treespot.core.api.IUser
 import net.n4dev.treespot.databinding.ActivitySplashBinding
-import net.n4dev.treespot.db.TreeSpotDatabase
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DeviceConnectionHelper
 import java.io.File
@@ -16,58 +18,55 @@ import java.io.File
 class SplashActivity : TreeSpotActivity() {
 
     private lateinit var binding : ActivitySplashBinding
-    private val PREFS_NAME = "TreeSpotPrefsFile"
-    private val PREF_VERSION_CODE_KEY = "version_code"
-    private val DOESNT_EXIST = -1
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
+        Logger.addLogAdapter(AndroidLogAdapter(developmentFormatStrategy))
         setContentView(binding.root)
-
-        val db = Room.databaseBuilder(this, TreeSpotDatabase::class.java, "treespot")
-            .build()
 
         initializeFolders()
         performFirstRunCheck()
     }
 
     private fun performFirstRunCheck() {
-        val currentVersionCode = BuildConfig.VERSION_CODE
-        var prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-        val savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST)
+        GlobalScope.launch {
+            val currentVersionCode = BuildConfig.VERSION_CODE
+            val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+            val savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST)
 
-        // Check for first run or upgrade
-        if (currentVersionCode == savedVersionCode) {
-            // This is just a normal run
+            // Check for first run or upgrade
+            if (currentVersionCode == savedVersionCode) {
+                // This is just a normal run
 
-                if(doesUserAccountExist()) {
-                    ActivityUtil.startActivity(MainActivity::class.java, this)
+                if(doesUserAccountExist() && userIsAuthorized()) {
+                    ActivityUtil.startActivity(MainActivity::class.java, applicationContext)
                 } else {
-                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, this)
+                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, applicationContext)
                 }
-            return;
 
-        } else if (savedVersionCode == DOESNT_EXIST) {
-            // TODO This is a new install (or the user cleared the shared preferences)
+            } else if (savedVersionCode == DOESNT_EXIST) {
+                // TODO This is a new install (or the user cleared the shared preferences)
 
-            if(DeviceConnectionHelper.isConnected(this)) {
-                ActivityUtil.startActivity(RegisterAccountActivity::class.java, this)
-            } else {
-                if(doesUserAccountExist()) {
-
+                if(DeviceConnectionHelper.isConnected(applicationContext)) {
+                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, applicationContext)
                 } else {
+                    if(doesUserAccountExist()) {
 
+                    } else {
+
+                    }
                 }
+
+            } else if (currentVersionCode > savedVersionCode) {
+
+                // TODO This is an upgrade
             }
 
-        } else if (currentVersionCode > savedVersionCode) {
-
-            // TODO This is an upgrade
+            // Update the shared preferences with the current version code
+            prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
         }
-
-        // Update the shared preferences with the current version code
-        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
     }
 
     /**
@@ -82,12 +81,36 @@ class SplashActivity : TreeSpotActivity() {
     }
 
     private fun doesUserAccountExist() : Boolean {
-        val userExistsQuery = Query().fields("*")
-            .from(User.name)
+        val prefs = getSharedPreferences()
+        try {
+            val username = prefs.getString(PREF_ACTIVE_USERNAME_ID, null)
+            val session = prefs.getString(PREF_ACTIVE_SESSION_ID, null)
 
-        val returnedList = super.loadUser(userExistsQuery)
+            return username != null && session != null
+        }catch (exception : Exception) {
+            exception.printStackTrace()
+        }
 
-        return returnedList.size != 0
+        return false
+    }
 
+    private suspend fun userIsAuthorized(): Boolean {
+        val prefs = getSharedPreferences()
+
+        try {
+            val username : String = prefs.getString(PREF_ACTIVE_USERNAME_ID, null) as String
+            val session: String = prefs.getString(PREF_ACTIVE_SESSION_ID, null) as String
+
+            if(username != null && session != null) {
+                val users = Account(getAppWrite())
+                //TODO Verify session is still valid before returning true
+//                val userSessionResponse = users.getSession(sessionId = session)
+                return true
+            }
+        }catch (exception : AppwriteException) {
+            exception.printStackTrace()
+        }
+
+        return false
     }
 }
