@@ -9,13 +9,16 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "treespot_spot")
 public class TreeSpot {
 
-    private static final String LOCAL_UID = "rowid";
-    private static final String SPOT_OWNER = "spot_owner_uuid";
-    private static final String SPOT_LAT_NORTH = "spot_lat_north";
-    private static final String SPOT_LONG_WEST = "spot_long_west";
+    public TreeSpot() {
+    }
+
+    private static final String LOCAL_UID          = "rowid";
+    private static final String SPOT_OWNER         = "spot_owner_uuid";
+    private static final String SPOT_LAT_NORTH     = "spot_lat_north";
+    private static final String SPOT_LONG_WEST     = "spot_long_west";
     private static final String SPOT_CREATION_DATE = "spot_creation_date";
-    private static final String SPOT_UUID = "spot_uuid";
-    private static final String SPOT_DESCRIPTION = "spot_description";
+    private static final String SPOT_UUID          = "spot_uuid";
+    private static final String SPOT_DESCRIPTION   = "spot_description";
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = LOCAL_UID) private Integer localUID;

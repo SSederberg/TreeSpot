@@ -79,7 +79,7 @@ class RegisterAccountActivity : TreeSpotActivity() {
           val sessionResponse = account.createSession(address, password)
           val sessionID = sessionResponse.id
 
-          val newUser = User(userName, address)
+          val newUser = User(userName, address, UUID.fromString(accountID))
 
           val prefs = getSharedPreferences()
           prefs.edit().putString(PREF_ACTIVE_USERNAME_ID, accountID).apply()

@@ -14,6 +14,9 @@ import java.util.UUID;
 @Entity(tableName = "treespot_user")
 public class User implements IUser {
 
+    public User() {
+    }
+
     public User(String username, String emailAddress, UUID uuid) {
         this.username = username;
         this.emailAddress = emailAddress;
