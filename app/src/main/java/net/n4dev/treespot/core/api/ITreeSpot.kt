@@ -5,14 +5,14 @@ import java.util.Date
 
 interface ITreeSpot : IEntity {
 
-    fun getSpotID() :  UUID
-    fun setSpotID(uuid: UUID)
+    fun getSpotID() :  String
+    fun setSpotID(uuid: String)
 
-    fun setSpotOwnerID(user : IUser)
-    fun getSpotOwnerID() : UUID
+    fun setSpotOwnerID(userID : String)
+    fun getSpotOwnerID() : String
 
-    fun getSpotCreationDate() : Long
-    fun setSpotCreationDate(date: Long)
+    fun getCreationDate() : Long
+    fun setCreationDate(date: Long)
 
     fun getLatNorth() : String
     fun setLatNorth(string: String)
@@ -20,6 +20,6 @@ interface ITreeSpot : IEntity {
     fun getLongWest() : String
     fun setLongWest(string: String)
 
-    fun getSpotDescription() : String
-    fun setSpotDescription(description : String)
+    fun getDescription() : String
+    fun setDescription(description : String)
 }

@@ -143,45 +143,4 @@ public class User implements IUser {
     public void removeFriend(@NonNull UUID friendUUID) {
 
     }
-
-//    public String getUserID() {
-//        return userID;
-//    }
-//
-//    public void setUserID(String userID) {
-//        this.userID = userID;
-//    }
-//
-//    public Long getLocalUID() {
-//        return localUID;
-//    }
-//
-//    public void setLocalUID(Long localUID) {
-//        this.localUID = localUID;
-//    }
-//
-//    public String getUsername() {
-//        return username;
-//    }
-//
-//    public void setUsername(String username) {
-//        this.username = username;
-//    }
-//
-//    public String getEmailAddress() {
-//        return emailAddress;
-//    }
-//
-//    public void setEmailAddress(String emailAddress) {
-//        this.emailAddress = emailAddress;
-//    }
-//
-//    public long getAccountCreationDate() {
-//        return accountCreationDate;
-//    }
-//
-//    public void setAccountCreationDate(Long accountCreationDate) {
-//        this.accountCreationDate = accountCreationDate;
-//    }
-
 }

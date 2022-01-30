@@ -1,7 +1,9 @@
 package net.n4dev.treespot.ui
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -15,6 +17,7 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var fragmentManager: FragmentManager
+    private var activeMenu = R.menu.menu_main_friends
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +26,12 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
         fragmentManager = supportFragmentManager
         binding.mainBottomNavigation.setOnItemSelectedListener(this)
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(activeMenu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -33,6 +42,9 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
                 fragmentManager.commit {
                     replace<MyFriendsFragment>(R.id.main_fragment_container)
                 }
+                activeMenu = R.menu.menu_main_friends
+                invalidateOptionsMenu()
+
                 return true
             }
 
@@ -40,6 +52,9 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
             fragmentManager.commit {
                     replace<MySpotsFragment>(R.id.main_fragment_container)
                 }
+
+                activeMenu = R.menu.menu_main_spots
+                invalidateOptionsMenu()
                 return true
             }
 
@@ -47,6 +62,9 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
                 fragmentManager.commit {
                     replace<MyFriendsFragment>(R.id.main_fragment_container)
                 }
+
+                activeMenu = R.menu.menu_main_capture_spot
+                invalidateOptionsMenu()
                 return true
             }
         }

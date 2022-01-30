@@ -39,11 +39,11 @@ class SplashActivity : TreeSpotActivity() {
             if (currentVersionCode == savedVersionCode) {
                 // This is just a normal run
 
-                if(doesUserAccountExist() && userIsAuthorized()) {
+//                if(doesUserAccountExist() && userIsAuthorized()) {
                     ActivityUtil.startActivity(MainActivity::class.java, applicationContext)
-                } else {
-                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, applicationContext)
-                }
+//                } else {
+//                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, applicationContext)
+//                }
 
             } else if (savedVersionCode == DOESNT_EXIST) {
                 // TODO This is a new install (or the user cleared the shared preferences)
@@ -105,7 +105,7 @@ class SplashActivity : TreeSpotActivity() {
             if(DeviceConnectionHelper.isConnected(applicationContext)) {
                 val users = Account(getAppWrite(jwt))
                 //TODO Verify session is still valid before returning true
-                val userSessionResponse = users.getSession(sessionId = session)
+                val userSessionResponse = users.getSession(sessionId = session!!)
 
             } else {
                 // Since we can't verify the user since they are offline, we will have to trust them until they go online.

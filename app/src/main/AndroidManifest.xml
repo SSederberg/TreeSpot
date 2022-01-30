@@ -20,6 +20,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TreeSpot">
         <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings" />
+        <activity
             android:name=".ui.createaccount.VerifyEmailActivity"
             android:exported="false" />
         <activity

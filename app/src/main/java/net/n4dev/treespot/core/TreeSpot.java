@@ -1,13 +1,16 @@
 package net.n4dev.treespot.core;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Fts4;
 import androidx.room.PrimaryKey;
 
+import net.n4dev.treespot.core.api.ITreeSpot;
+
 @Fts4
 @Entity(tableName = "treespot_spot")
-public class TreeSpot {
+public class TreeSpot implements ITreeSpot {
 
     public TreeSpot() {
     }
@@ -25,10 +28,10 @@ public class TreeSpot {
 
     private String latNorth;
     private String longWest;
-    private Long creationDate;
-    private String spotUUID;
+    private Long   creationDate;
+    private String spotID;
     private String description;
-    private String spotOwnerUUID;
+    private String spotOwnerID;
 
     public Integer getLocalUID() {
         return localUID;
@@ -38,51 +41,87 @@ public class TreeSpot {
         this.localUID = localUID;
     }
 
+    @Override
     public String getLatNorth() {
         return latNorth;
     }
 
+    @Override
     public void setLatNorth(String latNorth) {
         this.latNorth = latNorth;
     }
 
+    @Override
     public String getLongWest() {
         return longWest;
     }
 
+    @Override
     public void setLongWest(String longWest) {
         this.longWest = longWest;
     }
 
-    public Long getCreationDate() {
+    @Override
+    public long getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Long creationDate) {
-        this.creationDate = creationDate;
+
+
+    @Override
+    public String getSpotID() {
+        return spotID;
     }
 
-    public String getSpotUUID() {
-        return spotUUID;
+    @Override
+    public void setSpotID(String spotUUID) {
+        this.spotID = spotUUID;
     }
 
-    public void setSpotUUID(String spotUUID) {
-        this.spotUUID = spotUUID;
-    }
-
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getSpotOwnerUUID() {
-        return spotOwnerUUID;
+    @Override
+    public String getSpotOwnerID() {
+        return spotOwnerID;
     }
 
-    public void setSpotOwnerUUID(String spotOwnerUUID) {
-        this.spotOwnerUUID = spotOwnerUUID;
+    @Override
+    public void setSpotOwnerID(String spotOwnerUUID) {
+        this.spotOwnerID = spotOwnerUUID;
+    }
+
+    @NonNull
+    @Override
+    public String getType() {
+        return TypeConst.Companion.getTREESPOT();
+    }
+
+    @NonNull
+    @Override
+    public String getEntityID() {
+        return this.spotID;
+    }
+
+    @Override
+    public boolean isUser() {
+        return false;
+    }
+
+    @Override
+    public boolean isTreeSpot() {
+        return true;
+    }
+
+    @Override
+    public void setCreationDate(long date) {
+        this.creationDate = date;
     }
 }

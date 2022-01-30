@@ -16,8 +16,10 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/main_appbar_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:menu="@menu/menu_main_capture_spot"/>
         </com.google.android.material.appbar.AppBarLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

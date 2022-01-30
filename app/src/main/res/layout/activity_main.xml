@@ -7,6 +7,15 @@
     tools:viewBindingIgnore="false"
     tools:context=".ui.MainActivity">
 
+    <include
+        android:id="@+id/main_include_topbar"
+        layout="@layout/main_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/main_fragment_container"
         android:layout_width="match_parent"
@@ -14,7 +23,7 @@
         app:layout_constraintBottom_toTopOf="@+id/main_bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/main_include_topbar" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
