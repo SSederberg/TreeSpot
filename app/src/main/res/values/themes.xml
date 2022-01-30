@@ -20,6 +20,7 @@
 
     <style name="Theme.TreeSpot.CircleProgress" parent="Widget.MaterialComponents.CircularProgressIndicator">
         <item name="trackThickness">10dp</item>
+        <item name="indicatorSize">90dp</item>
     </style>
 
     <style name="Theme.TreeSpot.BottomNav" parent="Widget.MaterialComponents.BottomNavigationView">

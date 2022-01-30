@@ -1,4 +1,4 @@
-package net.n4dev.treespot.ui
+package net.n4dev.treespot.ui.createaccount
 
 import android.content.Context
 import android.os.Bundle
@@ -12,8 +12,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.core.User
 import net.n4dev.treespot.databinding.ActivityRegisterAccountBinding
+import net.n4dev.treespot.ui.LoginActivity
+import net.n4dev.treespot.ui.MainActivity
+import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.util.ActivityUtil
 import org.apache.commons.validator.routines.EmailValidator
+import java.lang.Exception
 import java.util.*
 
 class RegisterAccountActivity : TreeSpotActivity() {
@@ -72,23 +76,27 @@ class RegisterAccountActivity : TreeSpotActivity() {
 
     private fun createAccount(userName : String, address: String, password : String, context: Context) = GlobalScope.launch  {
       try {
-          val client  = getAppWrite()
-          val account = Account(client)
-          val accountID = UUID.randomUUID().toString()
-          val accountResponse = account.create(accountID, address, password, userName)
-          val sessionResponse = account.createSession(address, password)
-          val sessionID = sessionResponse.id
+          var client  = getAppWrite()
+          var account = Account(client)
+          val accountID = UUID.randomUUID()
+          account.create(accountID.toString(), address, password, userName)
+          val jwt = account.createJWT()
 
-          val newUser = User(userName, address, UUID.fromString(accountID))
-
-          val prefs = getSharedPreferences()
-          prefs.edit().putString(PREF_ACTIVE_USERNAME_ID, accountID).apply()
-          prefs.edit().putString(PREF_ACTIVE_SESSION_ID, sessionID).apply()
+          client = getAppWrite(jwt.jwt)
+          account = Account(client)
+          val returnedSecret = account.createVerification( url = "treespot://verified")
 
 
-          ActivityUtil.startActivity(MainActivity::class.java, context)
-      }catch(exception : AppwriteException) {
+          val emailBundle = Bundle()
+          emailBundle.putString(VerifyEmailActivity.ARG_USER_EMAIL, address)
+          emailBundle.putString(VerifyEmailActivity.ARG_USER_USERNAME, userName)
+          emailBundle.putString(VerifyEmailActivity.ARG_USER_UUID, accountID.toString())
+          emailBundle.putString(VerifyEmailActivity.ARG_USER_SECRET, returnedSecret.secret)
+
+          ActivityUtil.startActivity(emailBundle, VerifyEmailActivity::class.java, context)
+      }catch(exception : Exception) {
           exception.printStackTrace()
+          Logger.e(exception, "")
           ActivityUtil.snack(binding.root, "A user is already registered with that email address!", true)
       }
     }

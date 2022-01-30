@@ -4,12 +4,11 @@ import android.os.Bundle
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import io.appwrite.exceptions.AppwriteException
-import io.appwrite.extensions.toJson
 import io.appwrite.services.Account
-import io.zeko.db.sql.dsl.isNotNull
 import kotlinx.coroutines.*
 import net.n4dev.treespot.BuildConfig
 import net.n4dev.treespot.databinding.ActivitySplashBinding
+import net.n4dev.treespot.ui.createaccount.RegisterAccountActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DeviceConnectionHelper
 import java.io.File
@@ -85,8 +84,9 @@ class SplashActivity : TreeSpotActivity() {
         try {
             val username = prefs.getString(PREF_ACTIVE_USERNAME_ID, null)
             val session = prefs.getString(PREF_ACTIVE_SESSION_ID, null)
+            val jwt = prefs.getString(PREF_ACTIVE_JWT, null)
 
-            return username != null && session != null
+            return username != null && session != null && jwt != null
         }catch (exception : Exception) {
             exception.printStackTrace()
         }
@@ -100,17 +100,22 @@ class SplashActivity : TreeSpotActivity() {
         try {
             val username : String = prefs.getString(PREF_ACTIVE_USERNAME_ID, null) as String
             val session: String = prefs.getString(PREF_ACTIVE_SESSION_ID, null) as String
+            val jwt : String = prefs.getString(PREF_ACTIVE_JWT, null) as String
 
-            if(username != null && session != null) {
-                val users = Account(getAppWrite())
+            if(DeviceConnectionHelper.isConnected(applicationContext)) {
+                val users = Account(getAppWrite(jwt))
                 //TODO Verify session is still valid before returning true
-//                val userSessionResponse = users.getSession(sessionId = session)
-                return true
+                val userSessionResponse = users.getSession(sessionId = session)
+
+            } else {
+                // Since we can't verify the user since they are offline, we will have to trust them until they go online.
+                return true;
             }
         }catch (exception : AppwriteException) {
             exception.printStackTrace()
         }
 
-        return false
+//        return false
+        return true
     }
 }

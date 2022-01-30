@@ -13,4 +13,8 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="username">Username</string>
     <string name="sign_in">Sign In</string>
+    <string name="before_continuing_we_need_to_verify_it_s_you">Before continuing, we need to verify it\'s you</string>
+    <string name="your_2_factor_code">Your 2 Factor Code</string>
+    <string name="verify_account">Verify Account</string>
+    <string name="your_confirmation_code">Your Confirmation Code</string>
 </resources>

@@ -19,6 +19,7 @@ open class TreeSpotActivity : AppCompatActivity() {
     val DOESNT_EXIST = -1
     val PREF_ACTIVE_USERNAME_ID = "active_username"
     val PREF_ACTIVE_SESSION_ID = "active_session"
+    val PREF_ACTIVE_JWT = "active_jwt"
 
     val developmentFormatStrategy = PrettyFormatStrategy.newBuilder()
         .showThreadInfo(true)
@@ -61,5 +62,9 @@ open class TreeSpotActivity : AppCompatActivity() {
 
     fun getAppWrite() : Client {
         return TreeSpotApplication.getClient(applicationContext)
+    }
+
+    fun getAppWrite(jwt : String) : Client {
+        return TreeSpotApplication.getClient(applicationContext, jwt)
     }
 }
