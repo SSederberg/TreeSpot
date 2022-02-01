@@ -3,9 +3,7 @@ package net.n4dev.treespot.ui
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import com.orhanobut.logger.PrettyFormatStrategy
-import io.appwrite.Client
 import io.zeko.db.sql.Query
-import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.core.TreeSpot
 import net.n4dev.treespot.core.User
 import net.n4dev.treespot.db.TreeSpotDatabase
@@ -58,13 +56,5 @@ open class TreeSpotActivity : AppCompatActivity() {
 
     fun getSharedPreferences() : SharedPreferences{
         return getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-    }
-
-    fun getAppWrite() : Client {
-        return TreeSpotApplication.getClient(applicationContext)
-    }
-
-    fun getAppWrite(jwt : String) : Client {
-        return TreeSpotApplication.getClient(applicationContext, jwt)
     }
 }

@@ -1,17 +1,17 @@
-package net.n4dev.treespot.ui
+package net.n4dev.treespot.ui.main
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.google.android.material.navigation.NavigationBarView
 import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.ActivityMainBinding
-import net.n4dev.treespot.ui.fragments.friends.MyFriendsFragment
-import net.n4dev.treespot.ui.fragments.spots.MySpotsFragment
+import net.n4dev.treespot.ui.TreeSpotActivity
+import net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragment
+import net.n4dev.treespot.ui.main.fragments.spots.MySpotsFragment
 
 class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListener {
 
@@ -32,6 +32,11 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(activeMenu, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(activeMenu, menu)
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

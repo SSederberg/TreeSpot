@@ -1,5 +1,5 @@
 # TreeSpot For Android
-This proof of concept application built and designed to be offline first. Capable of taking and saving photos and videos. Utilizing a self-hosted instance of [AppWrite](https://github.com/appwrite/appwrite "AppWrite") as the backend.
+This proof of concept application built and designed to be offline first. Capable of taking and saving photos and videos. Utilizing a self-hosted instance of [Parse Platform](https://parseplatform.org/ "Parse-Platform") as the backend.
 
 ## Features
 - A friends list to share your "tree spots".
@@ -13,4 +13,4 @@ This proof of concept application built and designed to be offline first. Capabl
 - [AndroidX Room](https://developer.android.com/jetpack/androidx/releases/room "AndroidX Room")
 - [CameraX](https://developer.android.com/jetpack/androidx/releases/camera "CameraX")
 - [ViewBinding](https://developer.android.com/topic/libraries/view-binding "ViewBinding")
-- [AppWrite](https://appwrite.io "AppWrite")
+- [Parse Platform](https://parseplatform.org/ "Parse-Platform")

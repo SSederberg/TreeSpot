@@ -9,6 +9,7 @@ import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import net.n4dev.treespot.R
+import java.io.File
 
 class ActivityUtil {
 
@@ -28,6 +29,10 @@ class ActivityUtil {
 
         fun getAppImagesDirectory(activity: Activity): String {
             return activity.filesDir.toString() + "/TS_Images/"
+        }
+
+        fun getAppImagesDirectoryAsFile(activity: Activity) : File {
+            return File(getAppImagesDirectory(activity))
         }
 
         fun getAppVideosDirectory(activity: Activity) : String {

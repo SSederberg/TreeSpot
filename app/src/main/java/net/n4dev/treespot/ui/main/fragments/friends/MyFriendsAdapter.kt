@@ -1,8 +1,7 @@
-package net.n4dev.treespot.ui.fragments.friends
+package net.n4dev.treespot.ui.main.fragments.friends
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import io.zeko.db.sql.Query
 import net.n4dev.treespot.core.api.IUser
 
 class MyFriendsAdapter : RecyclerView.Adapter<MyFriendsViewHolder>() {

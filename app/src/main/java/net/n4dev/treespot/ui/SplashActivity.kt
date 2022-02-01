@@ -3,12 +3,11 @@ package net.n4dev.treespot.ui
 import android.os.Bundle
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
-import io.appwrite.exceptions.AppwriteException
-import io.appwrite.services.Account
 import kotlinx.coroutines.*
 import net.n4dev.treespot.BuildConfig
 import net.n4dev.treespot.databinding.ActivitySplashBinding
 import net.n4dev.treespot.ui.createaccount.RegisterAccountActivity
+import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DeviceConnectionHelper
 import java.io.File
@@ -39,11 +38,11 @@ class SplashActivity : TreeSpotActivity() {
             if (currentVersionCode == savedVersionCode) {
                 // This is just a normal run
 
-//                if(doesUserAccountExist() && userIsAuthorized()) {
+                if(doesUserAccountExist() && userIsAuthorized()) {
                     ActivityUtil.startActivity(MainActivity::class.java, applicationContext)
-//                } else {
-//                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, applicationContext)
-//                }
+                } else {
+                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, applicationContext)
+                }
 
             } else if (savedVersionCode == DOESNT_EXIST) {
                 // TODO This is a new install (or the user cleared the shared preferences)
@@ -103,19 +102,19 @@ class SplashActivity : TreeSpotActivity() {
             val jwt : String = prefs.getString(PREF_ACTIVE_JWT, null) as String
 
             if(DeviceConnectionHelper.isConnected(applicationContext)) {
-                val users = Account(getAppWrite(jwt))
-                //TODO Verify session is still valid before returning true
-                val userSessionResponse = users.getSession(sessionId = session!!)
 
+                //TODO Verify session is still valid before returning true
+
+                return true
             } else {
                 // Since we can't verify the user since they are offline, we will have to trust them until they go online.
                 return true;
             }
-        }catch (exception : AppwriteException) {
+        }catch (exception : Exception) {
             exception.printStackTrace()
         }
 
-//        return false
-        return true
+        return false
+//        return true
     }
 }
