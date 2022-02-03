@@ -3,7 +3,8 @@ package net.n4dev.treespot.ui
 import android.os.Bundle
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import net.n4dev.treespot.BuildConfig
 import net.n4dev.treespot.databinding.ActivitySplashBinding
 import net.n4dev.treespot.ui.createaccount.RegisterAccountActivity
@@ -25,7 +26,8 @@ class SplashActivity : TreeSpotActivity() {
         setContentView(binding.root)
 
         initializeFolders()
-        performFirstRunCheck()
+//        performFirstRunCheck()
+        ActivityUtil.startActivity(MainActivity::class.java, this)
     }
 
     private fun performFirstRunCheck() {

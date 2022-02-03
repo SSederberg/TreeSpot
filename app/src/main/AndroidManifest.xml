@@ -16,6 +16,7 @@
         android:value="${MAPS_API_KEY}" />
 
     <application
+        android:name=".TreeSpotApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -47,18 +48,6 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true" />
-        <activity
-            android:name="io.appwrite.views.CallbackActivity"
-            android:exported="true">
-            <intent-filter android:label="android_web_auth">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="appwrite-callback-treespot-dev" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

@@ -1,9 +1,13 @@
 package net.n4dev.treespot
 
 import android.app.Application
+import androidx.annotation.NonNull
+import androidx.camera.camera2.Camera2Config
+import androidx.camera.core.CameraXConfig
 import com.parse.Parse
 
-class TreeSpotApplication: Application() {
+
+class TreeSpotApplication : Application(), CameraXConfig.Provider {
 
     override fun onCreate() {
         super.onCreate()
@@ -14,4 +18,9 @@ class TreeSpotApplication: Application() {
         .applicationId("treespot-dev")
         .server("http://192.168.1.245:1337/parse/")
         .build()
+
+    @NonNull
+    override fun getCameraXConfig(): CameraXConfig {
+        return Camera2Config.defaultConfig()
+    }
 }

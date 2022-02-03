@@ -1,10 +1,10 @@
 package net.n4dev.treespot.ui.main.fragments.friends
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import net.n4dev.treespot.databinding.FragmentMyFriendsBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -24,6 +24,8 @@ class MyFriendsFragment : Fragment() {
 
     private var _binding : FragmentMyFriendsBinding? = null
     private val binding get() = _binding!!
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,5 +67,7 @@ class MyFriendsFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+
+        const val BACKSTACK = "MY_FRIENDS_BACKSTACK"
     }
 }

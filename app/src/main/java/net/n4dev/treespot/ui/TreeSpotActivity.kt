@@ -1,5 +1,6 @@
 package net.n4dev.treespot.ui
 
+import android.Manifest
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import com.orhanobut.logger.PrettyFormatStrategy
@@ -56,5 +57,12 @@ open class TreeSpotActivity : AppCompatActivity() {
 
     fun getSharedPreferences() : SharedPreferences{
         return getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+    }
+
+    companion object {
+        val TREESPOT_PERMISSIONS = arrayOf(Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_NETWORK_STATE)
     }
 }

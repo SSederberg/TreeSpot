@@ -10,6 +10,7 @@ import com.google.android.material.navigation.NavigationBarView
 import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.ActivityMainBinding
 import net.n4dev.treespot.ui.TreeSpotActivity
+import net.n4dev.treespot.ui.main.fragments.capture.CaptureSpotFragment
 import net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragment
 import net.n4dev.treespot.ui.main.fragments.spots.MySpotsFragment
 
@@ -26,6 +27,10 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
         fragmentManager = supportFragmentManager
         binding.mainBottomNavigation.setOnItemSelectedListener(this)
+
+        fragmentManager.commit {
+            replace<CaptureSpotFragment>(R.id.main_fragment_container)
+        }
 
     }
 
@@ -45,7 +50,9 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
             R.id.bottom_nav_friends -> {
                 fragmentManager.commit {
-                    replace<MyFriendsFragment>(R.id.main_fragment_container)
+                    replace<MyFriendsFragment>(R.id.main_fragment_container, MyFriendsFragment.BACKSTACK)
+//                        .addToBackStack(MyFriendsFragment.BACKSTACK)
+                        .commitNowAllowingStateLoss()
                 }
                 activeMenu = R.menu.menu_main_friends
                 invalidateOptionsMenu()
@@ -55,7 +62,9 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
             R.id.bottom_nav_spots -> {
             fragmentManager.commit {
-                    replace<MySpotsFragment>(R.id.main_fragment_container)
+                    replace<MySpotsFragment>(R.id.main_fragment_container, MySpotsFragment.BACKSTACK)
+//                        .addToBackStack(MySpotsFragment.BACKSTACK)
+                        .commitNowAllowingStateLoss()
                 }
 
                 activeMenu = R.menu.menu_main_spots
@@ -65,7 +74,9 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
             R.id.bottom_nav_take_spot -> {
                 fragmentManager.commit {
-                    replace<MyFriendsFragment>(R.id.main_fragment_container)
+                    replace<CaptureSpotFragment>(R.id.main_fragment_container, CaptureSpotFragment.BACKSTACK)
+//                        .addToBackStack(CaptureSpotFragment.BACKSTACK)
+                        .commitNowAllowingStateLoss()
                 }
 
                 activeMenu = R.menu.menu_main_capture_spot

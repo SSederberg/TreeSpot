@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/captureSpotFragment">
+
+    <fragment
+        android:id="@+id/captureSpotFragment"
+        android:name="net.n4dev.treespot.ui.main.fragments.capture.CaptureSpotFragment"
+        android:label="CaptureSpotFragment" >
+        <action
+            android:id="@+id/action_captureSpotFragment_to_myFriendsFragment2"
+            app:destination="@id/myFriendsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myFriendsFragment"
+        android:name="net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragment"
+        android:label="MyFriendsFragment" />
+</navigation>
