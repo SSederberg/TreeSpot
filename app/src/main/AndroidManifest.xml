@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.n4dev.treespot">
 
-    <uses-feature android:name="android.hardware.camera.any"
-        android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="true" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,6 +24,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TreeSpot">
+        <activity
+            android:name=".ui.friends.FriendDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.friends.AddFriendsActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:exported="false"
