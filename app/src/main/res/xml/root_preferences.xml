@@ -1,34 +1,32 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/messages_header">
-
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
+    <PreferenceCategory app:title="Sync Options">
 
         <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
+            app:defaultValue=""
+            app:entries="@array/sync_entries"
+            app:entryValues="@array/sync_entries_values"
+            app:key="sync_upload_data"
+            app:title="When to upload new treespots"
             app:useSimpleSummaryProvider="true" />
+
+
+        <SwitchPreferenceCompat
+            app:key="sync_video"
+            app:summaryOff="Only upload videos when on Wi-Fi"
+            app:summaryOn="Upload videos regardless of internet connection type."
+            app:title="Upload treespot videos on data" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
-
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+    <PreferenceCategory app:title="Friends">
+        <ListPreference
+            app:defaultValue="fof"
+            app:key="friends_who_add"
+            app:title="Who can add me as a friend"
+            app:useSimpleSummaryProvider="true"
+            app:entries="@array/friend_who_add"
+            app:entryValues="@array/friends_who_add_values"/>
 
     </PreferenceCategory>
 

@@ -1,12 +1,26 @@
 <resources>
     <!-- Reply Preference -->
-    <string-array name="reply_entries">
-        <item>Reply</item>
-        <item>Reply to all</item>
+    <string-array name="sync_entries">
+        <item>On Wi-Fi only</item>
+        <item>On Non-Roaming Data</item>
+        <item>When I Have Data</item>
     </string-array>
 
-    <string-array name="reply_values">
-        <item>reply</item>
-        <item>reply_all</item>
+    <string-array name="sync_entries_values">
+        <item>wifi</item>
+        <item>not_roaming</item>
+        <item>connected</item>
+    </string-array>
+
+    <string-array name="friend_who_add">
+        <item>Anyone</item>
+        <item>Friends Of Friends</item>
+        <item>No One</item>
+    </string-array>
+
+    <string-array name="friends_who_add_values">
+        <item>any</item>
+        <item>fof</item>
+        <item>none</item>
     </string-array>
 </resources>

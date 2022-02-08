@@ -7,12 +7,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.google.android.material.navigation.NavigationBarView
+import com.orhanobut.logger.Logger
 import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.ActivityMainBinding
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.ui.main.fragments.capture.CaptureSpotFragment
 import net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragment
 import net.n4dev.treespot.ui.main.fragments.spots.MySpotsFragment
+import net.n4dev.treespot.ui.settings.SettingsActivity
+import net.n4dev.treespot.util.ActivityUtil
 
 class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListener {
 
@@ -36,12 +39,12 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(activeMenu, menu)
-        return super.onCreateOptionsMenu(menu)
+        return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(activeMenu, menu)
-        return super.onPrepareOptionsMenu(menu)
+        return true
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -88,5 +91,14 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
         return false
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val itemID = item.itemId;
 
+        Logger.i("REEEEEEEEEEEEEEE")
+        if(itemID == R.id.menu_main_capture_settings) {
+            ActivityUtil.startActivity(SettingsActivity::class.java, this)
+            return true
+        }
+        return true
+    }
 }

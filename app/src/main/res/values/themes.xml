@@ -12,6 +12,11 @@
         <item name="color">@color/primaryColor</item>
     </style>
 
+    <style name="Theme.TreeSpot.ImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="tint">@color/primaryDarkColor</item>
+        <item name="android:background">null</item>
+    </style>
+
     <style name="Theme.TreeSpot.Button.Alt" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/primaryDarkColor</item>
         <item name="itemIconTint">@color/md_white_1000</item>

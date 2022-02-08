@@ -3,6 +3,7 @@ package net.n4dev.treespot.ui
 import android.os.Bundle
 import android.view.View
 import net.n4dev.treespot.databinding.ActivityLoginBinding
+import net.n4dev.treespot.util.ActivityUtil
 import org.apache.commons.validator.routines.EmailValidator
 
 class LoginActivity : TreeSpotActivity() {
@@ -20,10 +21,17 @@ class LoginActivity : TreeSpotActivity() {
 
     private val onLoginAttempt = View.OnClickListener { l ->
         if(!binding.loginPasswordText.text.toString().isEmpty()
-            && binding.loginUsernameText.text.toString().isEmpty()) {
+            && !binding.loginUsernameText.text.toString().isEmpty()) {
             val email = binding.loginUsernameText.text.toString()
             val passwd = binding.loginPasswordText.text.toString()
 
+            if(validator.isValid(email)) {
+                //TODO: Attempt login
+            } else {
+                binding.loginUsername.error = "Invalid Email Address!"
+            }
+        } else {
+            ActivityUtil.snack(binding.root, "Missing either the email address or password!", true)
         }
     }
 }

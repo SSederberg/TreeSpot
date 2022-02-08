@@ -55,7 +55,7 @@ open class TreeSpotActivity : AppCompatActivity() {
     }
 
 
-    fun getSharedPreferences() : SharedPreferences{
+    fun getSharedPreferences() : SharedPreferences {
         return getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
     }
 
