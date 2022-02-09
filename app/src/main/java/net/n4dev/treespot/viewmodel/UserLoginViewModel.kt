@@ -8,13 +8,14 @@ import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
+import net.n4dev.treespot.core.api.IViewModel
 
-class UserLoginViewModel : ViewModel() {
+class UserLoginViewModel : ViewModel(), IViewModel {
 
     private lateinit var client: Client
     private lateinit var account: Account
 
-    fun init(context: Context) {
+   override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
         account = Account(client)
     }
@@ -34,6 +35,7 @@ class UserLoginViewModel : ViewModel() {
     fun sessionExists() : Boolean {
         return false
     }
+
 
 
 }

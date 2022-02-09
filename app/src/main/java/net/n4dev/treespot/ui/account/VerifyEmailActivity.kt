@@ -1,52 +1,52 @@
-package net.n4dev.treespot.ui.account;
+package net.n4dev.treespot.ui.account
 
-import android.os.Bundle;
-import android.view.View;
+import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.ViewModelProvider
+import com.orhanobut.logger.Logger
+import net.n4dev.treespot.databinding.ActivityVerifyEmailBinding
+import net.n4dev.treespot.ui.TreeSpotActivity
+import net.n4dev.treespot.ui.main.MainActivity
+import net.n4dev.treespot.util.ActivityUtil.Companion.startActivity
+import net.n4dev.treespot.viewmodel.VerifyAccountViewModel
 
-import androidx.annotation.Nullable;
+class VerifyEmailActivity : TreeSpotActivity() {
 
-import com.orhanobut.logger.Logger;
+    private lateinit var binding: ActivityVerifyEmailBinding
+    private var email: String? = null
+    private var username: String? = null
+    private var accountID: String? = null
+    private lateinit var verifyViewModel : VerifyAccountViewModel
 
-import net.n4dev.treespot.databinding.ActivityVerifyEmailBinding;
-import net.n4dev.treespot.ui.TreeSpotActivity;
-import net.n4dev.treespot.ui.main.MainActivity;
-import net.n4dev.treespot.util.ActivityUtil;
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityVerifyEmailBinding.inflate(layoutInflater)
+        verifyViewModel = ViewModelProvider(this).get(VerifyAccountViewModel::class.java)
 
-public class VerifyEmailActivity extends TreeSpotActivity {
-
-    public static final String ARG_USER_USERNAME = "ARG_USER_USERNAME";
-    public static final String ARG_USER_UUID = "ARG_USER_UUID";
-    public static final String ARG_USER_EMAIL = "ARG_USER_EMAIL";
-
-    private ActivityVerifyEmailBinding binding;
-    private String email;
-    private String username;
-    private String accountID;
-
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = ActivityVerifyEmailBinding.inflate(getLayoutInflater());
-
-        if(getIntent().getExtras() != null) {
-            setupFromArgs(getIntent().getExtras());
-        }else {
-            Logger.e("Failed to verify email/account! The required Bundle was null!");
+        if (intent.extras != null) {
+            setupFromArgs(intent.extras)
+            verifyViewModel.init(this)
+        } else {
+            Logger.e("Failed to verify email/account! The required Bundle was null!")
         }
-        binding.setEmailAddress(email);
-        setContentView(binding.getRoot());
 
-        binding.verifyEmailAuth.setOnClickListener(l -> {
-            binding.verifyEmailLoading.setVisibility(View.VISIBLE);
-            ActivityUtil.Companion.startActivity(MainActivity.class, this);
-        });
-
+        binding.emailAddress = email
+        setContentView(binding.root)
+        binding.verifyEmailAuth.setOnClickListener { l: View? ->
+            binding.verifyEmailLoading.visibility = View.VISIBLE
+            startActivity(MainActivity::class.java, this)
+        }
     }
 
-    private void setupFromArgs(Bundle extras) {
-        accountID = extras.getString(ARG_USER_UUID);
-        email = extras.getString(ARG_USER_EMAIL);
-        username = extras.getString(ARG_USER_USERNAME);
+    private fun setupFromArgs(extras: Bundle?) {
+        accountID = extras!!.getString(ARG_USER_UUID)
+        email = extras.getString(ARG_USER_EMAIL)
+        username = extras.getString(ARG_USER_USERNAME)
+    }
+
+    companion object {
+        const val ARG_USER_USERNAME = "ARG_USER_USERNAME"
+        const val ARG_USER_UUID = "ARG_USER_UUID"
+        const val ARG_USER_EMAIL = "ARG_USER_EMAIL"
     }
 }
