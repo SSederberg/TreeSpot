@@ -34,7 +34,7 @@ class LoginActivity : TreeSpotActivity() {
 
             if(validator.isValid(email)) {
                 if(passwd.length >= 8) { //Minimum length required by Appwrite
-                    loginModel.attemptLogin(this, email, passwd)
+                     loginModel.attemptLogin(email, passwd)
 
                 } else {
 
