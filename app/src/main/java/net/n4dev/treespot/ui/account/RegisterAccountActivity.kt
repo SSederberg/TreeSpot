@@ -1,17 +1,14 @@
-package net.n4dev.treespot.ui.createaccount
+package net.n4dev.treespot.ui.account
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import com.orhanobut.logger.Logger
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import androidx.lifecycle.ViewModelProvider
 import net.n4dev.treespot.databinding.ActivityRegisterAccountBinding
-import net.n4dev.treespot.ui.LoginActivity
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.util.ActivityUtil
+import net.n4dev.treespot.viewmodel.RegisterUserViewModel
 import org.apache.commons.validator.routines.EmailValidator
 import java.util.*
 
@@ -20,11 +17,14 @@ class RegisterAccountActivity : TreeSpotActivity() {
     private lateinit var binding : ActivityRegisterAccountBinding
     private lateinit var validator: EmailValidator
     private lateinit var accountID : UUID
+    private lateinit var registerUserViewModel: RegisterUserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterAccountBinding.inflate(layoutInflater)
         validator = EmailValidator.getInstance()
+        registerUserViewModel = ViewModelProvider(this).get(RegisterUserViewModel::class.java)
+        registerUserViewModel.init(this)
         setContentView(binding.root)
 
         binding.registerCreateAccount.setOnClickListener(onRegister)
@@ -45,7 +45,7 @@ class RegisterAccountActivity : TreeSpotActivity() {
 
             if(password == passwordConfirm && (password.length >= 8 && passwordConfirm.length >= 8)) {
                 accountID = UUID.randomUUID()
-                createAccount(userName, address, password, accountID)
+                registerUserViewModel.registerAccount(address, password, userName, accountID)
 
                 val emailBundle = Bundle()
                 emailBundle.putString(VerifyEmailActivity.ARG_USER_EMAIL, address)
@@ -77,15 +77,4 @@ class RegisterAccountActivity : TreeSpotActivity() {
     private fun isValidAddress(address : String) : Boolean{
         return validator.isValid(address)
     }
-
-    private fun createAccount(userName : String, address: String, password : String, accountID : UUID) = CoroutineScope(Dispatchers.IO).launch  {
-      try {
-
-      }catch(exception : Exception) {
-          exception.printStackTrace()
-          Logger.e(exception, "")
-          ActivityUtil.snack(binding.root, "A user is already registered with that email address!", true)
-      }
-    }
-
 }

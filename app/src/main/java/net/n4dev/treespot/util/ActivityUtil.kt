@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
@@ -14,7 +15,6 @@ import java.io.File
 class ActivityUtil {
 
     companion object {
-
 
         fun startActivity(@Nullable bundle: Bundle, klass : Class<*>, context: Context) {
             val intent = Intent(context, klass)
@@ -52,6 +52,10 @@ class ActivityUtil {
             }
 
             snackbar.show()
+        }
+
+        fun toast(context: Context, string: String, error: Boolean) {
+            Toast.makeText(context, string, Toast.LENGTH_LONG).show()
         }
     }
 

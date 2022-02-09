@@ -7,7 +7,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.BuildConfig
 import net.n4dev.treespot.databinding.ActivitySplashBinding
-import net.n4dev.treespot.ui.createaccount.RegisterAccountActivity
+import net.n4dev.treespot.ui.account.LoginActivity
+import net.n4dev.treespot.ui.account.RegisterAccountActivity
 import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DeviceConnectionHelper
@@ -27,7 +28,7 @@ class SplashActivity : TreeSpotActivity() {
 
         initializeFolders()
 //        performFirstRunCheck()
-        ActivityUtil.startActivity(MainActivity::class.java, this)
+        ActivityUtil.startActivity(LoginActivity::class.java, this)
     }
 
     private fun performFirstRunCheck() {

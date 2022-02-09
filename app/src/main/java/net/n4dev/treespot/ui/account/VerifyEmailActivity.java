@@ -1,4 +1,4 @@
-package net.n4dev.treespot.ui.createaccount;
+package net.n4dev.treespot.ui.account;
 
 import android.os.Bundle;
 import android.view.View;
