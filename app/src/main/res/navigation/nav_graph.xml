@@ -11,9 +11,16 @@
         <action
             android:id="@+id/action_captureSpotFragment_to_myFriendsFragment2"
             app:destination="@id/myFriendsFragment" />
+        <action
+            android:id="@+id/action_captureSpotFragment_to_mySpotsFragment"
+            app:destination="@id/mySpotsFragment" />
     </fragment>
     <fragment
         android:id="@+id/myFriendsFragment"
         android:name="net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragment"
         android:label="MyFriendsFragment" />
+    <fragment
+        android:id="@+id/mySpotsFragment"
+        android:name="net.n4dev.treespot.ui.main.fragments.spots.MySpotsFragment"
+        android:label="MySpotsFragment" />
 </navigation>

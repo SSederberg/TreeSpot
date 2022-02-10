@@ -1,15 +1,19 @@
 package net.n4dev.treespot.core;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import net.n4dev.treespot.core.api.IFriend;
 import net.n4dev.treespot.core.api.ITreeSpot;
 import net.n4dev.treespot.core.api.IUser;
 
 import java.util.List;
 import java.util.UUID;
+
+import io.appwrite.models.Jwt;
 
 @Entity(tableName = "treespot_user")
 public class User implements IUser {
@@ -36,6 +40,7 @@ public class User implements IUser {
     private String username;
     private String emailAddress;
     private Long accountCreationDate;
+    @Nullable private Jwt  userJWT;
 
     @NonNull
     @Override
@@ -130,7 +135,7 @@ public class User implements IUser {
 
     @NonNull
     @Override
-    public List<IUser> getUserFriends() {
+    public List<IFriend> getUserFriends() {
         return null;
     }
 
@@ -142,5 +147,16 @@ public class User implements IUser {
     @Override
     public void removeFriend(@NonNull UUID friendUUID) {
 
+    }
+
+    @NonNull
+    @Override
+    public Jwt getUserJWT() {
+        return userJWT;
+    }
+
+    @Override
+    public void setUserJWT(@NonNull Jwt userJWT) {
+        this.userJWT = userJWT;
     }
 }

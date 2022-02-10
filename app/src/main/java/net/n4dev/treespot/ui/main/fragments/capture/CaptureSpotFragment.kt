@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
@@ -43,9 +44,7 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
+        arguments?.let {}
     }
 
     override fun onCreateView(
@@ -62,6 +61,10 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
             ActivityCompat.requestPermissions(requireActivity(),  TreeSpotActivity.TREESPOT_PERMISSIONS, cameraRequestCode)
         } else {
             setupCamera()
+        }
+
+        binding.captureSpotAction.setOnClickListener {
+            takePicture()
         }
 
         return binding.root
@@ -125,6 +128,23 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
                 Logger.e("An error during camera setup has occurred!", e)
             }
         }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    private fun takePicture() {
+        val imageFile = ActivityUtil.getAppImagesDirectoryAsFile(requireActivity())
+        val outputFileOptions = ImageCapture.OutputFileOptions.Builder(imageFile).build()
+        val errorContext = super.requireContext()
+        imageCapture!!.takePicture(outputFileOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
+            override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onError(exception: ImageCaptureException) {
+                exception.printStackTrace()
+                ActivityUtil.toast(errorContext, "Fail to capture your spot!", true)
+            }
+
+        })
     }
 
     companion object {

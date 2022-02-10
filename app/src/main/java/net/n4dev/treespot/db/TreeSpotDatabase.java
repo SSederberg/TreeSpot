@@ -13,7 +13,7 @@ import net.n4dev.treespot.db.dao.TreeSpotDAO;
 import net.n4dev.treespot.db.dao.UserDAO;
 
 @Database(entities = {User.class, TreeSpot.class}, version = 0, exportSchema = true)
-@TypeConverters(value = {UUIDConverter.class})
+@TypeConverters(value = {UUIDConverter.class, JWTConverter.class})
 public abstract class TreeSpotDatabase extends RoomDatabase {
 
     public UserDAO userDAO;

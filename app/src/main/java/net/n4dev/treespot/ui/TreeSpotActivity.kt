@@ -23,7 +23,7 @@ open class TreeSpotActivity : AppCompatActivity() {
     val developmentFormatStrategy = PrettyFormatStrategy.newBuilder()
         .showThreadInfo(true)
         .tag("TreeSpot")
-        .methodCount(3)
+        .methodCount(5)
         .build()
 
     fun loadUser(query: Query) : ArrayList<User> {

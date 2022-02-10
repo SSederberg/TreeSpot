@@ -1,7 +1,7 @@
 package net.n4dev.treespot.core.api
 
-import java.util.UUID
-import java.util.Date
+import io.appwrite.models.Jwt
+import java.util.*
 
 interface IUser : IEntity {
 
@@ -20,11 +20,14 @@ interface IUser : IEntity {
     fun getAccountCreationDate() : Long
     fun setAccountCreationDate(date : Long)
 
+    fun getUserJWT() : Jwt
+    fun setUserJWT(userJWT : Jwt)
+
     fun getUserSpots() : List<ITreeSpot>
     fun assignSpot(treespot : ITreeSpot)
     fun removeSpot(treespot: ITreeSpot)
 
-    fun getUserFriends() : List<IUser>
+    fun getUserFriends() : List<IFriend>
     fun addFriend(friendUUID: UUID)
     fun removeFriend(friendUUID: UUID)
 

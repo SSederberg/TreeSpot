@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.google.android.material.navigation.NavigationBarView
-import com.orhanobut.logger.Logger
 import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.ActivityMainBinding
 import net.n4dev.treespot.ui.TreeSpotActivity
@@ -94,7 +93,6 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val itemID = item.itemId;
 
-        Logger.i("REEEEEEEEEEEEEEE")
         if(itemID == R.id.menu_main_capture_settings) {
             ActivityUtil.startActivity(SettingsActivity::class.java, this)
             return true
