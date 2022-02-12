@@ -23,6 +23,9 @@ interface IUser : IEntity {
     fun getUserJWT() : Jwt
     fun setUserJWT(userJWT : Jwt)
 
+    fun getCurrentSessionID() : String
+    fun setCurrentSessionID(string: String)
+
     fun getUserSpots() : List<ITreeSpot>
     fun assignSpot(treespot : ITreeSpot)
     fun removeSpot(treespot: ITreeSpot)

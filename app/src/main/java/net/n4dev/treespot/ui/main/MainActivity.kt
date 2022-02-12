@@ -11,8 +11,6 @@ import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.ActivityMainBinding
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.ui.main.fragments.capture.CaptureSpotFragment
-import net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragment
-import net.n4dev.treespot.ui.main.fragments.spots.MySpotsFragment
 import net.n4dev.treespot.ui.settings.SettingsActivity
 import net.n4dev.treespot.util.ActivityUtil
 
@@ -51,23 +49,17 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
         when(item.itemId) {
 
             R.id.bottom_nav_friends -> {
-                fragmentManager.commit {
-                    replace<MyFriendsFragment>(R.id.main_fragment_container, MyFriendsFragment.BACKSTACK)
-//                        .addToBackStack(MyFriendsFragment.BACKSTACK)
-                        .commitNowAllowingStateLoss()
-                }
+                ActivityUtil.toast(this,  "nav_friends", false)
+
                 activeMenu = R.menu.menu_main_friends
                 invalidateOptionsMenu()
 
                 return true
             }
 
-            R.id.bottom_nav_spots -> {
-            fragmentManager.commit {
-                    replace<MySpotsFragment>(R.id.main_fragment_container, MySpotsFragment.BACKSTACK)
-//                        .addToBackStack(MySpotsFragment.BACKSTACK)
-                        .commitNowAllowingStateLoss()
-                }
+            R.id.bottom_nav_my_spots -> {
+                ActivityUtil.toast(this,  "nav_my_spots", false)
+
 
                 activeMenu = R.menu.menu_main_spots
                 invalidateOptionsMenu()
@@ -75,11 +67,7 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
             }
 
             R.id.bottom_nav_take_spot -> {
-                fragmentManager.commit {
-                    replace<CaptureSpotFragment>(R.id.main_fragment_container, CaptureSpotFragment.BACKSTACK)
-//                        .addToBackStack(CaptureSpotFragment.BACKSTACK)
-                        .commitNowAllowingStateLoss()
-                }
+                ActivityUtil.toast(this,  "nav_take_spot", false)
 
                 activeMenu = R.menu.menu_main_capture_spot
                 invalidateOptionsMenu()

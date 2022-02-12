@@ -46,6 +46,7 @@ class RegisterAccountActivity : TreeSpotActivity() {
             if(password == passwordConfirm && (password.length >= 8 && passwordConfirm.length >= 8)) {
                 accountID = UUID.randomUUID()
                 registerUserViewModel.registerAccount(address, password, userName, accountID)
+                registerUserViewModel.putToSharedPreferences(getSharedPreferences(), accountID.toString())
 
                 val emailBundle = Bundle()
                 emailBundle.putString(VerifyEmailActivity.ARG_USER_EMAIL, address)

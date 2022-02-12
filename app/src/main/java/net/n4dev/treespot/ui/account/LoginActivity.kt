@@ -38,7 +38,7 @@ class LoginActivity : TreeSpotActivity() {
                      loginModel.attemptLogin(email, passwd)
                     ActivityUtil.startActivity(MainActivity::class.java, this)
                 } else {
-
+                    ActivityUtil.toast(this, "Invalid password provided!", true)
                 }
 
             } else {

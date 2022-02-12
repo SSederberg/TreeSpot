@@ -18,9 +18,23 @@
     <fragment
         android:id="@+id/myFriendsFragment"
         android:name="net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragment"
-        android:label="MyFriendsFragment" />
+        android:label="MyFriendsFragment" >
+        <action
+            android:id="@+id/action_myFriendsFragment_to_mySpotsFragment"
+            app:destination="@id/mySpotsFragment" />
+        <action
+            android:id="@+id/action_myFriendsFragment_to_captureSpotFragment"
+            app:destination="@id/captureSpotFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mySpotsFragment"
         android:name="net.n4dev.treespot.ui.main.fragments.spots.MySpotsFragment"
-        android:label="MySpotsFragment" />
+        android:label="MySpotsFragment" >
+        <action
+            android:id="@+id/action_mySpotsFragment_to_captureSpotFragment"
+            app:destination="@id/captureSpotFragment" />
+        <action
+            android:id="@+id/action_mySpotsFragment_to_myFriendsFragment"
+            app:destination="@id/myFriendsFragment" />
+    </fragment>
 </navigation>

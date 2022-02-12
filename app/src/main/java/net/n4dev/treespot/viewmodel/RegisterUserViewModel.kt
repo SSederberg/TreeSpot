@@ -1,6 +1,7 @@
 package net.n4dev.treespot.viewmodel
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.orhanobut.logger.Logger
@@ -12,6 +13,7 @@ import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.core.User
 import net.n4dev.treespot.core.api.IViewModel
 import net.n4dev.treespot.db.TreeSpotDatabase
+import net.n4dev.treespot.ui.TreeSpotActivity
 import java.util.*
 
 class RegisterUserViewModel : ViewModel(), IViewModel {
@@ -38,6 +40,10 @@ class RegisterUserViewModel : ViewModel(), IViewModel {
               Logger.e(e, "Failure to create new account!")
           }
         }
+    }
+
+    fun putToSharedPreferences(preferences: SharedPreferences, userID: String) {
+        preferences.edit().putString(TreeSpotActivity.PREF_ACTIVE_USERNAME_ID, userID).apply()
     }
 
     private fun generateUserObject(emailAddress: String, username: String, userID: UUID) : User {

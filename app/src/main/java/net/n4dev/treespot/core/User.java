@@ -40,6 +40,7 @@ public class User implements IUser {
     private String username;
     private String emailAddress;
     private Long accountCreationDate;
+    @Nullable private String currentSessionID;
     @Nullable private Jwt  userJWT;
 
     @NonNull
@@ -158,5 +159,15 @@ public class User implements IUser {
     @Override
     public void setUserJWT(@NonNull Jwt userJWT) {
         this.userJWT = userJWT;
+    }
+
+    @Override
+    public String getCurrentSessionID() {
+        return currentSessionID;
+    }
+
+    @Override
+    public void setCurrentSessionID(@NonNull String string) {
+        this.currentSessionID = string;
     }
 }
