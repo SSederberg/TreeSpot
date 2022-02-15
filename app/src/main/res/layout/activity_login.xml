@@ -25,7 +25,8 @@
             android:id="@+id/login_username_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            android:text="test@test.com"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,7 +48,8 @@
             android:id="@+id/login_password_text"
             android:inputType="textPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="test12345"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 

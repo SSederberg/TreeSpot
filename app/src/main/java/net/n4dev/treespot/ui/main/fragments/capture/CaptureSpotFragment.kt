@@ -33,10 +33,10 @@ private const val ARG_PARAM2 = "param2"
  */
 class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private var _binding : FragmentCaptureSpotBinding? = null
+    private lateinit var binding : FragmentCaptureSpotBinding
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() =  _binding!!
+//    private val binding get() =  _binding!!
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
     private lateinit var pictureDir : File
@@ -53,14 +53,14 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentCaptureSpotBinding.inflate(inflater, container, false)
+        binding = FragmentCaptureSpotBinding.inflate(inflater, container, false)
 
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
 
         if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(),  TreeSpotActivity.TREESPOT_PERMISSIONS, cameraRequestCode)
         } else {
-            setupCamera()
+//            setupCamera()
         }
 
         binding.captureSpotAction.setOnClickListener {
@@ -77,7 +77,7 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+//        binding = null
     }
 
     override fun onRequestPermissionsResult(
@@ -87,7 +87,7 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
     ) {
         if(requestCode == cameraRequestCode) {
             if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                setupCamera()
+//                setupCamera()
             } else {
                 ActivityUtil.snack(binding.root, "Unable to capture your amazing tree spots!", true)
             }

@@ -1,5 +1,6 @@
 package net.n4dev.treespot.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -7,6 +8,7 @@ import android.net.NetworkInfo
 class DeviceConnectionHelper {
 
     companion object {
+        @SuppressLint("MissingPermission")
         fun isConnected(context: Context) : Boolean {
             val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val activeNetwork: NetworkInfo? = cm.activeNetworkInfo

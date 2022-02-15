@@ -5,11 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.orhanobut.logger.Logger
 import io.appwrite.Client
+import io.appwrite.Query
 import io.appwrite.exceptions.AppwriteException
+import io.appwrite.models.User
 import io.appwrite.services.Database
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
-import net.n4dev.treespot.core.api.IUser
 import net.n4dev.treespot.core.api.IViewModel
 import net.n4dev.treespot.db.TreeSpotDatabase
 
@@ -30,10 +31,10 @@ import net.n4dev.treespot.db.TreeSpotDatabase
     }
 
 
-    fun createFriendship(user : IUser, friend : IUser) {
+    fun createFriendship(user : String, friend : String) {
         viewModelScope.launch {
-            val data = mapOf(fieldUserID to user.getUserID(),
-                             fieldFriendID to friend.getUserID(),
+            val data = mapOf(fieldUserID to user,
+                             fieldFriendID to friend,
                              fieldFriendsSince to System.currentTimeMillis())
 
             try {
@@ -43,6 +44,25 @@ import net.n4dev.treespot.db.TreeSpotDatabase
 
         }
     }
+
+     fun searchByUsername(userID : String, usernameInput : String) : List<User> {
+         val returnedUsers = ArrayList<User>()
+         viewModelScope.launch {
+             val queryResponse = awDatabase.listDocuments("",
+             queries = listOf(Query.equal("username", usernameInput))
+             )
+
+             Logger.d(queryResponse.documents)
+         }
+
+         return returnedUsers
+     }
+
+     fun searchByAddress(userID: String, addressInput : String) : List<User> {
+         val returnedUsers = ArrayList<User>()
+         viewModelScope.launch {  }
+         return returnedUsers
+     }
 
 
 }
