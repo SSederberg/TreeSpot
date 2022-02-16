@@ -34,7 +34,7 @@
             android:name=".ui.friends.FriendDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.friends.AddFriendsActivity"
+            android:name=".ui.friends.add.AddFriendsActivity"
             android:exported="false" />
         <activity
             android:name=".ui.settings.SettingsActivity"

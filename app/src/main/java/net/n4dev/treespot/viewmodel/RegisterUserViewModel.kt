@@ -48,7 +48,7 @@ class RegisterUserViewModel : ViewModel(), IViewModel {
           try {
               val userResponse = account.create(userID.toString(), emailAddress, password, username)
               val sessionResponse = account.createSession(emailAddress, password)
-              val dbResponse = awDatabase.createDocument(usersCollectionID, userID.toString(), awData)
+              val dbResponse = awDatabase.createDocument(usersCollectionID, userID.toString(), awData, arrayListOf("role:member"), arrayListOf("role:member"))
 
               val objectUser = generateUserObject(emailAddress, username, userID)
 //              localDatabase.userDAO.insert(objectUser)

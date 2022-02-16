@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.friends.AddFriendsActivity">
+    tools:context=".ui.friends.add.AddFriendsActivity">
 
     <include
         android:id="@+id/include2"
@@ -29,7 +29,7 @@
         app:layout_constraintEnd_toStartOf="@+id/add_friend_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include2"
-        app:startIconDrawable="@drawable/ic_search">
+        app:startIconDrawable="@drawable/ic_person">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_friend_input"
@@ -63,6 +63,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include2"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_person_add" />
+        app:srcCompat="@drawable/ic_search" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

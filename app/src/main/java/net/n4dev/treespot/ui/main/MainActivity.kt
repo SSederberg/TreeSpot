@@ -14,7 +14,7 @@ import com.orhanobut.logger.Logger
 import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.ActivityMainBinding
 import net.n4dev.treespot.ui.TreeSpotActivity
-import net.n4dev.treespot.ui.friends.AddFriendsActivity
+import net.n4dev.treespot.ui.friends.add.AddFriendsActivity
 import net.n4dev.treespot.ui.main.fragments.capture.CaptureSpotFragment
 import net.n4dev.treespot.ui.main.fragments.capture.CaptureSpotFragmentDirections
 import net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragment
