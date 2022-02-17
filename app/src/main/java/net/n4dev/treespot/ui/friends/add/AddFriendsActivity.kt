@@ -27,7 +27,7 @@ class AddFriendsActivity : AppCompatActivity() {
 
         binding.addFriendButton.setOnClickListener(onAddOrSearchFriendListener)
 
-        adapter = AddFriendsAdapter()
+        adapter = AddFriendsAdapter(viewModel)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
     }

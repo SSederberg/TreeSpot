@@ -53,7 +53,7 @@ class RegisterAccountActivity : TreeSpotActivity() {
                 emailBundle.putString(VerifyEmailActivity.ARG_USER_USERNAME, userName)
                 emailBundle.putString(VerifyEmailActivity.ARG_USER_UUID, accountID.toString())
 
-                ActivityUtil.startActivity(emailBundle, VerifyEmailActivity::class.java, context)
+                ActivityUtil.startActivity(emailBundle, VerifyEmailActivity::class.java, this)
             } else {
                 binding.registerAccountPasswordConfirmText.error = "Passwords Do Not Match"
             }

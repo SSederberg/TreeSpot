@@ -2,14 +2,16 @@ package net.n4dev.treespot.ui.friends.add
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import io.appwrite.models.Document
 import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.AdapteritemFriendAddBinding
+import net.n4dev.treespot.viewmodel.AddFriendsViewModel
 
-class AddFriendsAdapter : RecyclerView.Adapter<AddFriendsViewHolder>() {
+class AddFriendsAdapter(private val viewModel: AddFriendsViewModel) : RecyclerView.Adapter<AddFriendsViewHolder>() {
 
     private var avatars = ArrayList<ByteArray>()
     private var users = ArrayList<Document>()
@@ -22,14 +24,23 @@ class AddFriendsAdapter : RecyclerView.Adapter<AddFriendsViewHolder>() {
     override fun onBindViewHolder(holder: AddFriendsViewHolder, position: Int) {
         val user = users.get(position)
         val avatar = avatars.get(position)
+        val userData = user.data
+        val name = userData.get("user_name")
+        val uuid = userData.get("user_id")
 
-        holder.bind(user.data.get("user_name") as String)
+        holder.bind(name as String)
 
         Glide.with(holder.itemView.context)
             .asBitmap()
             .load(avatar)
-            .into(holder.getBinding().imageView)
+            .into(holder.getBinding().friendAvatar)
 
+        holder.getBinding().friendAddButton.setOnClickListener {
+            val checkDrawable = ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_check_circle_outline)
+            holder.getBinding().friendAddButton.setImageDrawable(checkDrawable)
+
+            viewModel.createFriendship("", uuid as String)
+        }
     }
 
     override fun getItemCount(): Int {
