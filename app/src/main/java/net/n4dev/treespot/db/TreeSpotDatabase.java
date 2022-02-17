@@ -23,7 +23,7 @@ public abstract class TreeSpotDatabase extends RoomDatabase {
     public static TreeSpotDatabase getDatabase(Context context) {
         if(instance == null) {
             instance = Room.databaseBuilder(context, TreeSpotDatabase.class, "treespot")
-                .enableMultiInstanceInvalidation()
+                    .enableMultiInstanceInvalidation()
                     .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .build();
@@ -31,4 +31,6 @@ public abstract class TreeSpotDatabase extends RoomDatabase {
 
         return instance;
     }
+
+
 }

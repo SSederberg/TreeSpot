@@ -7,30 +7,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import com.google.android.material.navigation.NavigationBarView
-import com.orhanobut.logger.Logger
 import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.ActivityMainBinding
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.ui.friends.add.AddFriendsActivity
 import net.n4dev.treespot.ui.main.fragments.capture.CaptureSpotFragment
-import net.n4dev.treespot.ui.main.fragments.capture.CaptureSpotFragmentDirections
 import net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragment
-import net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragmentDirections
 import net.n4dev.treespot.ui.main.fragments.spots.MySpotsFragment
-import net.n4dev.treespot.ui.main.fragments.spots.MySpotsFragmentDirections
 import net.n4dev.treespot.ui.settings.SettingsActivity
 import net.n4dev.treespot.util.ActivityUtil
 
-class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListener, NavController.OnDestinationChangedListener {
+class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListener {
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var fragmentManager: FragmentManager
     private var activeMenu = R.menu.menu_main_friends
     private var currentFragment : Fragment =  CaptureSpotFragment()
-//    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +34,6 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
         fragmentManager = supportFragmentManager
         binding.mainBottomNavigation.setOnItemSelectedListener(this)
-
-//       val navHostFragment = fragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
-//        navController = navHostFragment.navController
-//
-//        binding.mainBottomNavigation.setupWithNavController(navController)
-//        navController.addOnDestinationChangedListener(this)
 
         fragmentManager.commit {
             replace<CaptureSpotFragment>(R.id.main_fragment_container)
@@ -60,6 +47,7 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu!!.clear()
         menuInflater.inflate(activeMenu, menu)
         return true
     }
@@ -69,7 +57,6 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
         when(item.itemId) {
 
             R.id.bottom_nav_friends -> {
-                navigateToMyFriends(currentFragment)
 
                 activeMenu = R.menu.menu_main_friends
                 invalidateOptionsMenu()
@@ -78,7 +65,6 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
             }
 
             R.id.bottom_nav_my_spots -> {
-                navigateToMySpots(currentFragment)
 
                 activeMenu = R.menu.menu_main_spots
                 invalidateOptionsMenu()
@@ -87,8 +73,6 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
             }
 
             R.id.bottom_nav_take_spot -> {
-
-                navigateToCaptureSpots(currentFragment)
 
                 activeMenu = R.menu.menu_main_capture_spot
                 invalidateOptionsMenu()
@@ -100,7 +84,6 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
         return false
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val itemID = item.itemId;
 
@@ -111,44 +94,4 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
         }
         return true
     }
-
-    override fun onDestinationChanged(
-        controller: NavController,
-        destination: NavDestination,
-        arguments: Bundle?
-    ) {
-        Logger.i("" + destination.id + " " + destination.navigatorName)
-    }
-
-    private fun navigateToMySpots(currentFragment: Fragment) {
-        if(currentFragment is MyFriendsFragment) {
-//             NavHostFragment.findNavController(binding.mainFragmentContainer.getFragment())
-            val action = MyFriendsFragmentDirections.actionMyFriendsFragmentToMySpotsFragment()
-//            navController.navigate(action)
-        }else if(currentFragment is CaptureSpotFragment) {
-            val action = CaptureSpotFragmentDirections.actionCaptureSpotFragmentToMySpotsFragment()
-//            navController.navigate(action)
-        }
-    }
-
-    private fun navigateToCaptureSpots(currentFragment: Fragment) {
-        if(currentFragment is MySpotsFragment) {
-            val action = MySpotsFragmentDirections.actionMySpotsFragmentToCaptureSpotFragment()
-//            navController.navigate(action)
-        } else if(currentFragment is MyFriendsFragment) {
-            val action = MyFriendsFragmentDirections.actionMyFriendsFragmentToCaptureSpotFragment()
-//            navController.navigate(action)
-        }
-    }
-
-    private fun navigateToMyFriends(currentFragment: Fragment) {
-        if(currentFragment is MySpotsFragment) {
-            val action = MySpotsFragmentDirections.actionMySpotsFragmentToMyFriendsFragment()
-//            navController.navigate(action)
-        } else if(currentFragment is CaptureSpotFragment) {
-            val action = CaptureSpotFragmentDirections.actionCaptureSpotFragmentToMyFriendsFragment()
-//            navController.navigate(action)
-        }
-    }
-
 }

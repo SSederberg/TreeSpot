@@ -16,11 +16,7 @@ class ActivityUtil {
 
     companion object {
 
-//        fun startActivity(@Nullable bundle: Bundle, klass : Class<*>, context: Context) {
-//            val intent = Intent(context, klass)
-//            intent.putExtras(bundle)
-//            context.startActivity(intent)
-//        }
+
 
         fun startActivity(@Nullable bundle: Bundle, klass : Class<*>, activity: Activity) {
             val intent = Intent(activity, klass)
@@ -28,10 +24,6 @@ class ActivityUtil {
             activity.startActivity(intent)
         }
 
-        fun startActivity(klass: Class<*>, context: Context) {
-            val intent = Intent(context, klass)
-            context.startActivity(intent)
-        }
 
         fun startActivity(klass: Class<*>, activity: Activity) {
             val intent = Intent(activity, klass)

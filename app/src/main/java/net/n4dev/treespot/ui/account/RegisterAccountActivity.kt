@@ -39,7 +39,6 @@ class RegisterAccountActivity : TreeSpotActivity() {
         val address = binding.registerEmailAddress.editText?.text.toString()
         val password = binding.registerAccountPassword.editText?.text.toString()
         val passwordConfirm = binding.registerAccountPasswordConfirm.editText?.text.toString()
-        val context = applicationContext
 
         if (isValidAddress(address)) {
 

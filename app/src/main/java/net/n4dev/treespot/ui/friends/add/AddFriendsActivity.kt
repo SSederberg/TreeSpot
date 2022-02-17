@@ -1,6 +1,5 @@
 package net.n4dev.treespot.ui.friends.add
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -34,12 +33,12 @@ class AddFriendsActivity : AppCompatActivity() {
 
     private val onAddOrSearchFriendListener = View.OnClickListener {
         val friendNameInput = binding.addFriendInput.text.toString()
-        val avatarArray = ArrayList<Bitmap>()
+
         //Search by email address, otherwise by username
         if(emailValidator.isValid(friendNameInput)) {
             viewModel.searchByAddress(friendNameInput)
         } else {
-           val returnedUsers =  viewModel.searchByUsername(friendNameInput, adapter)
+           viewModel.searchByUsername(friendNameInput, adapter)
         }
 
 
