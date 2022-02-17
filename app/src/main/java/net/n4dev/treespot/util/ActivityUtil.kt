@@ -27,6 +27,11 @@ class ActivityUtil {
             context.startActivity(intent)
         }
 
+        fun startActivity(klass: Class<*>, activity: Activity) {
+            val intent = Intent(activity, klass)
+            activity.startActivity(intent)
+        }
+
         fun getAppImagesDirectory(activity: Activity): String {
             return activity.filesDir.toString() + "/TS_Images/"
         }

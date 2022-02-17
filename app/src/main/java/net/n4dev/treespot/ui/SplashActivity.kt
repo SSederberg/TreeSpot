@@ -45,16 +45,16 @@ class SplashActivity : TreeSpotActivity() {
                 // This is just a normal run
 
                 if(doesUserAccountExist() && userIsAuthorized()) {
-                    ActivityUtil.startActivity(MainActivity::class.java, applicationContext)
+                    ActivityUtil.startActivity(MainActivity::class.java, this)
                 } else {
-                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, applicationContext)
+                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, this)
                 }
 
             } else if (savedVersionCode == DOESNT_EXIST) {
                 // TODO This is a new install (or the user cleared the shared preferences)
 
                 if(DeviceConnectionHelper.isConnected(applicationContext)) {
-                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, applicationContext)
+                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, this)
                 } else {
                   ActivityUtil.toast(this, "A internet connection is required for new installs and after resetting preferences!", true)
                 }

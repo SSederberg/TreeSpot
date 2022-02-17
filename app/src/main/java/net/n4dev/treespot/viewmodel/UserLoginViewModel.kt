@@ -21,14 +21,19 @@ class UserLoginViewModel : ViewModel(), IViewModel {
     }
 
     fun attemptLogin(emailAddress : String, password : String) {
-        try {
-            if(!sessionExists()) {
-                viewModelScope.launch {
+        viewModelScope.launch {
+            try {
+                if (!sessionExists()) {
+
                     val response = account.createSession(emailAddress, password)
+                    var append = ""
+                    response.toMap().forEach {
+                        append += ("[" + it.key + "," + it.value + "]")
+                    }
                 }
+            } catch (e: AppwriteException) {
+                e.printStackTrace()
             }
-        }catch (e : AppwriteException) {
-            e.printStackTrace()
         }
     }
 

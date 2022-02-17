@@ -24,11 +24,11 @@ class RegisterUserViewModel : ViewModel(), IViewModel {
     private lateinit var localDatabase : TreeSpotDatabase
     private lateinit var awDatabase: Database
 
-    private val awUserID = "userID"
-    private val awUsername = "username"
-    private val awEmailAddress = "emailAddress"
-    private val awFriendCount = "friendCount"
-    private val usersCollectionID = "61e61ac924a1ae90810c"
+    private val awUserID = "user_id"
+    private val awUsername = "user_name"
+    private val awEmailAddress = "user_email"
+    private val awFriendCount = "user_friend_count"
+    private val usersCollectionID = "treespot-users"
 
 
     override fun init(context: Context) {
@@ -48,7 +48,7 @@ class RegisterUserViewModel : ViewModel(), IViewModel {
           try {
               val userResponse = account.create(userID.toString(), emailAddress, password, username)
               val sessionResponse = account.createSession(emailAddress, password)
-              val dbResponse = awDatabase.createDocument(usersCollectionID, userID.toString(), awData, arrayListOf("role:member"), arrayListOf("role:member"))
+              val dbResponse = awDatabase.createDocument(usersCollectionID, userID.toString(), awData, arrayListOf("role:member"))
 
               val objectUser = generateUserObject(emailAddress, username, userID)
 //              localDatabase.userDAO.insert(objectUser)

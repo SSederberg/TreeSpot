@@ -37,12 +37,9 @@ class AddFriendsActivity : AppCompatActivity() {
         val avatarArray = ArrayList<Bitmap>()
         //Search by email address, otherwise by username
         if(emailValidator.isValid(friendNameInput)) {
-            viewModel.searchByAddress("", friendNameInput)
+            viewModel.searchByAddress(friendNameInput)
         } else {
-           val returnedUsers =  viewModel.searchByUsername(friendNameInput, avatarArray)
-            adapter.setUsers(returnedUsers)
-            adapter.setAvatars(avatarArray)
-            adapter.notifyDataSetChanged()
+           val returnedUsers =  viewModel.searchByUsername(friendNameInput, adapter)
         }
 
 
