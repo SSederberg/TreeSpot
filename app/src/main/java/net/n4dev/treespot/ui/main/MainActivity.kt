@@ -90,7 +90,9 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
         if(itemID == R.id.menu_main_capture_settings) {
             ActivityUtil.startActivity(SettingsActivity::class.java, this)
         } else if(itemID == R.id.menu_main_friends_add) {
-            ActivityUtil.startActivity(AddFriendsActivity::class.java, this)
+            val bundle = Bundle()
+            bundle.putString(AddFriendsActivity.ARG_USER_ID, "ddd3536b-4a0f-4d10-852f-c2e9eda261bf")
+            ActivityUtil.startActivity(bundle, AddFriendsActivity::class.java, this)
         }
         return true
     }

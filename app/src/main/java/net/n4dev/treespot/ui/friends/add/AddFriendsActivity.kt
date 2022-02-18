@@ -15,20 +15,34 @@ class AddFriendsActivity : AppCompatActivity() {
     private lateinit var viewModel: AddFriendsViewModel
     private lateinit var emailValidator: EmailValidator
     private lateinit var adapter : AddFriendsAdapter
+    private lateinit var userID : String
+
+    companion object {
+        const val ARG_USER_ID = "ARG_USER_ID"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddFriendsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if(intent.extras != null) {
+            setupFromArgs(intent.extras!!)
+        }else if (savedInstanceState != null) {
+            setupFromArgs(savedInstanceState)
+        }
+
         emailValidator = EmailValidator.getInstance()
         viewModel = ViewModelProvider(this).get(AddFriendsViewModel::class.java)
         viewModel.init(this)
 
         binding.addFriendButton.setOnClickListener(onAddOrSearchFriendListener)
 
-        adapter = AddFriendsAdapter(viewModel)
+        adapter = AddFriendsAdapter(viewModel, userID)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
+
+        viewModel.searchByUsername("", adapter)
     }
 
     private val onAddOrSearchFriendListener = View.OnClickListener {
@@ -40,7 +54,9 @@ class AddFriendsActivity : AppCompatActivity() {
         } else {
            viewModel.searchByUsername(friendNameInput, adapter)
         }
+    }
 
-
+    private fun setupFromArgs(bundle: Bundle) {
+        userID = bundle.getString(ARG_USER_ID)!!
     }
 }

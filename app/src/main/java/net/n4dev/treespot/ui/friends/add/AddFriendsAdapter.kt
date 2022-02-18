@@ -11,7 +11,7 @@ import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.AdapteritemFriendAddBinding
 import net.n4dev.treespot.viewmodel.AddFriendsViewModel
 
-class AddFriendsAdapter(private val viewModel: AddFriendsViewModel) : RecyclerView.Adapter<AddFriendsViewHolder>() {
+class AddFriendsAdapter(private val viewModel: AddFriendsViewModel, private val userID : String) : RecyclerView.Adapter<AddFriendsViewHolder>() {
 
     private var avatars = ArrayList<ByteArray>()
     private var users = ArrayList<Document>()
@@ -39,7 +39,7 @@ class AddFriendsAdapter(private val viewModel: AddFriendsViewModel) : RecyclerVi
             val checkDrawable = ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_check_circle_outline)
             holder.getBinding().friendAddButton.setImageDrawable(checkDrawable)
 
-            viewModel.createFriendship("", uuid as String)
+            viewModel.createFriendship(userID, uuid as String)
         }
     }
 

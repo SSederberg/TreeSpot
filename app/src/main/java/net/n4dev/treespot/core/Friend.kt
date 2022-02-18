@@ -1,31 +1,32 @@
 package net.n4dev.treespot.core
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import net.n4dev.treespot.core.api.IFriend
 import net.n4dev.treespot.core.api.IUser
 import java.util.*
 
 @Entity
-class Friend : IFriend {
+class Friend(private var friendID: UUID, private var friendsSince: Long) : IFriend {
 
-    override fun getUserID(): UUID {
-        TODO("Not yet implemented")
+    @PrimaryKey(autoGenerate = true)
+    private val localUID: Long? = null
+
+
+    override fun getFriendID(): UUID {
+        return friendID
     }
 
-    override fun getFriendsSince(): Date {
-        TODO("Not yet implemented")
+    override fun getFriendsSince(): Long {
+       return friendsSince
     }
 
-    override fun setFriendsSince(date: Date) {
-        TODO("Not yet implemented")
+    override fun setFriendsSince(date: Long) {
+      this.friendsSince = date
     }
 
-    override fun getLocalID(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun setLocalID(int: Int) {
-        TODO("Not yet implemented")
+    override fun getLocalID(): Long {
+        return localUID!!
     }
 
     override fun becomeFriendsWith(user: IUser, friend: IUser) {

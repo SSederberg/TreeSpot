@@ -19,6 +19,7 @@ import io.appwrite.models.Jwt;
 public class User implements IUser {
 
     public User() {
+        //Required to compile
     }
 
     public User(String username, String emailAddress, UUID uuid) {

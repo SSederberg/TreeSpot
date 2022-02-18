@@ -28,30 +28,21 @@ class RegisterUserViewModel : ViewModel(), IViewModel {
     private val awUsername = "user_name"
     private val awEmailAddress = "user_email"
     private val awFriendCount = "user_friend_count"
-    private val usersCollectionID = "treespot-users"
+
 
 
     override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
         account = Account(client)
         awDatabase = Database(client)
-        localDatabase = TreeSpotDatabase.getDatabase(context)
     }
 
-    fun registerAccount(emailAddress : String, password : String, username : String, userID: UUID) {
-        val awData = mapOf(awUsername to username,
-                            awEmailAddress to emailAddress,
-                            awFriendCount to 0,
-                            awUserID to userID.toString())
-
+    fun registerAccount(emailAddress : String, password : String, username : String, userID: UUID, context: Context) {
         viewModelScope.launch {
           try {
               val userResponse = account.create(userID.toString(), emailAddress, password, username)
-              val sessionResponse = account.createSession(emailAddress, password)
-              val dbResponse = awDatabase.createDocument(usersCollectionID, userID.toString(), awData, arrayListOf("role:member"))
-
               val objectUser = generateUserObject(emailAddress, username, userID)
-//              localDatabase.userDAO.insert(objectUser)
+
               Logger.json(userResponse.toString())
           }catch (e : AppwriteException) {
               Logger.e(e, "Failure to create new account!")

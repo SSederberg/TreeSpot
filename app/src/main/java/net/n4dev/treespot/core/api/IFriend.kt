@@ -4,13 +4,13 @@ import java.util.*
 
 interface IFriend : IEntity {
 
-    fun getUserID() : UUID
+    // This should be a standard User UUID
+    fun getFriendID() : UUID
 
-    fun getFriendsSince() : Date
-    fun setFriendsSince(date: Date)
+    fun getFriendsSince() : Long
+    fun setFriendsSince(date: Long)
 
-    fun getLocalID() : Int
-    fun setLocalID(int: Int)
+    fun getLocalID() : Long
 
     fun becomeFriendsWith(user : IUser, friend : IUser)
 
