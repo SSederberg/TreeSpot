@@ -16,15 +16,18 @@ class ActivityUtil {
 
     companion object {
 
-        fun startActivity(@Nullable bundle: Bundle, klass : Class<*>, context: Context) {
-            val intent = Intent(context, klass)
+
+
+        fun startActivity(@Nullable bundle: Bundle, klass : Class<*>, activity: Activity) {
+            val intent = Intent(activity, klass)
             intent.putExtras(bundle)
-            context.startActivity(intent)
+            activity.startActivity(intent)
         }
 
-        fun startActivity(klass: Class<*>, context: Context) {
-            val intent = Intent(context, klass)
-            context.startActivity(intent)
+
+        fun startActivity(klass: Class<*>, activity: Activity) {
+            val intent = Intent(activity, klass)
+            activity.startActivity(intent)
         }
 
         fun getAppImagesDirectory(activity: Activity): String {

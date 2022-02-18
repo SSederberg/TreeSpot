@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_main_friends_add"
         android:title="@string/add_friend"
         app:iconTint="@color/md_white_1000"
         android:icon="@drawable/ic_person_add"

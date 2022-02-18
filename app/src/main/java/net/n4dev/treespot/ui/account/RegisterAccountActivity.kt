@@ -39,20 +39,20 @@ class RegisterAccountActivity : TreeSpotActivity() {
         val address = binding.registerEmailAddress.editText?.text.toString()
         val password = binding.registerAccountPassword.editText?.text.toString()
         val passwordConfirm = binding.registerAccountPasswordConfirm.editText?.text.toString()
-        val context = applicationContext
 
         if (isValidAddress(address)) {
 
             if(password == passwordConfirm && (password.length >= 8 && passwordConfirm.length >= 8)) {
                 accountID = UUID.randomUUID()
-                registerUserViewModel.registerAccount(address, password, userName, accountID)
+                registerUserViewModel.registerAccount(address, password, userName, accountID, applicationContext)
+                registerUserViewModel.putToSharedPreferences(getSharedPreferences(), accountID.toString())
 
                 val emailBundle = Bundle()
                 emailBundle.putString(VerifyEmailActivity.ARG_USER_EMAIL, address)
                 emailBundle.putString(VerifyEmailActivity.ARG_USER_USERNAME, userName)
                 emailBundle.putString(VerifyEmailActivity.ARG_USER_UUID, accountID.toString())
 
-                ActivityUtil.startActivity(emailBundle, VerifyEmailActivity::class.java, context)
+                ActivityUtil.startActivity(emailBundle, VerifyEmailActivity::class.java, this)
             } else {
                 binding.registerAccountPasswordConfirmText.error = "Passwords Do Not Match"
             }

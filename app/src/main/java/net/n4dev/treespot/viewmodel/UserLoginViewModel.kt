@@ -8,32 +8,39 @@ import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
+import net.n4dev.treespot.core.api.IViewModel
 
-class UserLoginViewModel : ViewModel() {
+class UserLoginViewModel : ViewModel(), IViewModel {
 
     private lateinit var client: Client
     private lateinit var account: Account
 
-    fun init(context: Context) {
+   override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
         account = Account(client)
     }
 
     fun attemptLogin(emailAddress : String, password : String) {
-        try {
-            if(!sessionExists()) {
-                viewModelScope.launch {
+        viewModelScope.launch {
+            try {
+                if (!sessionExists()) {
+
                     val response = account.createSession(emailAddress, password)
+                    var append = ""
+                    response.toMap().forEach {
+                        append += ("[" + it.key + "," + it.value + "]")
+                    }
                 }
+            } catch (e: AppwriteException) {
+                e.printStackTrace()
             }
-        }catch (e : AppwriteException) {
-            e.printStackTrace()
         }
     }
 
     fun sessionExists() : Boolean {
         return false
     }
+
 
 
 }

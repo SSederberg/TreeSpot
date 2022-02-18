@@ -12,26 +12,21 @@ import net.n4dev.treespot.db.TreeSpotDatabase
 
 open class TreeSpotActivity : AppCompatActivity() {
 
-    private var db : TreeSpotDatabase? = null
-    val PREFS_NAME = "TreeSpotPrefsFile"
-    val PREF_VERSION_CODE_KEY = "version_code"
-    val DOESNT_EXIST = -1
-    val PREF_ACTIVE_USERNAME_ID = "active_username"
-    val PREF_ACTIVE_SESSION_ID = "active_session"
-    val PREF_ACTIVE_JWT = "active_jwt"
+    private lateinit var db : TreeSpotDatabase
 
     val developmentFormatStrategy = PrettyFormatStrategy.newBuilder()
         .showThreadInfo(true)
         .tag("TreeSpot")
-        .methodCount(3)
+        .methodCount(5)
         .build()
 
     fun loadUser(query: Query) : ArrayList<User> {
         var returnedList: ArrayList<User> = ArrayList()
         val sql = query.toSql()
+        db = TreeSpotDatabase.getDatabase(applicationContext)
 
         val loadThread = Thread {
-
+            returnedList = db.userDAO.find(sql)
         }
 
         loadThread.start()
@@ -64,5 +59,12 @@ open class TreeSpotActivity : AppCompatActivity() {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_NETWORK_STATE)
+
+        val PREFS_NAME = "TreeSpotPrefsFile"
+        val PREF_VERSION_CODE_KEY = "version_code"
+        val DOESNT_EXIST = -1
+        val PREF_ACTIVE_USERNAME_ID = "active_username"
+        val PREF_ACTIVE_SESSION_ID = "active_session"
+        val PREF_ACTIVE_JWT = "active_jwt"
     }
 }

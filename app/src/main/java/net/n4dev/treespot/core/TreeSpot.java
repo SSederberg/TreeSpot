@@ -66,8 +66,6 @@ public class TreeSpot implements ITreeSpot {
         return creationDate;
     }
 
-
-
     @Override
     public String getSpotID() {
         return spotID;

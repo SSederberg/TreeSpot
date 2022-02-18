@@ -32,4 +32,5 @@
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
     <string name="capture_tree_spot">Capture Tree Spot</string>
+    <string name="hint_username_or_email_address">Username or Email Address</string>
 </resources>

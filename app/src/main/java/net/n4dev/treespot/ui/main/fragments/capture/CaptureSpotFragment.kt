@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
@@ -32,10 +33,10 @@ private const val ARG_PARAM2 = "param2"
  */
 class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private var _binding : FragmentCaptureSpotBinding? = null
+    private lateinit var binding : FragmentCaptureSpotBinding
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() =  _binding!!
+//    private val binding get() =  _binding!!
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
     private lateinit var pictureDir : File
@@ -43,9 +44,7 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
+        arguments?.let {}
     }
 
     override fun onCreateView(
@@ -54,14 +53,18 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentCaptureSpotBinding.inflate(inflater, container, false)
+        binding = FragmentCaptureSpotBinding.inflate(inflater, container, false)
 
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
 
         if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(),  TreeSpotActivity.TREESPOT_PERMISSIONS, cameraRequestCode)
         } else {
-            setupCamera()
+//            setupCamera()
+        }
+
+        binding.captureSpotAction.setOnClickListener {
+            takePicture()
         }
 
         return binding.root
@@ -74,7 +77,7 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+//        binding = null
     }
 
     override fun onRequestPermissionsResult(
@@ -84,7 +87,7 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
     ) {
         if(requestCode == cameraRequestCode) {
             if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                setupCamera()
+//                setupCamera()
             } else {
                 ActivityUtil.snack(binding.root, "Unable to capture your amazing tree spots!", true)
             }
@@ -125,6 +128,23 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
                 Logger.e("An error during camera setup has occurred!", e)
             }
         }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    private fun takePicture() {
+        val imageFile = ActivityUtil.getAppImagesDirectoryAsFile(requireActivity())
+        val outputFileOptions = ImageCapture.OutputFileOptions.Builder(imageFile).build()
+        val errorContext = super.requireContext()
+        imageCapture!!.takePicture(outputFileOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
+            override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onError(exception: ImageCaptureException) {
+                exception.printStackTrace()
+                ActivityUtil.toast(errorContext, "Fail to capture your spot!", true)
+            }
+
+        })
     }
 
     companion object {

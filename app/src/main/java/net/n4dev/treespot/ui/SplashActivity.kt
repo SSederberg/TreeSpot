@@ -1,23 +1,24 @@
 package net.n4dev.treespot.ui
 
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import net.n4dev.treespot.BuildConfig
 import net.n4dev.treespot.databinding.ActivitySplashBinding
-import net.n4dev.treespot.ui.account.LoginActivity
+import net.n4dev.treespot.db.queries.GetUserQuery
 import net.n4dev.treespot.ui.account.RegisterAccountActivity
 import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DeviceConnectionHelper
+import net.n4dev.treespot.viewmodel.UserAuthorizedViewModel
 import java.io.File
 
 
 class SplashActivity : TreeSpotActivity() {
 
     private lateinit var binding : ActivitySplashBinding
+    private lateinit var userAuthorizedViewModel: UserAuthorizedViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,12 +28,14 @@ class SplashActivity : TreeSpotActivity() {
         setContentView(binding.root)
 
         initializeFolders()
-//        performFirstRunCheck()
-        ActivityUtil.startActivity(LoginActivity::class.java, this)
+
+        userAuthorizedViewModel = ViewModelProvider(this).get(UserAuthorizedViewModel::class.java)
+        userAuthorizedViewModel.init(this)
+
+        performFirstRunCheck()
     }
 
     private fun performFirstRunCheck() {
-        GlobalScope.launch {
             val currentVersionCode = BuildConfig.VERSION_CODE
             val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
             val savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST)
@@ -42,22 +45,18 @@ class SplashActivity : TreeSpotActivity() {
                 // This is just a normal run
 
                 if(doesUserAccountExist() && userIsAuthorized()) {
-                    ActivityUtil.startActivity(MainActivity::class.java, applicationContext)
+                    ActivityUtil.startActivity(MainActivity::class.java, this)
                 } else {
-                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, applicationContext)
+                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, this)
                 }
 
             } else if (savedVersionCode == DOESNT_EXIST) {
                 // TODO This is a new install (or the user cleared the shared preferences)
 
                 if(DeviceConnectionHelper.isConnected(applicationContext)) {
-                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, applicationContext)
+                    ActivityUtil.startActivity(RegisterAccountActivity::class.java, this)
                 } else {
-                    if(doesUserAccountExist()) {
-
-                    } else {
-
-                    }
+                  ActivityUtil.toast(this, "A internet connection is required for new installs and after resetting preferences!", true)
                 }
 
             } else if (currentVersionCode > savedVersionCode) {
@@ -67,7 +66,6 @@ class SplashActivity : TreeSpotActivity() {
 
             // Update the shared preferences with the current version code
             prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
-        }
     }
 
     /**
@@ -96,28 +94,28 @@ class SplashActivity : TreeSpotActivity() {
         return false
     }
 
-    private suspend fun userIsAuthorized(): Boolean {
-        val prefs = getSharedPreferences()
-
+    private fun userIsAuthorized(): Boolean {
         try {
+            val prefs = getSharedPreferences()
             val username : String = prefs.getString(PREF_ACTIVE_USERNAME_ID, null) as String
-            val session: String = prefs.getString(PREF_ACTIVE_SESSION_ID, null) as String
-            val jwt : String = prefs.getString(PREF_ACTIVE_JWT, null) as String
 
+            val query = GetUserQuery.get(username)
+            val users = super.loadUser(query)
             if(DeviceConnectionHelper.isConnected(applicationContext)) {
 
                 //TODO Verify session is still valid before returning true
-
-                return true
+                    val user = users[0]
+                    val storedSession = user.getCurrentSessionID()
+                return userAuthorizedViewModel.isAuthorized(storedSession);
             } else {
-                // Since we can't verify the user since they are offline, we will have to trust them until they go online.
-                return true;
+                // Since we can't verify the user since they are offline,
+                // we will have to trust them until they go online.
+                return users.size > 0
             }
         }catch (exception : Exception) {
             exception.printStackTrace()
         }
 
         return false
-//        return true
     }
 }
