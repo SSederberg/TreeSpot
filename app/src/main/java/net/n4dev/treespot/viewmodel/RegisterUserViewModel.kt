@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.core.User
 import net.n4dev.treespot.core.api.IViewModel
-import net.n4dev.treespot.db.TreeSpotDatabase
+import net.n4dev.treespot.db.TreeSpotDatabases
 import net.n4dev.treespot.ui.TreeSpotActivity
 import java.util.*
 
@@ -21,7 +21,7 @@ class RegisterUserViewModel : ViewModel(), IViewModel {
 
     private lateinit var client: Client
     private lateinit var account: Account
-    private lateinit var localDatabase : TreeSpotDatabase
+    private lateinit var localDatabase : TreeSpotDatabases
     private lateinit var awDatabase: Database
 
     private val awUserID = "user_id"

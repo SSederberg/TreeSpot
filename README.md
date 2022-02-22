@@ -10,7 +10,7 @@ This proof of concept application built and designed to be offline first. Capabl
 ## Technologies Used
 - [Kotlin](https://kotlinlang.org "Kotlin")
 - [Google Maps SDK](https://developers.google.com/maps/documentation/android-sdk/overview "Google Maps SDK")
-- [AndroidX Room](https://developer.android.com/jetpack/androidx/releases/room "AndroidX Room")
+- [Couchbase Lite](https://www.couchbase.com/products/lite "Couchbase Lite")
 - [CameraX](https://developer.android.com/jetpack/androidx/releases/camera "CameraX")
 - [ViewBinding](https://developer.android.com/topic/libraries/view-binding "ViewBinding")
-- [Parse Platform](https://parseplatform.org/ "Parse-Platform")
+- [AppWrite](https://appwrite.io/ "AppWrite")

@@ -1,15 +1,12 @@
 package net.n4dev.treespot.core
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import net.n4dev.treespot.core.api.IFriend
 import net.n4dev.treespot.core.api.IUser
 import java.util.*
 
-@Entity
+
 class Friend(private var friendID: UUID, private var friendsSince: Long) : IFriend {
 
-    @PrimaryKey(autoGenerate = true)
     private val localUID: Long? = null
 
 

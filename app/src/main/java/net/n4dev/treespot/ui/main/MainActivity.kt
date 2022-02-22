@@ -22,12 +22,27 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var fragmentManager: FragmentManager
+    private lateinit var userID : String
+    private lateinit var userName : String
     private var activeMenu = R.menu.menu_main_friends
     private var currentFragment : Fragment =  CaptureSpotFragment()
+
+    companion object {
+        const val ARG_USER_ID = "ARG_USER_ID"
+        const val ARG_USER_NAME = "ARG_USER_NAME"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+        if(intent.extras != null) {
+            setupFromBundle(intent.extras!!)
+        }else if(savedInstanceState != null) {
+            setupFromBundle(savedInstanceState)
+        } else {
+            getUserFromDB()
+        }
         setContentView(binding.root)
 
         setSupportActionBar(binding.mainIncludeTopbar.mainAppbarBar)
@@ -91,9 +106,18 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
             ActivityUtil.startActivity(SettingsActivity::class.java, this)
         } else if(itemID == R.id.menu_main_friends_add) {
             val bundle = Bundle()
-            bundle.putString(AddFriendsActivity.ARG_USER_ID, "ddd3536b-4a0f-4d10-852f-c2e9eda261bf")
+            bundle.putString(AddFriendsActivity.ARG_USER_ID, userID)
             ActivityUtil.startActivity(bundle, AddFriendsActivity::class.java, this)
         }
         return true
+    }
+
+    private fun setupFromBundle(extras: Bundle) {
+        userID = extras.getString(ARG_USER_ID)!!
+        userName = extras.getString(ARG_USER_NAME)!!
+    }
+
+    private fun getUserFromDB() {
+
     }
 }

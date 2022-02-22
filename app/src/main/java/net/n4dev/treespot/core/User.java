@@ -2,9 +2,6 @@ package net.n4dev.treespot.core;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import net.n4dev.treespot.core.api.IFriend;
 import net.n4dev.treespot.core.api.ITreeSpot;
@@ -15,7 +12,6 @@ import java.util.UUID;
 
 import io.appwrite.models.Jwt;
 
-@Entity(tableName = "treespot_user")
 public class User implements IUser {
 
     public User() {
@@ -28,14 +24,6 @@ public class User implements IUser {
         this.userID = uuid.toString();
     }
 
-    public static final  String name     = "treespot_user";
-    public static final String UID           = "local_uid";
-    public static final String USERNAME      = "user_username";
-    public static final String EMAIL_ADDRESS = "user_email_address";
-    public static final  String USER_CREATION_DATE = "user_creation_date";
-    public static final  String USER_ID            = "user_id";
-
-    @PrimaryKey(autoGenerate = true)
     private Long localUID;
     private String userID;
     private String username;

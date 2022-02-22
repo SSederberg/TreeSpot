@@ -6,7 +6,7 @@ import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import net.n4dev.treespot.BuildConfig
 import net.n4dev.treespot.databinding.ActivitySplashBinding
-import net.n4dev.treespot.db.queries.GetUserQuery
+import net.n4dev.treespot.db.TreeSpotDatabases
 import net.n4dev.treespot.ui.account.RegisterAccountActivity
 import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil
@@ -19,16 +19,15 @@ class SplashActivity : TreeSpotActivity() {
 
     private lateinit var binding : ActivitySplashBinding
     private lateinit var userAuthorizedViewModel: UserAuthorizedViewModel
-
+    private val db = TreeSpotDatabases()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
+        initializeFolders()
+        db.init(this)
         Logger.addLogAdapter(AndroidLogAdapter(developmentFormatStrategy))
         setContentView(binding.root)
-
-        initializeFolders()
-
         userAuthorizedViewModel = ViewModelProvider(this).get(UserAuthorizedViewModel::class.java)
         userAuthorizedViewModel.init(this)
 
@@ -99,8 +98,7 @@ class SplashActivity : TreeSpotActivity() {
             val prefs = getSharedPreferences()
             val username : String = prefs.getString(PREF_ACTIVE_USERNAME_ID, null) as String
 
-            val query = GetUserQuery.get(username)
-            val users = super.loadUser(query)
+            val users = super.loadUser(username)
             if(DeviceConnectionHelper.isConnected(applicationContext)) {
 
                 //TODO Verify session is still valid before returning true

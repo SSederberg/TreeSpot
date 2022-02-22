@@ -42,7 +42,7 @@ class AddFriendsActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
 
-        viewModel.searchByUsername("", adapter)
+        viewModel.searchByUsername("", adapter, userID)
     }
 
     private val onAddOrSearchFriendListener = View.OnClickListener {
@@ -52,7 +52,7 @@ class AddFriendsActivity : AppCompatActivity() {
         if(emailValidator.isValid(friendNameInput)) {
             viewModel.searchByAddress(friendNameInput)
         } else {
-           viewModel.searchByUsername(friendNameInput, adapter)
+           viewModel.searchByUsername(friendNameInput, adapter, userID)
         }
     }
 

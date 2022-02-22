@@ -58,12 +58,14 @@ android {
 
 dependencies {
 
-    def room_version = "2.4.1"
+//    def room_version = "2.4.1"
+//
+//    implementation "androidx.room:room-runtime:$room_version"
+//    annotationProcessor "androidx.room:room-compiler:$room_version"
+//
+//    implementation "androidx.sqlite:sqlite-ktx:2.2.0"
 
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-
-    implementation "androidx.sqlite:sqlite-ktx:2.2.0"
+    implementation group: 'com.couchbase.lite', name: 'couchbase-lite-android', version: '2.8.6'
 
     def work_version = "2.7.1"
     implementation "androidx.work:work-runtime-ktx:$work_version"
@@ -91,7 +93,7 @@ dependencies {
 
     implementation group: 'commons-validator', name: 'commons-validator', version: '1.7'
 
-     implementation('io.zeko:zeko-sql-builder:1.2.7')
+//     implementation('io.zeko:zeko-sql-builder:1.2.7')
 
     implementation 'com.orhanobut:logger:2.2.0'
 

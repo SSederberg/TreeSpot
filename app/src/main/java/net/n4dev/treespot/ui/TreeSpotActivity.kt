@@ -3,16 +3,19 @@ package net.n4dev.treespot.ui
 import android.Manifest
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
+import com.couchbase.lite.DataSource
+import com.couchbase.lite.Expression
+import com.couchbase.lite.QueryBuilder
+import com.couchbase.lite.SelectResult
 import com.orhanobut.logger.PrettyFormatStrategy
-import io.zeko.db.sql.Query
 import net.n4dev.treespot.core.TreeSpot
 import net.n4dev.treespot.core.User
-import net.n4dev.treespot.db.TreeSpotDatabase
+import net.n4dev.treespot.db.TreeSpotDatabases
 
 
 open class TreeSpotActivity : AppCompatActivity() {
 
-    private lateinit var db : TreeSpotDatabase
+    private val db = TreeSpotDatabases()
 
     val developmentFormatStrategy = PrettyFormatStrategy.newBuilder()
         .showThreadInfo(true)
@@ -20,13 +23,16 @@ open class TreeSpotActivity : AppCompatActivity() {
         .methodCount(5)
         .build()
 
-    fun loadUser(query: Query) : ArrayList<User> {
+    fun loadUser(string : String) : ArrayList<User> {
         var returnedList: ArrayList<User> = ArrayList()
-        val sql = query.toSql()
-        db = TreeSpotDatabase.getDatabase(applicationContext)
+        val query = QueryBuilder.select(SelectResult.all())
+            .from(DataSource.database(db.userDB))
+            .where(Expression.property("")
+                .equalTo(Expression.property("")));
 
         val loadThread = Thread {
-            returnedList = db.userDAO.find(sql)
+            val resultSet = query.execute();
+
         }
 
         loadThread.start()
@@ -35,7 +41,7 @@ open class TreeSpotActivity : AppCompatActivity() {
         return returnedList
     }
 
-    fun loadTreeSpot(query: Query) : ArrayList<TreeSpot> {
+    fun loadTreeSpot(string : String) : ArrayList<TreeSpot> {
         var returnedList: ArrayList<TreeSpot> = ArrayList()
 
         val loadThread = Thread {

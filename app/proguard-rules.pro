@@ -53,6 +53,13 @@
   public *;
 }
 
+-keep class com.couchbase.lite.LiteCoreException { static <methods>; }
+-keep class com.couchbase.lite.internal.core.C4* {
+    static <methods>;
+    <fields>;
+    <init>(...);
+ }
+
 # @Serializable and @Polymorphic are used at runtime for polymorphic serialization.
 -keepattributes RuntimeVisibleAnnotations,AnnotationDefault
 

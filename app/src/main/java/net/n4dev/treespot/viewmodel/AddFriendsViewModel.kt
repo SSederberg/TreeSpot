@@ -24,7 +24,7 @@ import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
     private lateinit var client : Client
     private lateinit var avatars: Avatars
 
-    private val friendsCollectionID = "treespot-friends"
+    private val friendRequestCollectionID = "Tree-Spot-Friend-Requests"
      private val usersCollectionID = "treespot-users"
     private val fieldUserID = "user_id"
     private val fieldFriendID = "friend_id"
@@ -46,24 +46,26 @@ import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
                              fieldFriendsSince to System.currentTimeMillis())
 
             try {
-                val createFriendsResponse = awDatabase.createDocument(friendsCollectionID, "unique()", data, arrayListOf("role:member"))
+                val createFriendsResponse = awDatabase.createDocument(friendRequestCollectionID, "unique()", data, arrayListOf("role:member"))
             }catch (ex : AppwriteException) {
                 Logger.e("An error occurred while trying to create Friendship! :(", ex)}
 
         }
     }
 
-     fun searchByUsername(usernameInput : String, adapter : AddFriendsAdapter){
+     fun searchByUsername(usernameInput : String, adapter : AddFriendsAdapter, calledByUsername : String){
 
          viewModelScope.launch {
             try {
                 var queryResponse : DocumentList
 
                 if(usernameInput.isEmpty()) {
-                    queryResponse = awDatabase.listDocuments(usersCollectionID)
+                    queryResponse = awDatabase.listDocuments(usersCollectionID,
+                        listOf(Query.notEqual(fieldUserName, calledByUsername))
+                    )
                 } else {
                    queryResponse = awDatabase.listDocuments(usersCollectionID,
-                        listOf(Query.search(fieldUserName, usernameInput))
+                        listOf(Query.search(fieldUserID, usernameInput))
                     )
                 }
 
