@@ -1,6 +1,5 @@
 package net.n4dev.treespot.core.api
 
-import io.appwrite.models.Jwt
 import java.util.*
 
 interface IUser : IEntity {
@@ -14,14 +13,8 @@ interface IUser : IEntity {
     fun getUserID() : String
     fun setUserID(userID : String)
 
-    fun getLocalUID() : Long
-    fun setLocalUID(int: Long)
-
     fun getAccountCreationDate() : Long
     fun setAccountCreationDate(date : Long)
-
-    fun getUserJWT() : Jwt
-    fun setUserJWT(userJWT : Jwt)
 
     fun getCurrentSessionID() : String
     fun setCurrentSessionID(string: String)

@@ -83,9 +83,8 @@ class SplashActivity : TreeSpotActivity() {
         try {
             val username = prefs.getString(PREF_ACTIVE_USERNAME_ID, null)
             val session = prefs.getString(PREF_ACTIVE_SESSION_ID, null)
-            val jwt = prefs.getString(PREF_ACTIVE_JWT, null)
 
-            return username != null && session != null && jwt != null
+            return username != null && session != null
         }catch (exception : Exception) {
             exception.printStackTrace()
         }
@@ -99,16 +98,21 @@ class SplashActivity : TreeSpotActivity() {
             val username : String = prefs.getString(PREF_ACTIVE_USERNAME_ID, null) as String
 
             val users = super.loadUser(username)
-            if(DeviceConnectionHelper.isConnected(applicationContext)) {
 
-                //TODO Verify session is still valid before returning true
+            if(users.size == 0) {
+                return false
+            } else {
+                if(DeviceConnectionHelper.isConnected(applicationContext)) {
+
+                    //TODO Verify session is still valid before returning true
                     val user = users[0]
                     val storedSession = user.getCurrentSessionID()
-                return userAuthorizedViewModel.isAuthorized(storedSession);
-            } else {
-                // Since we can't verify the user since they are offline,
-                // we will have to trust them until they go online.
-                return users.size > 0
+                    return userAuthorizedViewModel.isAuthorized(storedSession);
+                } else {
+                    // Since we can't verify the user since they are offline,
+                    // we will have to trust them until they go online.
+                    return users.size > 0
+                }
             }
         }catch (exception : Exception) {
             exception.printStackTrace()

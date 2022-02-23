@@ -35,7 +35,7 @@ class LoginActivity : TreeSpotActivity() {
 
             if(validator.isValid(email)) {
                 if(passwd.length >= 8) { //Minimum length required by Appwrite
-                    loginModel.attemptLogin(email, passwd).also {
+                    loginModel.attemptLogin(email, passwd, super.getSharedPreferences()).also {
                         ActivityUtil.startActivity(MainActivity::class.java, this)
                     }
 
