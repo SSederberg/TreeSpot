@@ -22,7 +22,7 @@ open class TreeSpotActivity : AppCompatActivity() {
         .build()
 
     fun loadUser(string : String) : ArrayList<User> {
-        var returnedList: ArrayList<User> = ArrayList()
+        val returnedList: ArrayList<User> = ArrayList()
         val query = GetUserQuery.get(string)
 
         val loadThread = Thread {

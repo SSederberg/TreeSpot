@@ -29,7 +29,7 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
     companion object {
         const val ARG_USER_ID = "ARG_USER_ID"
-        const val ARG_USER_NAME = "ARG_USER_NAME"
+        const val ARG_USER_EMAIL = "ARG_USER_NAME"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,7 +114,7 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
     private fun setupFromBundle(extras: Bundle) {
         userID = extras.getString(ARG_USER_ID)!!
-        userName = extras.getString(ARG_USER_NAME)!!
+        userName = extras.getString(ARG_USER_EMAIL)!!
     }
 
     private fun getUserFromDB() {

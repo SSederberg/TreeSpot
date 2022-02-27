@@ -15,17 +15,23 @@ import io.appwrite.services.Database
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.core.api.IViewModel
+import net.n4dev.treespot.db.TreeSpotDatabases
+import net.n4dev.treespot.db.TreeSpotFriendRequestsDatabase
+import net.n4dev.treespot.db.TreeSpotFriendsDatabase
+import net.n4dev.treespot.db.TreeSpotUserDB
+import net.n4dev.treespot.db.query.InsertFriendRequestQuery
 import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
 
  class AddFriendsViewModel : ViewModel(), IViewModel {
 
     private lateinit var awDatabase: Database
-//    private lateinit var localDatabase : TreeSpotDatabase
     private lateinit var client : Client
     private lateinit var avatars: Avatars
+    private lateinit var couchbase : TreeSpotDatabases
 
     private val friendRequestCollectionID = "Tree-Spot-Friend-Requests"
-     private val usersCollectionID = "treespot-users"
+    private val usersCollectionID = TreeSpotUserDB.name
+    private val friendsCollectionID = TreeSpotFriendsDatabase.name
     private val fieldUserID = "user_id"
     private val fieldFriendID = "friend_id"
     private val fieldFriendsSince = "friends_since"
@@ -34,24 +40,32 @@ import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
     override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
         awDatabase = Database(client)
-//        localDatabase = TreeSpotDatabase.getDatabase(context)
         avatars = Avatars(client)
+        couchbase = TreeSpotDatabases()
     }
 
 
     fun createFriendship(user : String, friend : String) {
         viewModelScope.launch {
-            val data = mapOf(fieldUserID to user,
-                             fieldFriendID to friend,
-                             fieldFriendsSince to System.currentTimeMillis())
+            val data = mapOf(TreeSpotFriendRequestsDatabase.CALLED_BY_ID to user,
+                             TreeSpotFriendRequestsDatabase.FRIEND_ID to friend,
+                             TreeSpotFriendRequestsDatabase.REQUEST_DATE to System.currentTimeMillis(),
+                             TreeSpotFriendRequestsDatabase.WAS_ACCEPTED to false)
 
             try {
                 val createFriendsResponse = awDatabase.createDocument(friendRequestCollectionID, "unique()", data, arrayListOf("role:member"))
+                insertRequestIntoDB(data)
             }catch (ex : AppwriteException) {
+                ex.printStackTrace()
                 Logger.e("An error occurred while trying to create Friendship! :(", ex)}
 
         }
     }
+
+     private fun insertRequestIntoDB(data: Map<String, Any>) {
+         InsertFriendRequestQuery.insert(data, couchbase.friendRequestsDB)
+     }
+
 
      fun searchByUsername(usernameInput : String, adapter : AddFriendsAdapter, calledByUsername : String){
 
@@ -69,6 +83,9 @@ import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
                     )
                 }
 
+//                val alreadyFriendsResponse = awDatabase.listDocuments(friendRequestCollectionID,
+//                listOf(Query.equal(TreeSpotFriendRequestsDatabase.CALLED_BY_ID, calledByUsername)))
+
                 val returnedAvatars = ArrayList<ByteArray>()
 
                 for (i in 0 until queryResponse.documents.size) {
@@ -83,6 +100,7 @@ import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
                 adapter.setAvatars(returnedAvatars)
                 adapter.notifyItemRangeChanged(0, queryResponse.documents.size)
             }catch (ex: AppwriteException) {
+                ex.printStackTrace()
                 Logger.e(ex, "")
             }
          }

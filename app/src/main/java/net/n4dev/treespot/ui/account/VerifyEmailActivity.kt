@@ -39,7 +39,7 @@ class VerifyEmailActivity : TreeSpotActivity() {
             insertUserIntoDB()
             val bundle = Bundle()
             bundle.putString(MainActivity.ARG_USER_ID, accountID)
-            bundle.putString(MainActivity.ARG_USER_NAME, username)
+            bundle.putString(MainActivity.ARG_USER_EMAIL, username)
             startActivity(bundle, MainActivity::class.java, this)
         }
     }

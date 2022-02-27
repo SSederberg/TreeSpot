@@ -136,4 +136,10 @@ public class User implements IUser {
     public void setCurrentSessionID(@NonNull String string) {
         this.currentSessionID = string;
     }
+
+    public static User convertFromAWUser(io.appwrite.models.User user) {
+        User returnedUser = new User(user.getName(), user.getEmail(), UUID.fromString(user.getId()));
+        returnedUser.setAccountCreationDate(user.getRegistration());
+        return returnedUser;
+    }
 }

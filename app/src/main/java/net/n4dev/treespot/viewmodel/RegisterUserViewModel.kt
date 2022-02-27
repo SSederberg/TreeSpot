@@ -41,6 +41,7 @@ class RegisterUserViewModel : ViewModel(), IViewModel {
               val userResponse = account.create(userID.toString(), emailAddress, password, username)
               insertUserIntoDB(userResponse, database)
           }catch (e : AppwriteException) {
+              e.printStackTrace()
               Logger.e(e, "Failure to create new account!")
           }
         }

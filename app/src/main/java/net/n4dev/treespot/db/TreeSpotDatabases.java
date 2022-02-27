@@ -14,14 +14,18 @@ public class TreeSpotDatabases {
     private static Database friendsDB;
     private static Database friendRequestsDB;
     private static Database userDB;
+    DatabaseConfiguration configuration;
 
     public void init(Context context) throws CouchbaseLiteException {
         CouchbaseLite.init(context);
 
-        DatabaseConfiguration configuration = new DatabaseConfiguration();
 
-        configuration.setDirectory(context.getFilesDir().getAbsolutePath());
+        configuration = new DatabaseConfiguration();
 
+        String destPath = context.getFilesDir().getPath();
+        destPath = destPath.substring(0, destPath.lastIndexOf("/")) + "/databases";
+
+        configuration.setDirectory(destPath);
 
       if(treeSpotDB == null || spotsDB == null || friendsDB == null || friendRequestsDB == null) {
           treeSpotDB = new Database(TreeSpotsDatabase.name, configuration);
@@ -49,6 +53,16 @@ public class TreeSpotDatabases {
     }
 
     public Database getUserDB() {
-        return userDB;
+        if(userDB != null) {
+            return userDB;
+        }
+
+        try {
+            return new Database(TreeSpotUserDB.name, configuration);
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
