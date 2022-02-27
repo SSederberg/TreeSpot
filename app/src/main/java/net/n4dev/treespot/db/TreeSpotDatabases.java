@@ -14,6 +14,7 @@ public class TreeSpotDatabases {
     private static Database friendsDB;
     private static Database friendRequestsDB;
     private static Database userDB;
+    private static Database mediaDB;
     DatabaseConfiguration configuration;
 
     public void init(Context context) throws CouchbaseLiteException {
@@ -27,12 +28,14 @@ public class TreeSpotDatabases {
 
         configuration.setDirectory(destPath);
 
-      if(treeSpotDB == null || spotsDB == null || friendsDB == null || friendRequestsDB == null) {
+      if(treeSpotDB == null || spotsDB == null || friendsDB == null || friendRequestsDB == null
+      || mediaDB == null) {
           treeSpotDB = new Database(TreeSpotsDatabase.name, configuration);
           spotsDB = new Database(TreeSpotsDatabase.name, configuration);
           friendsDB = new Database(TreeSpotFriendsDatabase.name, configuration);
           friendRequestsDB = new Database(TreeSpotFriendRequestsDatabase.name, configuration);
           userDB = new Database(TreeSpotUserDB.name, configuration);
+          mediaDB = new Database(TreeSpotMediaDatabase.name, configuration);
       }
     }
 

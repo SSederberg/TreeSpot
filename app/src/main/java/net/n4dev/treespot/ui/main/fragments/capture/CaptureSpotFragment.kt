@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Surface.ROTATION_90
 import android.view.View
 import android.view.ViewGroup
 import androidx.camera.core.CameraSelector
@@ -60,7 +61,7 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
         if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(),  TreeSpotActivity.TREESPOT_PERMISSIONS, cameraRequestCode)
         } else {
-//            setupCamera()
+            setupCamera()
         }
 
         binding.captureSpotAction.setOnClickListener {
@@ -87,7 +88,7 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
     ) {
         if(requestCode == cameraRequestCode) {
             if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                setupCamera()
+                setupCamera()
             } else {
                 ActivityUtil.snack(binding.root, "Unable to capture your amazing tree spots!", true)
             }
@@ -105,13 +106,13 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
                     .build()
 
                 val preview = Preview.Builder()
-                    .setTargetRotation(binding.root.display.rotation)
+                    .setTargetRotation(ROTATION_90)
                     .build().also {
                         it.setSurfaceProvider(binding.captureSpotPreview.surfaceProvider)
                     }
 
                 imageCapture = ImageCapture.Builder()
-                    .setTargetRotation(binding.root.display.rotation)
+                    .setTargetRotation(ROTATION_90)
                     .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
                     .setFlashMode(ImageCapture.FLASH_MODE_AUTO)
                     .build()
@@ -131,12 +132,13 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
     }
 
     private fun takePicture() {
-        val imageFile = ActivityUtil.getAppImagesDirectoryAsFile(requireActivity())
+        val imageFile = File(ActivityUtil.getAppImagesDirectory(requireActivity()) + "/" + System.currentTimeMillis() + ".png")
         val outputFileOptions = ImageCapture.OutputFileOptions.Builder(imageFile).build()
         val errorContext = super.requireContext()
         imageCapture!!.takePicture(outputFileOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                TODO("Not yet implemented")
+              Logger.d(outputFileResults.savedUri)
+
             }
 
             override fun onError(exception: ImageCaptureException) {
