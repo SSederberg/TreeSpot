@@ -19,6 +19,7 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.orhanobut.logger.Logger
 import net.n4dev.treespot.databinding.FragmentCaptureSpotBinding
 import net.n4dev.treespot.ui.TreeSpotActivity
+import net.n4dev.treespot.ui.addspot.AddSpotActivity
 import net.n4dev.treespot.util.ActivityUtil
 import java.io.File
 import java.util.concurrent.ExecutionException
@@ -42,6 +43,8 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
     private lateinit var pictureDir : File
     private val cameraRequestCode = 6066
+    private var imageCount = 0
+    private var imagesCaptured = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +68,21 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
         }
 
         binding.captureSpotAction.setOnClickListener {
-            takePicture()
+            if(imageCount == 0) {
+                takePicture()
+                imageCount++
+                ActivityUtil.toast(requireContext(), "Take two more pictures to capture this spot!", false)
+            } else if(imageCount == 1) {
+               takePicture()
+               imageCount++
+               ActivityUtil.toast(requireContext(), "Take one more picture to capture this spot!", false)
+           } else if(imageCount == 2) {
+               takePicture()
+               val bundle = Bundle()
+               bundle.putStringArrayList(AddSpotActivity.ARG_IMAGES_ARRAY, imagesCaptured)
+                ActivityUtil.startActivity(bundle, AddSpotActivity::class.java, requireActivity())
+           }
+
         }
 
         return binding.root
@@ -137,7 +154,7 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
         val errorContext = super.requireContext()
         imageCapture!!.takePicture(outputFileOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-              Logger.d(outputFileResults.savedUri)
+                imagesCaptured.add(outputFileResults.savedUri.toString())
 
             }
 

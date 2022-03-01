@@ -30,18 +30,18 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/spot_private_name"
-        app:startIconDrawable="@drawable/ic_person_pin_circle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/this_spot_s_private_name"
-        android:visibility="visible"
+        android:visibility="gone"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spot_public_name"
-        app:startIconContentDescription="Your private name for this spot">
+        app:startIconContentDescription="Your private name for this spot"
+        app:startIconDrawable="@drawable/ic_person_pin_circle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/spot_private_text"
@@ -64,7 +64,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView2"
+        android:id="@+id/photos_list"
         android:layout_width="0dp"
         android:layout_height="250dp"
         android:layout_marginStart="16dp"
@@ -89,9 +89,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="# of 3 photos/videos required"
+        android:text="# of 2 photos/videos required"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+        app:layout_constraintTop_toBottomOf="@+id/photos_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
