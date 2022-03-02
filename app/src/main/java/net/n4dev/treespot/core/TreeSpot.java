@@ -6,25 +6,15 @@ import net.n4dev.treespot.core.api.ITreeSpot;
 
 public class TreeSpot implements ITreeSpot {
 
-    public TreeSpot() {
-    }
+    public TreeSpot() { }
 
-
-    private Integer localUID;
     private String latNorth;
     private String longWest;
     private Long   creationDate;
     private String spotID;
     private String description;
+    private String privateDescription;
     private String spotOwnerID;
-
-    public Integer getLocalUID() {
-        return localUID;
-    }
-
-    public void setLocalUID(Integer localUID) {
-        this.localUID = localUID;
-    }
 
     @Override
     public String getLatNorth() {
@@ -106,5 +96,16 @@ public class TreeSpot implements ITreeSpot {
     @Override
     public void setCreationDate(long date) {
         this.creationDate = date;
+    }
+
+    @NonNull
+    @Override
+    public String getPrivateDescription() {
+        return privateDescription;
+    }
+
+    @Override
+    public void setPrivateDescription(@NonNull String string) {
+        this.privateDescription = string;
     }
 }

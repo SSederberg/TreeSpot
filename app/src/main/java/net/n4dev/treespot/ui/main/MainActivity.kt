@@ -76,6 +76,10 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
                 activeMenu = R.menu.menu_main_friends
                 invalidateOptionsMenu()
                 currentFragment = MyFriendsFragment()
+
+                supportFragmentManager.beginTransaction()
+                    .replace<MyFriendsFragment>(R.id.main_fragment_container)
+                    .commit()
                 return true
             }
 
@@ -84,6 +88,10 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
                 activeMenu = R.menu.menu_main_spots
                 invalidateOptionsMenu()
                 currentFragment = MySpotsFragment()
+
+                supportFragmentManager.beginTransaction()
+                    .replace<MySpotsFragment>(R.id.main_fragment_container)
+                    .commit()
                 return true
             }
 
@@ -92,6 +100,10 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
                 activeMenu = R.menu.menu_main_capture_spot
                 invalidateOptionsMenu()
                 currentFragment = CaptureSpotFragment()
+
+                supportFragmentManager.beginTransaction()
+                    .replace<CaptureSpotFragment>(R.id.main_fragment_container)
+                    .commit()
                 return true
             }
         }

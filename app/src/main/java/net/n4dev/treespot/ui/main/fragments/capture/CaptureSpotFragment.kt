@@ -165,22 +165,4 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
 
         })
     }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         * @return A new instance of fragment CaptureSpotFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CaptureSpotFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
-
-        const val BACKSTACK = "CAPTURE_SPOT_BACKSTACK"
-    }
 }

@@ -8,5 +8,4 @@ class AddSpotPhotosViewHolder(private val binding : AdapteritemPhotoAddBinding) 
     fun getXMLBinding() : AdapteritemPhotoAddBinding {
         return binding
     }
-
 }
