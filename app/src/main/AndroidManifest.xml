@@ -77,6 +77,14 @@
                 <data android:scheme="appwrite-callback-treespot-dev" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".firebase.TreespotFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

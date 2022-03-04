@@ -1,7 +1,11 @@
 package net.n4dev.treespot.ui
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import net.n4dev.treespot.BuildConfig
@@ -17,6 +21,7 @@ import java.io.File
 
 class SplashActivity : TreeSpotActivity() {
 
+    private val TAG = "Splash_Treebase"
     private lateinit var binding : ActivitySplashBinding
     private lateinit var userAuthorizedViewModel: UserAuthorizedViewModel
     private val db = TreeSpotDatabases()
@@ -25,6 +30,7 @@ class SplashActivity : TreeSpotActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         initializeFolders()
+        initFirebase()
         db.init(this)
         Logger.addLogAdapter(AndroidLogAdapter(developmentFormatStrategy))
         setContentView(binding.root)
@@ -119,5 +125,23 @@ class SplashActivity : TreeSpotActivity() {
         }
 
         return false
+    }
+
+    private fun initFirebase() {
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                // Get new FCM registration token
+                val token = task.result
+
+                // Log and toast
+                val msg = token;
+                Log.d(TAG, msg)
+                Toast.makeText(this@SplashActivity, msg, Toast.LENGTH_SHORT).show()
+            })
     }
 }
