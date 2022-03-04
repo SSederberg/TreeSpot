@@ -21,8 +21,7 @@ class TreespotFirebaseMessagingService : FirebaseMessagingService() {
 
         Log.d(TAG, "From: ${remoteMessage.from}")
         if (remoteMessage.data.isNotEmpty()) {
-            Log.d(TAG, "Message data payload: ${remoteMessage.data}")
-
+//            listener.onNotificationWithData(remoteMessage)
         }
 
         // Check if message contains a notification payload.
@@ -31,11 +30,5 @@ class TreespotFirebaseMessagingService : FirebaseMessagingService() {
         }
 
 
-    }
-
-    companion object {
-        fun init() {
-
-        }
     }
 }

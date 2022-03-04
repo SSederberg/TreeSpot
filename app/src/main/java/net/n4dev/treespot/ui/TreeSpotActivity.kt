@@ -3,15 +3,17 @@ package net.n4dev.treespot.ui
 import android.Manifest
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.messaging.RemoteMessage
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import net.n4dev.treespot.core.TreeSpot
 import net.n4dev.treespot.core.User
+import net.n4dev.treespot.core.api.IFirebaseMessage
 import net.n4dev.treespot.db.TreeSpotDatabases
 import net.n4dev.treespot.db.query.GetUserQuery
 
 
-open class TreeSpotActivity : AppCompatActivity() {
+open class TreeSpotActivity : AppCompatActivity(), IFirebaseMessage {
 
     private val db = TreeSpotDatabases()
 
@@ -50,6 +52,9 @@ open class TreeSpotActivity : AppCompatActivity() {
 
     }
 
+    override fun onNotificationWithData(remoteMessage: RemoteMessage) {
+        Logger.d("Invoked in TreeSpotActivity")
+    }
 
     fun getSharedPreferences() : SharedPreferences {
         return getSharedPreferences(PREFS_NAME, MODE_PRIVATE)

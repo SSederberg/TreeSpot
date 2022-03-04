@@ -1,5 +1,8 @@
 package net.n4dev.treespot.ui
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -9,6 +12,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import net.n4dev.treespot.BuildConfig
+import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.ActivitySplashBinding
 import net.n4dev.treespot.db.TreeSpotDatabases
 import net.n4dev.treespot.ui.account.RegisterAccountActivity
@@ -143,5 +147,16 @@ class SplashActivity : TreeSpotActivity() {
                 Log.d(TAG, msg)
                 Toast.makeText(this@SplashActivity, msg, Toast.LENGTH_SHORT).show()
             })
+
+        val name = getString(R.string.channel_name)
+        val descriptionText = getString(R.string.channel_description)
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel("ts_not_id", name, importance).apply {
+            description = descriptionText
+        }
+        // Register the channel with the system
+        val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+
     }
 }

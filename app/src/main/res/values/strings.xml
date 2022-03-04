@@ -36,4 +36,6 @@
     <string name="this_spot_s_name">This spot\'s name</string>
     <string name="different_public_and_private_names">Different Public and Private Names?</string>
     <string name="this_spot_s_private_name">This spot\'s private name</string>
+    <string name="channel_name">ts_not_channel</string>
+    <string name="channel_description">TreeSpot Main Notification Channel</string>
 </resources>
