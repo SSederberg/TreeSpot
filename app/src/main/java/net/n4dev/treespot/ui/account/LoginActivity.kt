@@ -23,6 +23,7 @@ class LoginActivity : TreeSpotActivity() {
         setContentView(binding.root)
 
         binding.loginButtonAttempt.setOnClickListener(onLoginAttempt)
+        binding.loginResetPassword.setOnClickListener(onResetPassword)
         loginModel = ViewModelProvider(this).get(UserLoginViewModel::class.java)
         loginModel.init(this)
     }
@@ -56,5 +57,17 @@ class LoginActivity : TreeSpotActivity() {
         } else {
             ActivityUtil.snack(binding.root, "Missing either the email address or password!", true)
         }
+    }
+
+    private val onResetPassword = View.OnClickListener {
+        val email = binding.loginUsernameText.text.toString()
+
+        if(email.isNotEmpty()) {
+
+        } else {
+
+        }
+
+        ActivityUtil.startActivity(ResetPasswordActivity::class.java, this)
     }
 }

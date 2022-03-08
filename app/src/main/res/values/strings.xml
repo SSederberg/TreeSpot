@@ -38,4 +38,5 @@
     <string name="this_spot_s_private_name">This spot\'s private name</string>
     <string name="channel_name">ts_not_channel</string>
     <string name="channel_description">TreeSpot Main Notification Channel</string>
+    <string name="reset_password"><u>Reset Password</u></string>
 </resources>
