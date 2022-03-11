@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+<!--        <variable-->
+<!--            name="myTreeSpot"-->
+<!--            type="net.n4dev.treespot.core.api.ITreeSpot" />-->
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -48,10 +55,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
-        android:text="TextView"
+        android:text="Temp"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ai_treespot_preview"
         tools:text="@tools:sample/full_names" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

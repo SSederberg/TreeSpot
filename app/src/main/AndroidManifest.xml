@@ -29,9 +29,6 @@
             android:name=".ui.addspot.AddSpotActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.CaptureSpotInfoFillActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.account.ResetPasswordActivity"
             android:exported="false" />
         <activity

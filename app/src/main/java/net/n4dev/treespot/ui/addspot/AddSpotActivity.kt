@@ -8,7 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import net.n4dev.treespot.core.TreeSpot
+import net.n4dev.treespot.db.entity.TreeSpot
 import net.n4dev.treespot.databinding.ActivityAddSpotBinding
 import net.n4dev.treespot.viewmodel.AddSpotViewModel
 import java.io.FileNotFoundException

@@ -1,6 +1,6 @@
-package net.n4dev.treespot.db
+package net.n4dev.treespot.db.constants
 
-class TreeSpotMediaDatabase {
+class TreeSpotMediaConstants {
 
    companion object {
        const val name = "tree-spot-media"

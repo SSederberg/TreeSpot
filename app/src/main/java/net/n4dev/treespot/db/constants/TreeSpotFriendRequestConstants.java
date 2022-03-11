@@ -1,6 +1,6 @@
-package net.n4dev.treespot.db;
+package net.n4dev.treespot.db.constants;
 
-public class TreeSpotFriendRequestsDatabase {
+public class TreeSpotFriendRequestConstants {
 
     public static final String name = "treespot-friend-requests";
     public static final String REQUEST_DATE = "requestDate";

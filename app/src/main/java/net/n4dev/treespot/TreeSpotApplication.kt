@@ -6,6 +6,7 @@ import androidx.annotation.NonNull
 import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.CameraXConfig
 import io.appwrite.Client
+import net.n4dev.treespot.db.TreeSpotObjectBox
 
 
 class TreeSpotApplication : Application(), CameraXConfig.Provider {
@@ -13,6 +14,11 @@ class TreeSpotApplication : Application(), CameraXConfig.Provider {
     @NonNull
     override fun getCameraXConfig(): CameraXConfig {
         return Camera2Config.defaultConfig()
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        TreeSpotObjectBox.init(this)
     }
 
     companion object {

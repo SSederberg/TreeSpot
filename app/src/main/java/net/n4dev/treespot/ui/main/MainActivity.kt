@@ -3,7 +3,6 @@ package net.n4dev.treespot.ui.main
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -25,7 +24,10 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
     private lateinit var userID : String
     private lateinit var userName : String
     private var activeMenu = R.menu.menu_main_friends
-    private var currentFragment : Fragment =  CaptureSpotFragment()
+
+    private lateinit var mySpotsFragment : MySpotsFragment
+    private lateinit var captureSpotFragment : CaptureSpotFragment
+    private lateinit var myFriendsFragment : MyFriendsFragment
 
     companion object {
         const val ARG_USER_ID = "ARG_USER_ID"
@@ -43,6 +45,12 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
         } else {
             getUserFromDB()
         }
+
+
+        mySpotsFragment = MySpotsFragment()
+        captureSpotFragment = CaptureSpotFragment()
+        myFriendsFragment = MyFriendsFragment()
+
         setContentView(binding.root)
 
         setSupportActionBar(binding.mainIncludeTopbar.mainAppbarBar)
@@ -75,7 +83,6 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
                 activeMenu = R.menu.menu_main_friends
                 invalidateOptionsMenu()
-                currentFragment = MyFriendsFragment()
 
                 supportFragmentManager.beginTransaction()
                     .replace<MyFriendsFragment>(R.id.main_fragment_container)
@@ -87,7 +94,6 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
                 activeMenu = R.menu.menu_main_spots
                 invalidateOptionsMenu()
-                currentFragment = MySpotsFragment()
 
                 supportFragmentManager.beginTransaction()
                     .replace<MySpotsFragment>(R.id.main_fragment_container)
@@ -99,7 +105,6 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
 
                 activeMenu = R.menu.menu_main_capture_spot
                 invalidateOptionsMenu()
-                currentFragment = CaptureSpotFragment()
 
                 supportFragmentManager.beginTransaction()
                     .replace<CaptureSpotFragment>(R.id.main_fragment_container)

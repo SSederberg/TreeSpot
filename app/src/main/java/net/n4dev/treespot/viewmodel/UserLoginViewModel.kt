@@ -11,21 +11,16 @@ import io.appwrite.services.Account
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.core.api.IViewModel
-import net.n4dev.treespot.db.TreeSpotDatabases
-import net.n4dev.treespot.db.query.InsertUserQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
 
 class UserLoginViewModel : ViewModel(), IViewModel {
 
     private lateinit var client: Client
     private lateinit var account: Account
-    private lateinit var couchBase : TreeSpotDatabases
 
    override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
         account = Account(client)
-       couchBase = TreeSpotDatabases()
-       couchBase.init(context)
     }
 
     fun attemptLogin(emailAddress : String, password : String, sharedPreferences: SharedPreferences) {
@@ -46,8 +41,7 @@ class UserLoginViewModel : ViewModel(), IViewModel {
     }
 
     private fun createUserInDB(get: User) {
-        val convert = net.n4dev.treespot.core.User.convertFromAWUser(get)
-        InsertUserQuery.insert(convert, couchBase.userDB)
+        val convert = net.n4dev.treespot.db.entity.User.convertFromAWUser(get)
     }
 
     fun sessionExists() : Boolean {

@@ -1,20 +1,50 @@
-package net.n4dev.treespot.core;
+package net.n4dev.treespot.db.entity;
 
 import androidx.annotation.NonNull;
 
 import net.n4dev.treespot.core.api.ITreeSpot;
+import net.n4dev.treespot.db.constants.TreeSpotsConstants;
 
+import io.objectbox.annotation.ConflictStrategy;
+import io.objectbox.annotation.DatabaseType;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+import io.objectbox.annotation.Index;
+import io.objectbox.annotation.NameInDb;
+import io.objectbox.annotation.Type;
+import io.objectbox.annotation.Unique;
+
+@Entity
 public class TreeSpot implements ITreeSpot {
 
-    public TreeSpot() { }
 
+    @Id
+    public Long localID;
+
+    @NameInDb(TreeSpotsConstants.SPOT_LAT_NORTH)
     private String latNorth;
+
+    @NameInDb(TreeSpotsConstants.SPOT_LONG_WEST)
     private String longWest;
-    private Long   creationDate;
-    private String spotID;
+
+    @Index
+    @NameInDb(TreeSpotsConstants.SPOT_CREATION_DATE)
+    private Long  creationDate;
+
+    @Unique(onConflict = ConflictStrategy.REPLACE)
+    @NameInDb(TreeSpotsConstants.SPOT_UUID)
+    private  String spotID;
+
+    @NameInDb(TreeSpotsConstants.SPOT_DESCRIPTION)
     private String description;
+
+    @NameInDb(TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION)
     private String privateDescription;
+
+    @NameInDb(TreeSpotsConstants.SPOT_OWNER_ID)
     private String spotOwnerID;
+
+    public TreeSpot() { }
 
     @Override
     public String getLatNorth() {

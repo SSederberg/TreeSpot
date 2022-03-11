@@ -1,6 +1,6 @@
-package net.n4dev.treespot.db;
+package net.n4dev.treespot.db.constants;
 
-public class TreeSpotUserDB {
+public class TreeSpotUserConstants {
 
     public static final String name = "treespot-users";
     public static final String USERNAME      = "user_name";

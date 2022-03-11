@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
@@ -14,13 +13,16 @@ import com.orhanobut.logger.Logger
 import net.n4dev.treespot.BuildConfig
 import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.ActivitySplashBinding
-import net.n4dev.treespot.db.TreeSpotDatabases
+import net.n4dev.treespot.db.TreeSpotObjectBox
+import net.n4dev.treespot.db.entity.Friend
+import net.n4dev.treespot.db.entity.TreeSpot
 import net.n4dev.treespot.ui.account.RegisterAccountActivity
 import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DeviceConnectionHelper
 import net.n4dev.treespot.viewmodel.UserAuthorizedViewModel
 import java.io.File
+import java.util.*
 
 
 class SplashActivity : TreeSpotActivity() {
@@ -28,14 +30,14 @@ class SplashActivity : TreeSpotActivity() {
     private val TAG = "Splash_Treebase"
     private lateinit var binding : ActivitySplashBinding
     private lateinit var userAuthorizedViewModel: UserAuthorizedViewModel
-    private val db = TreeSpotDatabases()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         initializeFolders()
         initFirebase()
-        db.init(this)
+        TreeSpotObjectBox.purgeStores()
+        generateSampleData()
         Logger.addLogAdapter(AndroidLogAdapter(developmentFormatStrategy))
         setContentView(binding.root)
         userAuthorizedViewModel = ViewModelProvider(this).get(UserAuthorizedViewModel::class.java)
@@ -145,7 +147,7 @@ class SplashActivity : TreeSpotActivity() {
                 // Log and toast
                 val msg = token;
                 Log.d(TAG, msg)
-                Toast.makeText(this@SplashActivity, msg, Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@SplashActivity, msg, Toast.LENGTH_SHORT).show()
             })
 
         val name = getString(R.string.channel_name)
@@ -159,4 +161,36 @@ class SplashActivity : TreeSpotActivity() {
         notificationManager.createNotificationChannel(channel)
 
     }
+
+    private fun generateSampleData() {
+        val personalID = UUID.randomUUID()
+        val friendBox = TreeSpotObjectBox.getBoxStore().boxFor(Friend::class.java)
+        val spotBox = TreeSpotObjectBox.getBoxStore().boxFor(TreeSpot::class.java)
+
+        for(i in 0..10) {
+            val loopFriend = Friend()
+            val loopSpot = TreeSpot()
+
+            val removeRandom = (1000..1000000).random()
+            val randomNorth = (0..999999).random()
+            val randomWest = (0..999999).random()
+
+            loopFriend.setFriendID(UUID.randomUUID())
+            loopFriend.setUserID(UUID.randomUUID())
+            loopFriend.setFriendsSince(System.currentTimeMillis() - removeRandom)
+            loopFriend.setFriendPairID(personalID);
+
+            loopSpot.setCreationDate(System.currentTimeMillis() - removeRandom)
+            loopSpot.setDescription("Description for Spot #" + i)
+            loopSpot.setPrivateDescription("Private Description for Spot #" + i)
+            loopSpot.setSpotOwnerID(personalID.toString())
+            loopSpot.setSpotID(UUID.randomUUID().toString())
+            loopSpot.setLongWest("-91." + randomWest)
+            loopSpot.setLatNorth("47." + randomNorth)
+
+            friendBox.put(loopFriend)
+            spotBox.put(loopSpot)
+        }
+    }
+
 }

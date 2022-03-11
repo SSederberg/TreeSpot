@@ -1,4 +1,4 @@
-package net.n4dev.treespot.core
+package net.n4dev.treespot.db.entity
 
 class TypeConst {
 

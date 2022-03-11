@@ -13,7 +13,6 @@ import io.appwrite.services.Database
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.core.api.IViewModel
-import net.n4dev.treespot.db.query.InsertUserQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
 import java.util.*
 
@@ -35,11 +34,11 @@ class RegisterUserViewModel : ViewModel(), IViewModel {
         awDatabase = Database(client)
     }
 
-    fun registerAccount(emailAddress : String, password : String, username : String, userID: UUID, database: com.couchbase.lite.Database) {
+    fun registerAccount(emailAddress : String, password : String, username : String, userID: UUID) {
         viewModelScope.launch {
           try {
               val userResponse = account.create(userID.toString(), emailAddress, password, username)
-              insertUserIntoDB(userResponse, database)
+              insertUserIntoDB(userResponse)
           }catch (e : AppwriteException) {
               e.printStackTrace()
               Logger.e(e, "Failure to create new account!")
@@ -51,12 +50,15 @@ class RegisterUserViewModel : ViewModel(), IViewModel {
         preferences.edit().putString(TreeSpotActivity.PREF_ACTIVE_USERNAME_ID, userID).apply()
     }
 
-    private suspend fun insertUserIntoDB(awUser: User, database: com.couchbase.lite.Database) {
+    private suspend fun insertUserIntoDB(awUser: User) {
 
         //Local database
-        val user = net.n4dev.treespot.core.User(awUser.name, awUser.email, UUID.fromString(awUser.id))
+        val user = net.n4dev.treespot.db.entity.User(
+            awUser.name,
+            awUser.email,
+            UUID.fromString(awUser.id)
+        )
         user.setAccountCreationDate(System.currentTimeMillis())
-        InsertUserQuery.insert(user, database)
 
         val data = mapOf(userAttID to user.getUserID(),
             userAttCount to 0,

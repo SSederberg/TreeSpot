@@ -6,16 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.messaging.RemoteMessage
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
-import net.n4dev.treespot.core.TreeSpot
-import net.n4dev.treespot.core.User
 import net.n4dev.treespot.core.api.IFirebaseMessage
-import net.n4dev.treespot.db.TreeSpotDatabases
-import net.n4dev.treespot.db.query.GetUserQuery
+import net.n4dev.treespot.db.entity.TreeSpot
+import net.n4dev.treespot.db.entity.User
 
 
 open class TreeSpotActivity : AppCompatActivity(), IFirebaseMessage {
 
-    private val db = TreeSpotDatabases()
 
     val developmentFormatStrategy = PrettyFormatStrategy.newBuilder()
         .showThreadInfo(true)
@@ -25,11 +22,11 @@ open class TreeSpotActivity : AppCompatActivity(), IFirebaseMessage {
 
     fun loadUser(string : String) : ArrayList<User> {
         val returnedList: ArrayList<User> = ArrayList()
-        val query = GetUserQuery.get(string)
+//        val query = GetUserQuery(db.userDB, string)
 
         val loadThread = Thread {
-            val resultSet = query.execute();
-            Logger.d(resultSet.allResults())
+//            val resultSet = query.getQuery().execute()
+//            Logger.d(resultSet.allResults())
         }
 
         loadThread.start()
@@ -58,10 +55,6 @@ open class TreeSpotActivity : AppCompatActivity(), IFirebaseMessage {
 
     fun getSharedPreferences() : SharedPreferences {
         return getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-    }
-
-    fun getDatabases() : TreeSpotDatabases {
-        return db
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package net.n4dev.treespot.core;
+package net.n4dev.treespot.db.entity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,29 +6,58 @@ import androidx.annotation.Nullable;
 import net.n4dev.treespot.core.api.IFriend;
 import net.n4dev.treespot.core.api.ITreeSpot;
 import net.n4dev.treespot.core.api.IUser;
+import net.n4dev.treespot.db.TreeSpotObjectBox;
+import net.n4dev.treespot.db.constants.TreeSpotUserConstants;
+import net.n4dev.treespot.db.constants.TreeSpotsConstants;
+import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery;
 
 import java.util.List;
 import java.util.UUID;
 
-import io.appwrite.models.Jwt;
+import io.objectbox.Box;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+import io.objectbox.annotation.NameInDb;
+import io.objectbox.query.Query;
 
+@Entity
 public class User implements IUser {
+
+    @Id
+    public Long localID;
+
+    @NameInDb(TreeSpotUserConstants.USER_ID)
+    private String userID;
+
+    @NameInDb(TreeSpotUserConstants.USERNAME)
+    private String username;
+
+    @NameInDb(TreeSpotUserConstants.EMAIL_ADDRESS)
+    private String emailAddress;
+
+    @NameInDb(TreeSpotUserConstants.USER_CREATION_DATE)
+    private Long accountCreationDate;
+
+    @NameInDb(TreeSpotUserConstants.USER_ACTIVE_SESSION_ID)
+    @Nullable private String currentSessionID;
+
+//    private final Box<User> userBoxInstance;
+//    private final Box<TreeSpot> treeSpotBoxInstance;
 
     public User() {
         //Required to compile
+//        userBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(User.class);
+//        treeSpotBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(TreeSpot.class);
     }
 
     public User(String username, String emailAddress, UUID uuid) {
+//        userBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(User.class);
+//        treeSpotBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(TreeSpot.class);
+
         this.username = username;
         this.emailAddress = emailAddress;
         this.userID = uuid.toString();
     }
-
-    private String userID;
-    private String username;
-    private String emailAddress;
-    private Long accountCreationDate;
-    @Nullable private String currentSessionID;
 
     @NonNull
     @Override
@@ -39,7 +68,7 @@ public class User implements IUser {
     @NonNull
     @Override
     public String getEntityID() {
-        return null;
+        return userID;
     }
 
     @Override
@@ -97,36 +126,21 @@ public class User implements IUser {
 
     @NonNull
     @Override
-    public List<ITreeSpot> getUserSpots() {
+    public List<TreeSpot> getUserSpots() {
+//        Query<TreeSpot> query = new GetUserTreeSpotsQuery(treeSpotBoxInstance, TreeSpotsConstants.name, this.userID).buildQuery();
+//        List<TreeSpot> returnedSpots = query.find();
+//        query.close();
+//        return returnedSpots;
         return null;
-    }
-
-    @Override
-    public void assignSpot(@NonNull ITreeSpot treespot) {
-
-    }
-
-    @Override
-    public void removeSpot(@NonNull ITreeSpot treespot) {
-
     }
 
     @NonNull
     @Override
-    public List<IFriend> getUserFriends() {
+    public List<Friend> getUserFriends() {
         return null;
     }
 
-    @Override
-    public void addFriend(@NonNull UUID friendUUID) {
-
-    }
-
-    @Override
-    public void removeFriend(@NonNull UUID friendUUID) {
-
-    }
-
+    @Nullable
     @Override
     public String getCurrentSessionID() {
         return currentSessionID;

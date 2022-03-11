@@ -5,7 +5,6 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.orhanobut.logger.Logger
 import net.n4dev.treespot.databinding.ActivityVerifyEmailBinding
-import net.n4dev.treespot.db.query.UpdateUserQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil.Companion.startActivity
@@ -36,7 +35,6 @@ class VerifyEmailActivity : TreeSpotActivity() {
         binding.verifyEmailAuth.setOnClickListener { l: View? ->
             binding.verifyEmailLoading.visibility = View.VISIBLE
 
-            insertUserIntoDB()
             val bundle = Bundle()
             bundle.putString(MainActivity.ARG_USER_ID, accountID)
             bundle.putString(MainActivity.ARG_USER_EMAIL, username)
@@ -44,9 +42,6 @@ class VerifyEmailActivity : TreeSpotActivity() {
         }
     }
 
-    private fun insertUserIntoDB() {
-        UpdateUserQuery.update()
-    }
 
     private fun setupFromArgs(extras: Bundle?) {
         accountID = extras!!.getString(ARG_USER_UUID)
