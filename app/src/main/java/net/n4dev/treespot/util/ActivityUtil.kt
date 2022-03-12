@@ -3,6 +3,7 @@ package net.n4dev.treespot.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -59,6 +60,17 @@ class ActivityUtil {
 
         fun toast(context: Context, string: String, error: Boolean) {
             Toast.makeText(context, string, Toast.LENGTH_LONG).show()
+        }
+
+        fun goToGoogleMaps(context : Context, uri : Uri) {
+            val mapsIntent = Intent(Intent.ACTION_VIEW, uri)
+            mapsIntent.setPackage("com.google.android.apps.maps")
+
+            if(mapsIntent.resolveActivity(context.packageManager) != null) {
+                context.startActivity(mapsIntent)
+            } else {
+                ActivityUtil.toast(context, "Failed to find Google Maps on device!", true)
+            }
         }
     }
 

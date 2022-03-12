@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-<!--        <variable-->
-<!--            name="myTreeSpot"-->
-<!--            type="net.n4dev.treespot.core.api.ITreeSpot" />-->
+        <variable
+            name="myTreeSpot"
+            type="net.n4dev.treespot.core.api.ITreeSpot" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -32,13 +32,14 @@
         android:layout_marginLeft="16dp"
         android:textSize="15sp"
         android:textStyle="bold"
+        android:text="@{myTreeSpot.description}"
         app:layout_constraintBottom_toTopOf="@+id/ai_treespot_friend"
         app:layout_constraintStart_toEndOf="@+id/ai_treespot_preview"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@tools:sample/cities" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/ai_treespot_gmap"
         style="@style/Theme.TreeSpot.ImageButton"
         android:layout_width="50dp"
         android:layout_height="50dp"

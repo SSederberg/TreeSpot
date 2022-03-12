@@ -15,9 +15,11 @@ import java.util.List;
 import java.util.UUID;
 
 import io.objectbox.Box;
+import io.objectbox.annotation.ConflictStrategy;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.NameInDb;
+import io.objectbox.annotation.Unique;
 import io.objectbox.query.Query;
 
 @Entity
@@ -29,6 +31,7 @@ public class User implements IUser {
     @NameInDb(TreeSpotUserConstants.USER_ID)
     private String userID;
 
+    @Unique(onConflict = ConflictStrategy.REPLACE)
     @NameInDb(TreeSpotUserConstants.USERNAME)
     private String username;
 

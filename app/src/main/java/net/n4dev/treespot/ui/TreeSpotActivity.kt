@@ -7,7 +7,6 @@ import com.google.firebase.messaging.RemoteMessage
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import net.n4dev.treespot.core.api.IFirebaseMessage
-import net.n4dev.treespot.db.entity.TreeSpot
 import net.n4dev.treespot.db.entity.User
 
 
@@ -22,21 +21,7 @@ open class TreeSpotActivity : AppCompatActivity(), IFirebaseMessage {
 
     fun loadUser(string : String) : ArrayList<User> {
         val returnedList: ArrayList<User> = ArrayList()
-//        val query = GetUserQuery(db.userDB, string)
 
-        val loadThread = Thread {
-//            val resultSet = query.getQuery().execute()
-//            Logger.d(resultSet.allResults())
-        }
-
-        loadThread.start()
-        loadThread.join()
-
-        return returnedList
-    }
-
-    fun loadTreeSpot(string : String) : ArrayList<TreeSpot> {
-        var returnedList: ArrayList<TreeSpot> = ArrayList()
 
         val loadThread = Thread {
 
@@ -46,7 +31,6 @@ open class TreeSpotActivity : AppCompatActivity(), IFirebaseMessage {
         loadThread.join()
 
         return returnedList
-
     }
 
     override fun onNotificationWithData(remoteMessage: RemoteMessage) {

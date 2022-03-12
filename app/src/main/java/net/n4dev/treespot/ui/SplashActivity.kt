@@ -30,6 +30,7 @@ class SplashActivity : TreeSpotActivity() {
     private val TAG = "Splash_Treebase"
     private lateinit var binding : ActivitySplashBinding
     private lateinit var userAuthorizedViewModel: UserAuthorizedViewModel
+    val personalID = "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -163,7 +164,7 @@ class SplashActivity : TreeSpotActivity() {
     }
 
     private fun generateSampleData() {
-        val personalID = UUID.randomUUID()
+
         val friendBox = TreeSpotObjectBox.getBoxStore().boxFor(Friend::class.java)
         val spotBox = TreeSpotObjectBox.getBoxStore().boxFor(TreeSpot::class.java)
 
@@ -178,7 +179,7 @@ class SplashActivity : TreeSpotActivity() {
             loopFriend.setFriendID(UUID.randomUUID())
             loopFriend.setUserID(UUID.randomUUID())
             loopFriend.setFriendsSince(System.currentTimeMillis() - removeRandom)
-            loopFriend.setFriendPairID(personalID);
+            loopFriend.setFriendPairID(UUID.fromString(personalID));
 
             loopSpot.setCreationDate(System.currentTimeMillis() - removeRandom)
             loopSpot.setDescription("Description for Spot #" + i)

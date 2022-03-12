@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import net.n4dev.treespot.databinding.AdapteritemTreespotLocationBinding
 import net.n4dev.treespot.databinding.FragmentMySpotsBinding
+import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery
 
 class MySpotsFragment() : Fragment() {
 
@@ -31,10 +33,13 @@ class MySpotsFragment() : Fragment() {
         _binding = FragmentMySpotsBinding.inflate(inflater, container, false)
 
         val adapterItemBinding = AdapteritemTreespotLocationBinding.inflate(LayoutInflater.from(requireContext()))
-
+        val queryClass = GetUserTreeSpotsQuery()
+        val query = queryClass.get("f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454")
         mySpotsViewHolder = MySpotViewHolder(adapterItemBinding)
-        mySpotsAdapter = MySpotsAdapter(mySpotsViewHolder)
+        mySpotsAdapter = MySpotsAdapter(mySpotsViewHolder, query)
 
+        binding.mySpotsList.adapter = mySpotsAdapter
+        binding.mySpotsList.layoutManager = LinearLayoutManager(requireContext())
         return binding.root
     }
 
