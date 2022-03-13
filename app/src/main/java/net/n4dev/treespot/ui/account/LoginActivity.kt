@@ -38,8 +38,9 @@ class LoginActivity : TreeSpotActivity() {
                 if(passwd.length >= 8) { //Minimum length required by Appwrite
                     loginModel.attemptLogin(email, passwd, super.getSharedPreferences()).also {
                         val bundle = Bundle()
+//                        val userID = loginModel.getLoggedInUserID()
 
-                        bundle.putString(MainActivity.ARG_USER_EMAIL, email)
+//                        bundle.putString(MainActivity.ARG_USER_ID, userID)
                         ActivityUtil.startActivity(bundle, MainActivity::class.java, this)
                     }
 

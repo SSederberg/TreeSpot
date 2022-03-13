@@ -3,6 +3,7 @@ package net.n4dev.treespot.core.api
 import androidx.annotation.Nullable
 import net.n4dev.treespot.db.entity.Friend
 import net.n4dev.treespot.db.entity.TreeSpot
+import java.util.*
 
 interface IUser : IEntity {
 
@@ -12,8 +13,8 @@ interface IUser : IEntity {
     fun getEmailAddress() : String
     fun setEmailAddress(email : String)
 
-    fun getUserID() : String
-    fun setUserID(userID : String)
+    fun getUserID() : UUID
+    fun setUserID(userID : UUID)
 
     fun getAccountCreationDate() : Long
     fun setAccountCreationDate(date : Long)

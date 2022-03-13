@@ -43,6 +43,10 @@ class ActivityUtil {
             return activity.filesDir.toString() + "/TS_Videos/"
         }
 
+        fun getAppFriendImagesDirectory(activity: Activity) : String {
+            return activity.filesDir.toString() + "/TS_Friends/"
+        }
+
         fun snack(view : View, string: String, error : Boolean) {
             val snackbar = Snackbar.make(view, string, Snackbar.LENGTH_LONG)
             val snackView = snackbar.view

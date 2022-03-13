@@ -3,12 +3,14 @@ package net.n4dev.treespot.ui.main
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import com.google.android.material.navigation.NavigationBarView
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.orhanobut.logger.Logger
 import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.ActivityMainBinding
+import net.n4dev.treespot.db.entity.User
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.ui.friends.add.AddFriendsActivity
 import net.n4dev.treespot.ui.main.fragments.capture.CaptureSpotFragment
@@ -17,17 +19,18 @@ import net.n4dev.treespot.ui.main.fragments.spots.MySpotsFragment
 import net.n4dev.treespot.ui.settings.SettingsActivity
 import net.n4dev.treespot.util.ActivityUtil
 
-class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListener {
+
+class MainActivity : TreeSpotActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var fragmentManager: FragmentManager
-    private lateinit var userID : String
-    private lateinit var userName : String
     private var activeMenu = R.menu.menu_main_friends
 
-    private lateinit var mySpotsFragment : MySpotsFragment
-    private lateinit var captureSpotFragment : CaptureSpotFragment
-    private lateinit var myFriendsFragment : MyFriendsFragment
+    private lateinit var mySpotsFragment : Fragment
+    private lateinit var captureSpotFragment : Fragment
+    private lateinit var myFriendsFragment : Fragment
+
+    private lateinit var user : User
 
     companion object {
         const val ARG_USER_ID = "ARG_USER_ID"
@@ -37,31 +40,23 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        getUserFromDB()
 
-        if(intent.extras != null) {
-            setupFromBundle(intent.extras!!)
-        }else if(savedInstanceState != null) {
-            setupFromBundle(savedInstanceState)
-        } else {
-            getUserFromDB()
-        }
-
-
-        mySpotsFragment = MySpotsFragment()
+        val id = user.getUserID()
+        mySpotsFragment = MySpotsFragment(id.toString())
         captureSpotFragment = CaptureSpotFragment()
-        myFriendsFragment = MyFriendsFragment()
+        myFriendsFragment = MyFriendsFragment(id.toString())
 
         setContentView(binding.root)
 
-        setSupportActionBar(binding.mainIncludeTopbar.mainAppbarBar)
-
+        setupViewPager()
         fragmentManager = supportFragmentManager
-        binding.mainBottomNavigation.setOnItemSelectedListener(this)
+    }
 
-        fragmentManager.commit {
-            replace<CaptureSpotFragment>(R.id.main_fragment_container)
-        }
-
+    private fun setupViewPager() {
+        val pagerAdapter = MainPagerAdapter(this)
+        binding.mainFragmentViewpager.adapter = pagerAdapter
+        binding.mainFragmentViewpager.currentItem = 1
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -75,46 +70,6 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
         return true
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-
-        when(item.itemId) {
-
-            R.id.bottom_nav_friends -> {
-
-                activeMenu = R.menu.menu_main_friends
-                invalidateOptionsMenu()
-
-                supportFragmentManager.beginTransaction()
-                    .replace<MyFriendsFragment>(R.id.main_fragment_container)
-                    .commit()
-                return true
-            }
-
-            R.id.bottom_nav_my_spots -> {
-
-                activeMenu = R.menu.menu_main_spots
-                invalidateOptionsMenu()
-
-                supportFragmentManager.beginTransaction()
-                    .replace<MySpotsFragment>(R.id.main_fragment_container)
-                    .commit()
-                return true
-            }
-
-            R.id.bottom_nav_take_spot -> {
-
-                activeMenu = R.menu.menu_main_capture_spot
-                invalidateOptionsMenu()
-
-                supportFragmentManager.beginTransaction()
-                    .replace<CaptureSpotFragment>(R.id.main_fragment_container)
-                    .commit()
-                return true
-            }
-        }
-
-        return false
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val itemID = item.itemId;
@@ -123,18 +78,38 @@ class MainActivity : TreeSpotActivity(), NavigationBarView.OnItemSelectedListene
             ActivityUtil.startActivity(SettingsActivity::class.java, this)
         } else if(itemID == R.id.menu_main_friends_add) {
             val bundle = Bundle()
-            bundle.putString(AddFriendsActivity.ARG_USER_ID, userID)
+
             ActivityUtil.startActivity(bundle, AddFriendsActivity::class.java, this)
         }
         return true
     }
 
-    private fun setupFromBundle(extras: Bundle) {
-        userID = extras.getString(ARG_USER_ID)!!
-        userName = extras.getString(ARG_USER_EMAIL)!!
-    }
 
     private fun getUserFromDB() {
+        val box = super.getBox(User::class.java)
 
+        user = box.all.get(0)
+    }
+
+    private inner class MainPagerAdapter(fragmentActivity: FragmentActivity) :
+        FragmentStateAdapter(fragmentActivity) {
+
+        private val DETAIL_PAGES = 3
+
+        override fun createFragment(position: Int): Fragment {
+            return when (position) {
+                0 -> mySpotsFragment
+                1 -> captureSpotFragment
+                2 -> myFriendsFragment
+                else -> {
+                    Logger.e("Position given by createFragment was not in range! Position: $position");
+                    captureSpotFragment
+                }
+            }
+        }
+
+        override fun getItemCount(): Int {
+            return DETAIL_PAGES
+        }
     }
 }

@@ -7,6 +7,7 @@ import net.n4dev.treespot.core.api.IFriend;
 import net.n4dev.treespot.core.api.ITreeSpot;
 import net.n4dev.treespot.core.api.IUser;
 import net.n4dev.treespot.db.TreeSpotObjectBox;
+import net.n4dev.treespot.db.UUIDConverter;
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants;
 import net.n4dev.treespot.db.constants.TreeSpotsConstants;
 import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 import io.objectbox.Box;
 import io.objectbox.annotation.ConflictStrategy;
+import io.objectbox.annotation.Convert;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.NameInDb;
@@ -29,7 +31,8 @@ public class User implements IUser {
     public Long localID;
 
     @NameInDb(TreeSpotUserConstants.USER_ID)
-    private String userID;
+    @Convert(converter = UUIDConverter.class, dbType = String.class)
+    private UUID userID;
 
     @Unique(onConflict = ConflictStrategy.REPLACE)
     @NameInDb(TreeSpotUserConstants.USERNAME)
@@ -59,7 +62,7 @@ public class User implements IUser {
 
         this.username = username;
         this.emailAddress = emailAddress;
-        this.userID = uuid.toString();
+        this.userID = uuid;
     }
 
     @NonNull
@@ -71,7 +74,7 @@ public class User implements IUser {
     @NonNull
     @Override
     public String getEntityID() {
-        return userID;
+        return userID.toString();
     }
 
     @Override
@@ -108,12 +111,12 @@ public class User implements IUser {
 
     @NonNull
     @Override
-    public String getUserID() {
+    public UUID getUserID() {
         return userID;
     }
 
     @Override
-    public void setUserID(@NonNull String userID) {
+    public void setUserID(@NonNull UUID userID) {
         this.userID = userID;
     }
 

@@ -16,6 +16,7 @@ import net.n4dev.treespot.databinding.ActivitySplashBinding
 import net.n4dev.treespot.db.TreeSpotObjectBox
 import net.n4dev.treespot.db.entity.Friend
 import net.n4dev.treespot.db.entity.TreeSpot
+import net.n4dev.treespot.db.entity.User
 import net.n4dev.treespot.ui.account.RegisterAccountActivity
 import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil
@@ -30,7 +31,7 @@ class SplashActivity : TreeSpotActivity() {
     private val TAG = "Splash_Treebase"
     private lateinit var binding : ActivitySplashBinding
     private lateinit var userAuthorizedViewModel: UserAuthorizedViewModel
-    val personalID = "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454"
+    val personalID = "ddd3536b-4a0f-4d10-852f-c2e9eda261bf"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,9 +87,11 @@ class SplashActivity : TreeSpotActivity() {
     private fun initializeFolders() {
         val imageFolder  = File(ActivityUtil.getAppImagesDirectory(this))
         val videoFolder = File(ActivityUtil.getAppVideosDirectory(this))
+        val friendImagesFolder = File(ActivityUtil.getAppFriendImagesDirectory(this))
 
         imageFolder.mkdirs()
         videoFolder.mkdirs()
+        friendImagesFolder.mkdirs()
     }
 
     private fun doesUserAccountExist() : Boolean {
@@ -110,7 +113,7 @@ class SplashActivity : TreeSpotActivity() {
             val prefs = getSharedPreferences()
             val username : String = prefs.getString(PREF_ACTIVE_USERNAME_ID, null) as String
 
-            val users = super.loadUser(username)
+            val users = super.getBox(User::class.java).all
 
             if(users.size == 0) {
                 return false
@@ -180,6 +183,10 @@ class SplashActivity : TreeSpotActivity() {
             loopFriend.setUserID(UUID.randomUUID())
             loopFriend.setFriendsSince(System.currentTimeMillis() - removeRandom)
             loopFriend.setFriendPairID(UUID.fromString(personalID));
+            loopFriend.setUsername("Friend #" + i)
+            loopFriend.setAccountCreationDate(System.currentTimeMillis() - removeRandom)
+            loopFriend.setEmailAddress("friend$i@test.net")
+
 
             loopSpot.setCreationDate(System.currentTimeMillis() - removeRandom)
             loopSpot.setDescription("Description for Spot #" + i)

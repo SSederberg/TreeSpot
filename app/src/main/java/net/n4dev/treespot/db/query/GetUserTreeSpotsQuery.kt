@@ -7,9 +7,11 @@ import net.n4dev.treespot.db.entity.TreeSpot_
 
 class GetUserTreeSpotsQuery {
 
-    private val queryBox = TreeSpotObjectBox.getBoxStore().boxFor(TreeSpot::class.java)
-    fun get(ownerID : String) : Query<TreeSpot> {
-        return queryBox.query(TreeSpot_.spotOwnerID.equal(ownerID)).build()
-    }
+   companion object {
+       private val queryBox = TreeSpotObjectBox.getBoxStore().boxFor(TreeSpot::class.java)
+       fun get(ownerID : String) : Query<TreeSpot> {
+           return queryBox.query(TreeSpot_.spotOwnerID.equal(ownerID)).build()
+       }
+   }
 
 }

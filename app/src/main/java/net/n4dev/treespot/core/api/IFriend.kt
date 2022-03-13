@@ -2,10 +2,7 @@ package net.n4dev.treespot.core.api
 
 import java.util.*
 
-interface IFriend : IEntity {
-
-    fun getUserID() : UUID
-    fun setUserID(uuid: UUID)
+interface IFriend : IUser {
 
     fun getFriendID() : UUID
     fun setFriendID(uuid: UUID)

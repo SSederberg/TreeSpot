@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.messaging.RemoteMessage
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
+import io.objectbox.Box
+import net.n4dev.treespot.core.api.IEntity
 import net.n4dev.treespot.core.api.IFirebaseMessage
-import net.n4dev.treespot.db.entity.User
+import net.n4dev.treespot.db.TreeSpotObjectBox
 
 
 open class TreeSpotActivity : AppCompatActivity(), IFirebaseMessage {
@@ -19,18 +21,8 @@ open class TreeSpotActivity : AppCompatActivity(), IFirebaseMessage {
         .methodCount(5)
         .build()
 
-    fun loadUser(string : String) : ArrayList<User> {
-        val returnedList: ArrayList<User> = ArrayList()
-
-
-        val loadThread = Thread {
-
-        }
-
-        loadThread.start()
-        loadThread.join()
-
-        return returnedList
+    fun <T : IEntity> getBox(klass : Class<T>): Box<T> {
+        return TreeSpotObjectBox.getBoxStore().boxFor(klass)
     }
 
     override fun onNotificationWithData(remoteMessage: RemoteMessage) {
