@@ -66,6 +66,7 @@ dependencies {
 //    implementation "androidx.sqlite:sqlite-ktx:2.2.0"
 
     implementation 'com.google.firebase:firebase-messaging-ktx:23.0.1'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
 
     debugImplementation("io.objectbox:objectbox-android-objectbrowser:$objectboxVersion")
     releaseImplementation("io.objectbox:objectbox-android:$objectboxVersion")

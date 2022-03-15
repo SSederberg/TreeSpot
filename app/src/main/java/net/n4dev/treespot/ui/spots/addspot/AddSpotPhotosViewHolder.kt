@@ -1,4 +1,4 @@
-package net.n4dev.treespot.ui.addspot
+package net.n4dev.treespot.ui.spots.addspot
 
 import androidx.recyclerview.widget.RecyclerView
 import net.n4dev.treespot.databinding.AdapteritemPhotoAddBinding

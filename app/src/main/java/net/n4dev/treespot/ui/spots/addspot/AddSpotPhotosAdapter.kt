@@ -1,4 +1,4 @@
-package net.n4dev.treespot.ui.addspot
+package net.n4dev.treespot.ui.spots.addspot
 
 import android.graphics.Bitmap
 import android.view.LayoutInflater

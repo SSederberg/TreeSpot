@@ -19,7 +19,7 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.orhanobut.logger.Logger
 import net.n4dev.treespot.databinding.FragmentCaptureSpotBinding
 import net.n4dev.treespot.ui.TreeSpotActivity
-import net.n4dev.treespot.ui.addspot.AddSpotActivity
+import net.n4dev.treespot.ui.spots.addspot.AddSpotActivity
 import net.n4dev.treespot.util.ActivityUtil
 import java.io.File
 import java.util.concurrent.ExecutionException

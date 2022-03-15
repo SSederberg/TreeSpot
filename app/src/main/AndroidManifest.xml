@@ -12,10 +12,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="${MAPS_API_KEY}" />
-
     <application
         android:name=".TreeSpotApplication"
         android:allowBackup="true"
@@ -25,8 +21,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TreeSpot"
         android:usesCleartextTraffic="true">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${GOOGLE_MAPS_API_KEY}" />
+
         <activity
-            android:name=".ui.addspot.AddSpotActivity"
+            android:name=".ui.spots.TreeSpotDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name="net.n4dev.treespot.ui.spots.addspot.AddSpotActivity"
             android:exported="false" />
         <activity
             android:name=".ui.account.ResetPasswordActivity"

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.orhanobut.logger.Logger
 import net.n4dev.treespot.R
 import net.n4dev.treespot.databinding.ActivityMainBinding
@@ -18,6 +19,7 @@ import net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragment
 import net.n4dev.treespot.ui.main.fragments.spots.MySpotsFragment
 import net.n4dev.treespot.ui.settings.SettingsActivity
 import net.n4dev.treespot.util.ActivityUtil
+import java.util.*
 
 
 class MainActivity : TreeSpotActivity() {
@@ -57,6 +59,32 @@ class MainActivity : TreeSpotActivity() {
         val pagerAdapter = MainPagerAdapter(this)
         binding.mainFragmentViewpager.adapter = pagerAdapter
         binding.mainFragmentViewpager.currentItem = 1
+
+        binding.mainFragmentViewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+               when(position) {
+                   0 -> {
+                       binding.mainIncludeTopbar.mainAppbarBar.setTitle("My Tree Spots")
+                       activeMenu = R.menu.menu_main_spots
+                       invalidateOptionsMenu()
+                   }
+                   1 -> {
+                       binding.mainIncludeTopbar.mainAppbarBar.setTitle("")
+                       activeMenu = R.menu.menu_main_capture_spot
+                       invalidateOptionsMenu()
+                   }
+                   2 -> {
+                       binding.mainIncludeTopbar.mainAppbarBar.setTitle("My Friends")
+                       activeMenu = R.menu.menu_main_friends
+                       invalidateOptionsMenu()
+                   }
+               }
+
+
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -88,7 +116,13 @@ class MainActivity : TreeSpotActivity() {
     private fun getUserFromDB() {
         val box = super.getBox(User::class.java)
 
-        user = box.all.get(0)
+        val users = box.all
+
+        if(users.size == 0) {
+            user = User("test", "test@test.com", UUID.randomUUID())
+        } else {
+            user = users.get(0)
+        }
     }
 
     private inner class MainPagerAdapter(fragmentActivity: FragmentActivity) :
@@ -111,5 +145,8 @@ class MainActivity : TreeSpotActivity() {
         override fun getItemCount(): Int {
             return DETAIL_PAGES
         }
+
+
+
     }
 }
