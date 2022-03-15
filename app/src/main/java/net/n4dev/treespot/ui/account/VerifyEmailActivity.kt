@@ -34,9 +34,14 @@ class VerifyEmailActivity : TreeSpotActivity() {
         setContentView(binding.root)
         binding.verifyEmailAuth.setOnClickListener { l: View? ->
             binding.verifyEmailLoading.visibility = View.VISIBLE
-            startActivity(MainActivity::class.java, this)
+
+            val bundle = Bundle()
+            bundle.putString(MainActivity.ARG_USER_ID, accountID)
+            bundle.putString(MainActivity.ARG_USER_EMAIL, username)
+            startActivity(bundle, MainActivity::class.java, this)
         }
     }
+
 
     private fun setupFromArgs(extras: Bundle?) {
         accountID = extras!!.getString(ARG_USER_UUID)

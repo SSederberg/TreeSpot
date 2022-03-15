@@ -23,6 +23,7 @@ class LoginActivity : TreeSpotActivity() {
         setContentView(binding.root)
 
         binding.loginButtonAttempt.setOnClickListener(onLoginAttempt)
+        binding.loginResetPassword.setOnClickListener(onResetPassword)
         loginModel = ViewModelProvider(this).get(UserLoginViewModel::class.java)
         loginModel.init(this)
     }
@@ -35,8 +36,12 @@ class LoginActivity : TreeSpotActivity() {
 
             if(validator.isValid(email)) {
                 if(passwd.length >= 8) { //Minimum length required by Appwrite
-                    loginModel.attemptLogin(email, passwd).also {
-                        ActivityUtil.startActivity(MainActivity::class.java, this)
+                    loginModel.attemptLogin(email, passwd, super.getSharedPreferences()).also {
+                        val bundle = Bundle()
+//                        val userID = loginModel.getLoggedInUserID()
+
+//                        bundle.putString(MainActivity.ARG_USER_ID, userID)
+                        ActivityUtil.startActivity(bundle, MainActivity::class.java, this)
                     }
 
                 } else {
@@ -49,5 +54,17 @@ class LoginActivity : TreeSpotActivity() {
         } else {
             ActivityUtil.snack(binding.root, "Missing either the email address or password!", true)
         }
+    }
+
+    private val onResetPassword = View.OnClickListener {
+        val email = binding.loginUsernameText.text.toString()
+
+        if(email.isNotEmpty()) {
+
+        } else {
+
+        }
+
+        ActivityUtil.startActivity(ResetPasswordActivity::class.java, this)
     }
 }

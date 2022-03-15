@@ -1,6 +1,8 @@
 package net.n4dev.treespot.core.api
 
-import io.appwrite.models.Jwt
+import androidx.annotation.Nullable
+import net.n4dev.treespot.db.entity.Friend
+import net.n4dev.treespot.db.entity.TreeSpot
 import java.util.*
 
 interface IUser : IEntity {
@@ -11,28 +13,19 @@ interface IUser : IEntity {
     fun getEmailAddress() : String
     fun setEmailAddress(email : String)
 
-    fun getUserID() : String
-    fun setUserID(userID : String)
-
-    fun getLocalUID() : Long
-    fun setLocalUID(int: Long)
+    fun getUserID() : UUID
+    fun setUserID(userID : UUID)
 
     fun getAccountCreationDate() : Long
     fun setAccountCreationDate(date : Long)
 
-    fun getUserJWT() : Jwt
-    fun setUserJWT(userJWT : Jwt)
-
+    @Nullable
     fun getCurrentSessionID() : String
     fun setCurrentSessionID(string: String)
 
-    fun getUserSpots() : List<ITreeSpot>
-    fun assignSpot(treespot : ITreeSpot)
-    fun removeSpot(treespot: ITreeSpot)
+    fun getUserSpots() : List<TreeSpot>
 
-    fun getUserFriends() : List<IFriend>
-    fun addFriend(friendUUID: UUID)
-    fun removeFriend(friendUUID: UUID)
+    fun getUserFriends() : List<Friend>
 
 
 }

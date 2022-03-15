@@ -38,4 +38,9 @@
         <item name="itemIconTint">@color/md_white_1000</item>
         <item name="itemTextColor">@color/md_white_1000</item>
     </style>
+
+    <style name="Theme.TreeSpot.Text">
+        <item name="startIconTint">@color/primaryDarkColor</item>
+        <item name="endIconTint">@color/primaryLightColor</item>
+    </style>
 </resources>

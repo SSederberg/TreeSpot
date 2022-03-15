@@ -1,8 +1,5 @@
 package net.n4dev.treespot.core.api
 
-import java.util.UUID
-import java.util.Date
-
 interface ITreeSpot : IEntity {
 
     fun getSpotID() :  String
@@ -22,4 +19,7 @@ interface ITreeSpot : IEntity {
 
     fun getDescription() : String
     fun setDescription(description : String)
+
+    fun getPrivateDescription() : String
+    fun setPrivateDescription(string : String)
 }

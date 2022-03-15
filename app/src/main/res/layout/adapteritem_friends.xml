@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="net.n4dev.treespot.util.DateConverter"/>
+        <variable
+            name="adapterFriend"
+            type="net.n4dev.treespot.core.api.IFriend" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -23,15 +30,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:text="TextView"
         android:textSize="14sp"
+        android:text="@{adapterFriend.username}"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/ai_friend_profile_picture"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@tools:sample/full_names" />
 
     <TextView
-        android:id="@+id/ai_friend_last_active"
+        android:id="@+id/ai_friend_since"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -42,3 +49,4 @@
         app:layout_constraintStart_toEndOf="@+id/ai_friend_profile_picture"
         app:layout_constraintTop_toBottomOf="@+id/ai_friend_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

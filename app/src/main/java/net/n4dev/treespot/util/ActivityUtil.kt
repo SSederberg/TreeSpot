@@ -3,6 +3,7 @@ package net.n4dev.treespot.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -16,7 +17,11 @@ class ActivityUtil {
 
     companion object {
 
-
+        fun startActivity(@Nullable bundle: Bundle, klass : Class<*>, context: Context) {
+            val intent = Intent(context, klass)
+            intent.putExtras(bundle)
+            context.startActivity(intent)
+        }
 
         fun startActivity(@Nullable bundle: Bundle, klass : Class<*>, activity: Activity) {
             val intent = Intent(activity, klass)
@@ -42,6 +47,10 @@ class ActivityUtil {
             return activity.filesDir.toString() + "/TS_Videos/"
         }
 
+        fun getAppFriendImagesDirectory(activity: Activity) : String {
+            return activity.filesDir.toString() + "/TS_Friends/"
+        }
+
         fun snack(view : View, string: String, error : Boolean) {
             val snackbar = Snackbar.make(view, string, Snackbar.LENGTH_LONG)
             val snackView = snackbar.view
@@ -59,6 +68,17 @@ class ActivityUtil {
 
         fun toast(context: Context, string: String, error: Boolean) {
             Toast.makeText(context, string, Toast.LENGTH_LONG).show()
+        }
+
+        fun goToGoogleMaps(context : Context, uri : Uri) {
+            val mapsIntent = Intent(Intent.ACTION_VIEW, uri)
+            mapsIntent.setPackage("com.google.android.apps.maps")
+
+            if(mapsIntent.resolveActivity(context.packageManager) != null) {
+                context.startActivity(mapsIntent)
+            } else {
+                ActivityUtil.toast(context, "Failed to find Google Maps on device!", true)
+            }
         }
     }
 

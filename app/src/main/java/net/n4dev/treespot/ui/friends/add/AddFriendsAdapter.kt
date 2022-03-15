@@ -27,7 +27,6 @@ class AddFriendsAdapter(private val viewModel: AddFriendsViewModel, private val 
         val userData = user.data
         val name = userData.get("user_name")
         val uuid = userData.get("user_id")
-
         holder.bind(name as String)
 
         Glide.with(holder.itemView.context)

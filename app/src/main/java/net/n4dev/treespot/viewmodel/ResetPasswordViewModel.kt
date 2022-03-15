@@ -3,6 +3,7 @@
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.orhanobut.logger.Logger
 import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account
@@ -20,13 +21,28 @@ class ResetPasswordViewModel : ViewModel(), IViewModel {
         account = Account(client)
     }
 
-    fun updatePassword(oldPassword : String, newPassword : String) {
+    fun startPasswordRecovery(userEmail : String) {
         viewModelScope.launch {
            try {
-               val passwordResponse = account.updatePassword(newPassword, oldPassword)
+               val passwordResponse = account.createRecovery(userEmail, "http://redirect.n4dev.net")
            }catch (ex : AppwriteException) {
                ex.printStackTrace()
            }
         }
     }
+
+    fun confirmPasswordRecovery(userID : String, recoverySecret : String, password : String, confirmPassword : String) {
+
+        if(recoverySecret.isNotEmpty()) {
+            viewModelScope.launch {
+                val confirmResponse = account.updateRecovery(userID,
+                    recoverySecret,
+                password,
+                confirmPassword)
+            }
+        } else {
+            Logger.e("Failed to send password recovery request! The provided secret was empty!")
+        }
+    }
+
 }

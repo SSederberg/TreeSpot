@@ -1,45 +1,50 @@
-package net.n4dev.treespot.core;
+package net.n4dev.treespot.db.entity;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Fts4;
-import androidx.room.PrimaryKey;
 
 import net.n4dev.treespot.core.api.ITreeSpot;
+import net.n4dev.treespot.db.constants.TreeSpotsConstants;
 
-@Fts4
-@Entity(tableName = "treespot_spot")
+import io.objectbox.annotation.ConflictStrategy;
+import io.objectbox.annotation.DatabaseType;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+import io.objectbox.annotation.Index;
+import io.objectbox.annotation.NameInDb;
+import io.objectbox.annotation.Type;
+import io.objectbox.annotation.Unique;
+
+@Entity
 public class TreeSpot implements ITreeSpot {
 
-    public TreeSpot() {
-    }
 
-    private static final String LOCAL_UID          = "rowid";
-    private static final String SPOT_OWNER         = "spot_owner_uuid";
-    private static final String SPOT_LAT_NORTH     = "spot_lat_north";
-    private static final String SPOT_LONG_WEST     = "spot_long_west";
-    private static final String SPOT_CREATION_DATE = "spot_creation_date";
-    private static final String SPOT_UUID          = "spot_uuid";
-    private static final String SPOT_DESCRIPTION   = "spot_description";
+    @Id
+    public Long localID;
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = LOCAL_UID) private Integer localUID;
-
+    @NameInDb(TreeSpotsConstants.SPOT_LAT_NORTH)
     private String latNorth;
+
+    @NameInDb(TreeSpotsConstants.SPOT_LONG_WEST)
     private String longWest;
-    private Long   creationDate;
-    private String spotID;
+
+    @Index
+    @NameInDb(TreeSpotsConstants.SPOT_CREATION_DATE)
+    private Long  creationDate;
+
+    @Unique(onConflict = ConflictStrategy.REPLACE)
+    @NameInDb(TreeSpotsConstants.SPOT_UUID)
+    private  String spotID;
+
+    @NameInDb(TreeSpotsConstants.SPOT_DESCRIPTION)
     private String description;
+
+    @NameInDb(TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION)
+    private String privateDescription;
+
+    @NameInDb(TreeSpotsConstants.SPOT_OWNER_ID)
     private String spotOwnerID;
 
-    public Integer getLocalUID() {
-        return localUID;
-    }
-
-    public void setLocalUID(Integer localUID) {
-        this.localUID = localUID;
-    }
+    public TreeSpot() { }
 
     @Override
     public String getLatNorth() {
@@ -121,5 +126,16 @@ public class TreeSpot implements ITreeSpot {
     @Override
     public void setCreationDate(long date) {
         this.creationDate = date;
+    }
+
+    @NonNull
+    @Override
+    public String getPrivateDescription() {
+        return privateDescription;
+    }
+
+    @Override
+    public void setPrivateDescription(@NonNull String string) {
+        this.privateDescription = string;
     }
 }

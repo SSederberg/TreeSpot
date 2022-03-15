@@ -3,16 +3,17 @@ package net.n4dev.treespot.ui
 import android.Manifest
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.messaging.RemoteMessage
+import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
-import io.zeko.db.sql.Query
-import net.n4dev.treespot.core.TreeSpot
-import net.n4dev.treespot.core.User
-import net.n4dev.treespot.db.TreeSpotDatabase
+import io.objectbox.Box
+import net.n4dev.treespot.core.api.IEntity
+import net.n4dev.treespot.core.api.IFirebaseMessage
+import net.n4dev.treespot.db.TreeSpotObjectBox
 
 
-open class TreeSpotActivity : AppCompatActivity() {
+open class TreeSpotActivity : AppCompatActivity(), IFirebaseMessage {
 
-    private lateinit var db : TreeSpotDatabase
 
     val developmentFormatStrategy = PrettyFormatStrategy.newBuilder()
         .showThreadInfo(true)
@@ -20,35 +21,13 @@ open class TreeSpotActivity : AppCompatActivity() {
         .methodCount(5)
         .build()
 
-    fun loadUser(query: Query) : ArrayList<User> {
-        var returnedList: ArrayList<User> = ArrayList()
-        val sql = query.toSql()
-        db = TreeSpotDatabase.getDatabase(applicationContext)
-
-        val loadThread = Thread {
-            returnedList = db.userDAO.find(sql)
-        }
-
-        loadThread.start()
-        loadThread.join()
-
-        return returnedList
+    fun <T : IEntity> getBox(klass : Class<T>): Box<T> {
+        return TreeSpotObjectBox.getBoxStore().boxFor(klass)
     }
 
-    fun loadTreeSpot(query: Query) : ArrayList<TreeSpot> {
-        var returnedList: ArrayList<TreeSpot> = ArrayList()
-
-        val loadThread = Thread {
-
-        }
-
-        loadThread.start()
-        loadThread.join()
-
-        return returnedList
-
+    override fun onNotificationWithData(remoteMessage: RemoteMessage) {
+        Logger.d("Invoked in TreeSpotActivity")
     }
-
 
     fun getSharedPreferences() : SharedPreferences {
         return getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
