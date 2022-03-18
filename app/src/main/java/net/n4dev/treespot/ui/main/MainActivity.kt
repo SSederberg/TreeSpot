@@ -19,7 +19,6 @@ import net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragment
 import net.n4dev.treespot.ui.main.fragments.spots.MySpotsFragment
 import net.n4dev.treespot.ui.settings.SettingsActivity
 import net.n4dev.treespot.util.ActivityUtil
-import java.util.*
 
 
 class MainActivity : TreeSpotActivity() {
@@ -32,7 +31,7 @@ class MainActivity : TreeSpotActivity() {
     private lateinit var captureSpotFragment : Fragment
     private lateinit var myFriendsFragment : Fragment
 
-    private lateinit var user : User
+    private var user : User? = null
 
     companion object {
         const val ARG_USER_ID = "ARG_USER_ID"
@@ -44,7 +43,7 @@ class MainActivity : TreeSpotActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         getUserFromDB()
 
-        val id = user.getUserID()
+        val id = user?.getUserID()
         mySpotsFragment = MySpotsFragment(id.toString())
         captureSpotFragment = CaptureSpotFragment()
         myFriendsFragment = MyFriendsFragment(id.toString())
@@ -114,15 +113,16 @@ class MainActivity : TreeSpotActivity() {
 
 
     private fun getUserFromDB() {
-        val box = super.getBox(User::class.java)
+      try {
+          val box = super.getBox(User::class.java)
 
-        val users = box.all
+          val users = box.all
+          user = users[0]
+      }catch (ex : Exception) {
+          ex.printStackTrace()
+          user = null
+      }
 
-        if(users.size == 0) {
-            user = User("test", "test@test.com", UUID.randomUUID())
-        } else {
-            user = users.get(0)
-        }
     }
 
     private inner class MainPagerAdapter(fragmentActivity: FragmentActivity) :
