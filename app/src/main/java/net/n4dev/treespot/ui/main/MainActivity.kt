@@ -10,6 +10,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.orhanobut.logger.Logger
 import net.n4dev.treespot.R
+import net.n4dev.treespot.core.ZoomOutPageTransformer
 import net.n4dev.treespot.databinding.ActivityMainBinding
 import net.n4dev.treespot.db.entity.User
 import net.n4dev.treespot.ui.TreeSpotActivity
@@ -58,6 +59,7 @@ class MainActivity : TreeSpotActivity() {
         val pagerAdapter = MainPagerAdapter(this)
         binding.mainFragmentViewpager.adapter = pagerAdapter
         binding.mainFragmentViewpager.currentItem = 1
+        binding.mainFragmentViewpager.setPageTransformer(ZoomOutPageTransformer())
 
         binding.mainFragmentViewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -80,20 +82,22 @@ class MainActivity : TreeSpotActivity() {
                        invalidateOptionsMenu()
                    }
                }
-
-
             }
         })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menu.clear()
         menuInflater.inflate(activeMenu, menu)
+        super.onCreateOptionsMenu(menu)
         return true
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu!!.clear()
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.clear()
         menuInflater.inflate(activeMenu, menu)
+        super.onCreateOptionsMenu(menu)
         return true
     }
 
