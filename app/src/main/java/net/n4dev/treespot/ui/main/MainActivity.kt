@@ -2,7 +2,6 @@ package net.n4dev.treespot.ui.main
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -26,7 +25,6 @@ class MainActivity : TreeSpotActivity() {
 
     private lateinit var binding : ActivityMainBinding
     private lateinit var fragmentManager: FragmentManager
-    private var activeMenu = R.menu.menu_main_friends
 
     private lateinit var mySpotsFragment : Fragment
     private lateinit var captureSpotFragment : Fragment
@@ -49,6 +47,19 @@ class MainActivity : TreeSpotActivity() {
         captureSpotFragment = CaptureSpotFragment()
         myFriendsFragment = MyFriendsFragment(id.toString())
 
+        binding.mainIncludeTopbar.mainAppbarBar.setOnMenuItemClickListener { menuItem ->
+            val itemID = menuItem.itemId;
+
+            if(itemID == R.id.menu_main_capture_settings) {
+                ActivityUtil.startActivity(SettingsActivity::class.java, this)
+            } else if(itemID == R.id.menu_main_friends_add) {
+                val bundle = Bundle()
+                bundle.putString(AddFriendsActivity.ARG_USER_ID, user!!.getUserID().toString())
+                ActivityUtil.startActivity(bundle, AddFriendsActivity::class.java, this)
+            } else false
+
+             true
+        }
         setContentView(binding.root)
 
         setupViewPager()
@@ -62,58 +73,40 @@ class MainActivity : TreeSpotActivity() {
         binding.mainFragmentViewpager.setPageTransformer(ZoomOutPageTransformer())
 
         binding.mainFragmentViewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
 
                when(position) {
                    0 -> {
                        binding.mainIncludeTopbar.mainAppbarBar.setTitle("My Tree Spots")
-                       activeMenu = R.menu.menu_main_spots
-                       invalidateOptionsMenu()
+                       binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).setVisible(false)
                    }
                    1 -> {
                        binding.mainIncludeTopbar.mainAppbarBar.setTitle("")
-                       activeMenu = R.menu.menu_main_capture_spot
-                       invalidateOptionsMenu()
+                       binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).setVisible(false)
                    }
                    2 -> {
                        binding.mainIncludeTopbar.mainAppbarBar.setTitle("My Friends")
-                       activeMenu = R.menu.menu_main_friends
-                       invalidateOptionsMenu()
+
+                       binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).setVisible(true)
+                   }
+
+                   else -> {
+                       Logger.e("Failed to OnPageSelected, position was $position")
                    }
                }
             }
+
         })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menu.clear()
-        menuInflater.inflate(activeMenu, menu)
-        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.menu_main_capture_spot, menu)
         return true
     }
 
-
-    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        menu.clear()
-        menuInflater.inflate(activeMenu, menu)
-        super.onCreateOptionsMenu(menu)
-        return true
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val itemID = item.itemId;
-
-        if(itemID == R.id.menu_main_capture_settings) {
-            ActivityUtil.startActivity(SettingsActivity::class.java, this)
-        } else if(itemID == R.id.menu_main_friends_add) {
-            val bundle = Bundle()
-
-            ActivityUtil.startActivity(bundle, AddFriendsActivity::class.java, this)
-        }
-        return true
-    }
 
 
     private fun getUserFromDB() {

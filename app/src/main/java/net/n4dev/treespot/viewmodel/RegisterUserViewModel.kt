@@ -13,6 +13,7 @@ import io.appwrite.services.Database
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.core.api.IViewModel
+import net.n4dev.treespot.db.constants.TreeSpotUserConstants
 import net.n4dev.treespot.ui.TreeSpotActivity
 import java.util.*
 
@@ -22,11 +23,11 @@ class RegisterUserViewModel : ViewModel(), IViewModel {
     private lateinit var account: Account
     private lateinit var awDatabase: Database
 
-    private val usersCollectionID = "treespot-users"
-    private val userAttEmail = "user_email"
+    private val usersCollectionID = TreeSpotUserConstants.name
+    private val userAttEmail = TreeSpotUserConstants.EMAIL_ADDRESS
     private val userAttCount = 0
-    private val userAttName = "user_name"
-    private val userAttID = "user_id"
+    private val userAttName = TreeSpotUserConstants.USERNAME
+    private val userAttID = TreeSpotUserConstants.USER_ID
 
     override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
