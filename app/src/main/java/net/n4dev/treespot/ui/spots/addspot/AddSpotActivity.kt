@@ -59,8 +59,8 @@ class AddSpotActivity : AppCompatActivity() {
             setupFromArgs(savedInstanceState)
         }
 
-//        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        val layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+//        val layoutManager = LinearLayoutManager(this)
         val adapter = AddSpotPhotosAdapter(photosBitmapArray)
 
         binding.photosList.layoutManager = layoutManager

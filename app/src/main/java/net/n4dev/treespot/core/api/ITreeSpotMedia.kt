@@ -9,7 +9,13 @@ interface ITreeSpotMedia : IEntity {
 
     fun getSpotID() : String
 
-    fun getTakenByUserID() : String
+    fun getUserID() : String
 
     fun getMediaPath() : String
+
+    fun getMediaFileName() : String
+
+    fun getMediaCreationDate() : Long
+
+    fun getMediaID() : String
 }

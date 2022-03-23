@@ -3,34 +3,64 @@ package net.n4dev.treespot.db.entity;
 import androidx.annotation.NonNull;
 
 import net.n4dev.treespot.core.api.ITreeSpotMedia;
+import net.n4dev.treespot.db.constants.TreeSpotMediaConstants;
+
+import java.util.UUID;
 
 import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+import io.objectbox.annotation.NameInDb;
+import io.objectbox.tree.Tree;
 
 @Entity
 public class TreeSpotMedia implements ITreeSpotMedia {
 
-    private final String userID;
-    private final String spotID;
-    private final String typeConst;
-    private final String mediaPath;
+    @Id public Long localID;
 
-    public TreeSpotMedia(String userID, String spotID, String typeConst, String mediaPath) {
+    @NameInDb(TreeSpotMediaConstants.USER_ID)
+    private String userID;
+
+    @NameInDb(TreeSpotMediaConstants.SPOT_ID)
+    private String spotID;
+
+    private String typeConst;
+
+    @NameInDb(TreeSpotMediaConstants.DEVICE_PATH)
+    private String mediaPath;
+
+    @NameInDb(TreeSpotMediaConstants.FILENAME)
+    private String fileName;
+
+    private boolean isUploaded = false;
+
+    @NameInDb(TreeSpotMediaConstants.TAKEN_AT)
+    private Long dateCreated;
+
+    @NameInDb(TreeSpotMediaConstants.MEDIA_ID)
+    public String mediaID;
+
+    public TreeSpotMedia() { }
+
+    public TreeSpotMedia(String userID, String spotID, String typeConst, String mediaPath, String filename) {
         this.userID = userID;
         this.spotID = spotID;
         this.typeConst = typeConst;
         this.mediaPath = mediaPath;
+        this.fileName = filename;
+        dateCreated = System.currentTimeMillis();
+        mediaID = UUID.randomUUID().toString();
     }
 
     @NonNull
     @Override
     public String getType() {
-        return null;
+        return TypeConst.Companion.getMEDIA();
     }
 
     @NonNull
     @Override
     public String getEntityID() {
-        return null;
+        return mediaID;
     }
 
     @Override
@@ -55,7 +85,7 @@ public class TreeSpotMedia implements ITreeSpotMedia {
 
     @Override
     public boolean isUploaded() {
-        return false;
+        return isUploaded;
     }
 
     @NonNull
@@ -66,7 +96,7 @@ public class TreeSpotMedia implements ITreeSpotMedia {
 
     @NonNull
     @Override
-    public String getTakenByUserID() {
+    public String getUserID() {
         return userID;
     }
 
@@ -74,5 +104,34 @@ public class TreeSpotMedia implements ITreeSpotMedia {
     @Override
     public String getMediaPath() {
         return mediaPath;
+    }
+
+    @NonNull
+    @Override
+    public String getMediaFileName() {
+        return fileName;
+    }
+
+    @Override
+    public long getMediaCreationDate() {
+        return dateCreated;
+    }
+
+    @NonNull
+    @Override
+    public String getMediaID() {
+        return mediaID;
+    }
+
+    public String getTypeConst() {
+        return typeConst;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public Long getDateCreated() {
+        return dateCreated;
     }
 }

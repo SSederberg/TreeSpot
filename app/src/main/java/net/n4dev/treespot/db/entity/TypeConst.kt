@@ -8,5 +8,6 @@ class TypeConst {
         val FRIEND = "FRIEND"
         val VIDEO = "MEDIA_VIDEO"
         val PICTURE = "MEDIA_PICTURE"
+        val MEDIA = "SPOT_MEDIA"
     }
 }
