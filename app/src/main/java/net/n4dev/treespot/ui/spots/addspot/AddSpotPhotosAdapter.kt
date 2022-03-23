@@ -1,10 +1,12 @@
 package net.n4dev.treespot.ui.spots.addspot
 
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.orhanobut.logger.Logger
 import net.n4dev.treespot.databinding.AdapteritemPhotoAddBinding
 
 class AddSpotPhotosAdapter(private val photos : ArrayList<Bitmap>) : RecyclerView.Adapter<AddSpotPhotosViewHolder>() {
@@ -15,11 +17,15 @@ class AddSpotPhotosAdapter(private val photos : ArrayList<Bitmap>) : RecyclerVie
     }
 
     override fun onBindViewHolder(holder: AddSpotPhotosViewHolder, position: Int) {
+        Logger.i("POS: $position")
         val photo = photos.get(position)
+
+        val drawable = BitmapDrawable(holder.itemView.resources, photo)
 
       Glide
           .with(holder.itemView.context)
-          .load(photo)
+          .asDrawable()
+          .load(drawable)
           .into(holder.getXMLBinding().photoToAdd)
     }
 

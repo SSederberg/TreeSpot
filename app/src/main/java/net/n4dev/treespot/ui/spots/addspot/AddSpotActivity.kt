@@ -8,8 +8,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import net.n4dev.treespot.db.entity.TreeSpot
 import net.n4dev.treespot.databinding.ActivityAddSpotBinding
+import net.n4dev.treespot.db.entity.TreeSpot
 import net.n4dev.treespot.viewmodel.AddSpotViewModel
 import java.io.FileNotFoundException
 import java.io.InputStream
@@ -36,14 +36,12 @@ class AddSpotActivity : AppCompatActivity() {
         viewmodel = ViewModelProvider(this).get(AddSpotViewModel::class.java)
         viewmodel.init(this)
 
-        setContentView(binding.root)
-
         binding.addSpotNameSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             hasPrivateName = isChecked
             if(isChecked) {
                 binding.spotPrivateName.visibility = View.VISIBLE
             }else{
-                binding.spotPrivateName.visibility = View.INVISIBLE
+                binding.spotPrivateName.visibility = View.GONE
             }
         }
         
@@ -68,6 +66,7 @@ class AddSpotActivity : AppCompatActivity() {
         binding.photosList.layoutManager = layoutManager
         binding.photosList.adapter = adapter
 
+        setContentView(binding.root)
     }
 
     private fun setupFromArgs(extras: Bundle) {

@@ -31,7 +31,6 @@ class SplashActivity : TreeSpotActivity() {
     private val TAG = "Splash_Treebase"
     private lateinit var binding : ActivitySplashBinding
     private lateinit var userAuthorizedViewModel: UserAuthorizedViewModel
-    val personalID = "ddd3536b-4a0f-4d10-852f-c2e9eda261bf"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -171,33 +170,40 @@ class SplashActivity : TreeSpotActivity() {
         val friendBox = TreeSpotObjectBox.getBoxStore().boxFor(Friend::class.java)
         val spotBox = TreeSpotObjectBox.getBoxStore().boxFor(TreeSpot::class.java)
 
-        for(i in 0..10) {
-            val loopFriend = Friend()
-            val loopSpot = TreeSpot()
+        try {
 
-            val removeRandom = (1000..1000000).random()
-            val randomNorth = (0..999999).random()
-            val randomWest = (0..999999).random()
+            val personalID = super.getBox(User::class.java).all.get(0).getUserID()
 
-            loopFriend.setFriendID(UUID.randomUUID())
-            loopFriend.setUserID(UUID.randomUUID())
-            loopFriend.setFriendsSince(System.currentTimeMillis() - removeRandom)
-            loopFriend.setFriendPairID(UUID.fromString(personalID));
-            loopFriend.setUsername("Friend #" + i)
-            loopFriend.setAccountCreationDate(System.currentTimeMillis() - removeRandom)
-            loopFriend.setEmailAddress("friend$i@test.net")
+            for(i in 0..10) {
+                val loopFriend = Friend()
+                val loopSpot = TreeSpot()
+
+                val removeRandom = (1000..1000000).random()
+                val randomNorth = (0..999999).random()
+                val randomWest = (0..999999).random()
+
+                loopFriend.setFriendID(UUID.randomUUID())
+                loopFriend.setUserID(UUID.randomUUID())
+                loopFriend.setFriendsSince(System.currentTimeMillis() - removeRandom)
+                loopFriend.setFriendPairID(personalID);
+                loopFriend.setUsername("Friend #" + i)
+                loopFriend.setAccountCreationDate(System.currentTimeMillis() - removeRandom)
+                loopFriend.setEmailAddress("friend$i@test.net")
 
 
-            loopSpot.setCreationDate(System.currentTimeMillis() - removeRandom)
-            loopSpot.setDescription("Description for Spot #" + i)
-            loopSpot.setPrivateDescription("Private Description for Spot #" + i)
-            loopSpot.setSpotOwnerID(personalID.toString())
-            loopSpot.setSpotID(UUID.randomUUID().toString())
-            loopSpot.setLongWest("-91." + randomWest)
-            loopSpot.setLatNorth("47." + randomNorth)
+                loopSpot.setCreationDate(System.currentTimeMillis() - removeRandom)
+                loopSpot.setDescription("Description for Spot #" + i)
+                loopSpot.setPrivateDescription("Private Description for Spot #" + i)
+                loopSpot.setSpotOwnerID(personalID.toString())
+                loopSpot.setSpotID(UUID.randomUUID().toString())
+                loopSpot.setLongWest("-91." + randomWest)
+                loopSpot.setLatNorth("47." + randomNorth)
 
-            friendBox.put(loopFriend)
-            spotBox.put(loopSpot)
+                friendBox.put(loopFriend)
+                spotBox.put(loopSpot)
+            }
+        }catch (ex : java.lang.Exception) {
+            ex.printStackTrace()
         }
     }
 

@@ -19,7 +19,7 @@
                 android:id="@+id/main_appbar_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:menu="@menu/menu_main_capture_spot"
+                app:menu="@menu/menu_main_spots"
                 app:titleTextColor="@color/md_white_1000"
                 app:titleCentered="true"/>
         </com.google.android.material.appbar.AppBarLayout>

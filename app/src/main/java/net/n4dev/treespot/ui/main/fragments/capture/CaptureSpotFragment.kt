@@ -25,11 +25,6 @@ import java.io.File
 import java.util.concurrent.ExecutionException
 
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 /**
  * A fragment to take a picture from the user's TreeSpot.
  */
@@ -48,6 +43,7 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         arguments?.let {}
     }
 
@@ -117,9 +113,9 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
             val cameraProvider: ProcessCameraProvider
             try {
                 cameraProvider = cameraProviderFuture.get()
+                cameraProvider.unbindAll()
 
                 val cameraSelector = CameraSelector.Builder()
-                    .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                     .build()
 
                 val preview = Preview.Builder()
@@ -136,7 +132,7 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
 
                 preview.setSurfaceProvider(binding.captureSpotPreview.surfaceProvider)
 
-                cameraProvider.unbindAll()
+
                 cameraProvider.bindToLifecycle(this, cameraSelector, imageCapture, preview)
             } catch (e: ExecutionException) {
                 e.printStackTrace()
@@ -146,6 +142,10 @@ class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResul
                 Logger.e("An error during camera setup has occurred!", e)
             }
         }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     private fun takePicture() {
