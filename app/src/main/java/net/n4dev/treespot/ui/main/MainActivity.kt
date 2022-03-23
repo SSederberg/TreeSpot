@@ -107,8 +107,6 @@ class MainActivity : TreeSpotActivity() {
         return true
     }
 
-
-
     private fun getUserFromDB() {
       try {
           val box = super.getBox(User::class.java)

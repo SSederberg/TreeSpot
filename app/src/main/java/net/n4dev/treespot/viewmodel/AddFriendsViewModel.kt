@@ -26,13 +26,13 @@ import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
     private lateinit var client : Client
     private lateinit var avatars: Avatars
 
-    private val friendRequestCollectionID = "Tree-Spot-Friend-Requests"
+    private val friendRequestCollectionID = TreeSpotFriendRequestConstants.name
     private val usersCollectionID = TreeSpotUserConstants.name
     private val friendsCollectionID = TreeSpotFriendsConstants.name
     private val fieldUserID = "user_id"
     private val fieldFriendID = "friend_id"
     private val fieldFriendsSince = "friends_since"
-    private val fieldUserName = "user_name"
+    private val fieldUserName = TreeSpotUserConstants.USERNAME
 
     override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
@@ -67,7 +67,7 @@ import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
 
          viewModelScope.launch {
             try {
-                var queryResponse : DocumentList
+                val queryResponse : DocumentList
 
                 if(usernameInput.isEmpty()) {
                     queryResponse = awDatabase.listDocuments(usersCollectionID,
@@ -75,7 +75,7 @@ import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
                     )
                 } else {
                    queryResponse = awDatabase.listDocuments(usersCollectionID,
-                        listOf(Query.search(fieldUserID, usernameInput))
+                        listOf(Query.search(fieldUserName, usernameInput))
                     )
                 }
 

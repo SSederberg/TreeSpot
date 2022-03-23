@@ -6,5 +6,7 @@ class TypeConst {
         val USER = "TREESPOT_USER"
         val TREESPOT = "TREESPOT_LOCATION"
         val FRIEND = "FRIEND"
+        val VIDEO = "MEDIA_VIDEO"
+        val PICTURE = "MEDIA_PICTURE"
     }
 }

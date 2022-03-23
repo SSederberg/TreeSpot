@@ -25,9 +25,10 @@ class RegisterUserViewModel : ViewModel(), IViewModel {
 
     private val usersCollectionID = TreeSpotUserConstants.name
     private val userAttEmail = TreeSpotUserConstants.EMAIL_ADDRESS
-    private val userAttCount = 0
+    private val userAttCount = TreeSpotUserConstants.FRIEND_COUNT
     private val userAttName = TreeSpotUserConstants.USERNAME
     private val userAttID = TreeSpotUserConstants.USER_ID
+    private val userAttDate = TreeSpotUserConstants.USER_CREATION_DATE;
 
     override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
@@ -53,18 +54,20 @@ class RegisterUserViewModel : ViewModel(), IViewModel {
 
     private suspend fun insertUserIntoDB(awUser: User) {
 
+        val time = System.currentTimeMillis()
         //Local database
         val user = net.n4dev.treespot.db.entity.User(
             awUser.name,
             awUser.email,
             UUID.fromString(awUser.id)
         )
-        user.setAccountCreationDate(System.currentTimeMillis())
+        user.setAccountCreationDate(time)
 
         val data = mapOf(userAttID to user.getUserID(),
             userAttCount to 0,
             userAttEmail to user.getEmailAddress(),
-            userAttName to user.getUsername())
+            userAttName to user.getUsername(),
+            userAttDate to time)
 
         //Appwrite Database
         awDatabase.createDocument(usersCollectionID, awUser.id, data, listOf("role:member"))
