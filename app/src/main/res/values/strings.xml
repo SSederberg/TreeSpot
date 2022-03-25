@@ -40,4 +40,6 @@
     <string name="channel_description">TreeSpot Main Notification Channel</string>
     <string name="reset_password"><u>Reset Password</u></string>
     <string name="add_spot">Add Spot!</string>
+    <string name="friends_since">Friends Since</string>
+    <string name="joined">Joined:</string>
 </resources>
