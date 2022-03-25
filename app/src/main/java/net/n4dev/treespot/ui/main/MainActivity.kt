@@ -1,12 +1,16 @@
 package net.n4dev.treespot.ui.main
 
+import android.Manifest
 import android.os.Bundle
 import android.view.Menu
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.orhanobut.logger.Logger
 import net.n4dev.treespot.R
 import net.n4dev.treespot.core.ZoomOutPageTransformer
@@ -30,6 +34,9 @@ class MainActivity : TreeSpotActivity() {
     private lateinit var captureSpotFragment : Fragment
     private lateinit var myFriendsFragment : Fragment
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+
     private var user : User? = null
 
     companion object {
@@ -47,8 +54,13 @@ class MainActivity : TreeSpotActivity() {
         captureSpotFragment = CaptureSpotFragment()
         myFriendsFragment = MyFriendsFragment(id.toString())
 
+        locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+
+
         binding.mainIncludeTopbar.mainAppbarBar.setOnMenuItemClickListener { menuItem ->
-            val itemID = menuItem.itemId;
+            val itemID = menuItem.itemId
 
             if(itemID == R.id.menu_main_capture_settings) {
                 ActivityUtil.startActivity(SettingsActivity::class.java, this)
@@ -79,17 +91,17 @@ class MainActivity : TreeSpotActivity() {
 
                when(position) {
                    0 -> {
-                       binding.mainIncludeTopbar.mainAppbarBar.setTitle("My Tree Spots")
-                       binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).setVisible(false)
+                       binding.mainIncludeTopbar.mainAppbarBar.title = "My Tree Spots"
+                       binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).isVisible = false
                    }
                    1 -> {
-                       binding.mainIncludeTopbar.mainAppbarBar.setTitle("")
-                       binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).setVisible(false)
+                       binding.mainIncludeTopbar.mainAppbarBar.title = ""
+                       binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).isVisible = false
                    }
                    2 -> {
-                       binding.mainIncludeTopbar.mainAppbarBar.setTitle("My Friends")
+                       binding.mainIncludeTopbar.mainAppbarBar.title = "My Friends"
 
-                       binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).setVisible(true)
+                       binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).isVisible = true
                    }
 
                    else -> {
@@ -120,8 +132,21 @@ class MainActivity : TreeSpotActivity() {
 
     }
 
-    private inner class MainPagerAdapter(fragmentActivity: FragmentActivity) :
-        FragmentStateAdapter(fragmentActivity) {
+    val locationPermissionRequest = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                // Precise location access granted.
+            }
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                // Only approximate location access granted.
+            } else -> {
+            // No location access granted.
+        }
+        }
+
+    }
+
+    private inner class MainPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
 
         private val DETAIL_PAGES = 3
 
@@ -131,7 +156,7 @@ class MainActivity : TreeSpotActivity() {
                 1 -> captureSpotFragment
                 2 -> myFriendsFragment
                 else -> {
-                    Logger.e("Position given by createFragment was not in range! Position: $position");
+                    Logger.e("Position given by createFragment was not in range! Position: $position")
                     captureSpotFragment
                 }
             }
