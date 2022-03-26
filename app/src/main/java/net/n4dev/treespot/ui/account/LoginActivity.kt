@@ -16,6 +16,10 @@ class LoginActivity : TreeSpotActivity() {
     private lateinit var validator: EmailValidator
     private lateinit var loginModel : UserLoginViewModel
 
+    override fun buildFromBundle(bundle: Bundle) {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)

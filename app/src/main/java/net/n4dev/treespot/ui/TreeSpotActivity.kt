@@ -2,6 +2,7 @@ package net.n4dev.treespot.ui
 
 import android.Manifest
 import android.content.SharedPreferences
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.messaging.RemoteMessage
 import com.orhanobut.logger.Logger
@@ -12,8 +13,9 @@ import net.n4dev.treespot.core.api.IFirebaseMessage
 import net.n4dev.treespot.db.TreeSpotObjectBox
 
 
-open class TreeSpotActivity : AppCompatActivity(), IFirebaseMessage {
+abstract class TreeSpotActivity : AppCompatActivity(), IFirebaseMessage {
 
+    abstract fun buildFromBundle(bundle: Bundle)
 
     val developmentFormatStrategy = PrettyFormatStrategy.newBuilder()
         .showThreadInfo(true)

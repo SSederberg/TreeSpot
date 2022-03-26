@@ -18,6 +18,10 @@ class VerifyEmailActivity : TreeSpotActivity() {
     private var accountID: String? = null
     private lateinit var verifyViewModel : VerifyAccountViewModel
 
+    override fun buildFromBundle(bundle: Bundle) {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVerifyEmailBinding.inflate(layoutInflater)

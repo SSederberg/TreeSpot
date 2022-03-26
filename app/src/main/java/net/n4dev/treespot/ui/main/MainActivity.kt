@@ -44,6 +44,10 @@ class MainActivity : TreeSpotActivity() {
         const val ARG_USER_EMAIL = "ARG_USER_NAME"
     }
 
+    override fun buildFromBundle(bundle: Bundle) {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

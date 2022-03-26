@@ -19,6 +19,10 @@ class RegisterAccountActivity : TreeSpotActivity() {
     private lateinit var accountID : UUID
     private lateinit var registerUserViewModel: RegisterUserViewModel
 
+    override fun buildFromBundle(bundle: Bundle) {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterAccountBinding.inflate(layoutInflater)

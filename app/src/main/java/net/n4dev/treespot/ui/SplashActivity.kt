@@ -32,6 +32,9 @@ class SplashActivity : TreeSpotActivity() {
     private lateinit var binding : ActivitySplashBinding
     private lateinit var userAuthorizedViewModel: UserAuthorizedViewModel
 
+    override fun buildFromBundle(bundle: Bundle) {
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)

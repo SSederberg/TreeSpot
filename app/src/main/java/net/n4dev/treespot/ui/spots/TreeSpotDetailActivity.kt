@@ -11,6 +11,10 @@ class TreeSpotDetailActivity : TreeSpotActivity() {
     }
 
     private lateinit var binding : ActivityTreeSpotDetailBinding
+    override fun buildFromBundle(bundle: Bundle) {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTreeSpotDetailBinding.inflate(layoutInflater)
