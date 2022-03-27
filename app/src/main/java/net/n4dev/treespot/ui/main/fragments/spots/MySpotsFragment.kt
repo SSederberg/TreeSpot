@@ -10,7 +10,14 @@ import net.n4dev.treespot.databinding.AdapteritemTreespotLocationBinding
 import net.n4dev.treespot.databinding.FragmentMySpotsBinding
 import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery
 
-class MySpotsFragment(private val userID : String) : Fragment() {
+class MySpotsFragment() : Fragment() {
+
+    private lateinit var userID : String
+
+    constructor(userID : String) : this() {
+        this.userID = userID
+    }
+
 
     private var _binding : FragmentMySpotsBinding? = null
     private val binding get() = _binding!!

@@ -28,7 +28,7 @@ import java.util.concurrent.ExecutionException
 /**
  * A fragment to take a picture from the user's TreeSpot.
  */
-class CaptureSpotFragment : Fragment(), ActivityCompat.OnRequestPermissionsResultCallback {
+class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsResultCallback {
 
     private lateinit var binding : FragmentCaptureSpotBinding
     // This property is only valid between onCreateView and

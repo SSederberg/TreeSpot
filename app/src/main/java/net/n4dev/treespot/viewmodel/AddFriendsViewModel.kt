@@ -1,7 +1,6 @@
  package net.n4dev.treespot.viewmodel
 
 import android.content.Context
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.orhanobut.logger.Logger
 import io.appwrite.Client
@@ -14,13 +13,14 @@ import io.appwrite.services.Avatars
 import io.appwrite.services.Database
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
-import net.n4dev.treespot.core.api.IViewModel
+import net.n4dev.treespot.core.AbstractViewModel
 import net.n4dev.treespot.db.constants.TreeSpotFriendRequestConstants
 import net.n4dev.treespot.db.constants.TreeSpotFriendsConstants
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants
 import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
+import java.util.*
 
- class AddFriendsViewModel : ViewModel(), IViewModel {
+ class AddFriendsViewModel : AbstractViewModel() {
 
     private lateinit var awDatabase: Database
     private lateinit var client : Client
@@ -58,6 +58,19 @@ import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
 
         }
     }
+
+     fun createFriendshipTemp(user: String, friend : String) {
+         viewModelScope.launch {
+             val data = mapOf(
+                 TreeSpotFriendsConstants.FRIEND_ID to friend,
+                 TreeSpotFriendsConstants.USER_ID to user,
+                 TreeSpotFriendsConstants.FRIEND_PAIR_ID to UUID.randomUUID().toString(),
+                 TreeSpotFriendsConstants.FRIENDS_SINCE to System.currentTimeMillis()
+             )
+
+             val createFriends = awDatabase.createDocument(friendsCollectionID, "unique()", data, arrayListOf("role:member"))
+         }
+     }
 
      private fun insertRequestIntoDB() {
      }

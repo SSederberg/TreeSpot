@@ -1,14 +1,13 @@
 package net.n4dev.treespot.viewmodel
 
 import android.content.Context
-import androidx.lifecycle.ViewModel
 import io.appwrite.services.Database
 import io.appwrite.services.Storage
 import net.n4dev.treespot.TreeSpotApplication
+import net.n4dev.treespot.core.AbstractViewModel
 import net.n4dev.treespot.core.api.ITreeSpot
-import net.n4dev.treespot.core.api.IViewModel
 
-class AddSpotViewModel : ViewModel(), IViewModel {
+class AddSpotViewModel : AbstractViewModel() {
 
     private lateinit var awDatabase: io.appwrite.services.Database
     private lateinit var awStorage: Storage

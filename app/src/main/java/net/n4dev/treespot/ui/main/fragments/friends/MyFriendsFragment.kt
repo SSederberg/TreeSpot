@@ -38,8 +38,9 @@ class MyFriendsFragment(private val userID : String) : Fragment() {
 
         adapter = MyFriendsAdapter(viewHolder, query)
 
-        binding.myFriendsList.adapter = adapter
         binding.myFriendsList.layoutManager = LinearLayoutManager(requireContext())
+        binding.myFriendsList.adapter = adapter
+
         return binding.root
     }
 

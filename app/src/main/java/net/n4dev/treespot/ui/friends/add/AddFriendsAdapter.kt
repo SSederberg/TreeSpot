@@ -38,7 +38,7 @@ class AddFriendsAdapter(private val viewModel: AddFriendsViewModel, private val 
             val checkDrawable = ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_check_circle_outline)
             holder.getBinding().friendAddButton.setImageDrawable(checkDrawable)
 
-            viewModel.createFriendship(userID, uuid as String)
+            viewModel.createFriendshipTemp(userID, uuid as String)
         }
     }
 

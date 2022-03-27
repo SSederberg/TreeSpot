@@ -10,7 +10,7 @@ class GetUserFriendsQuery {
     companion object {
         private val queryBox = TreeSpotObjectBox.getBoxStore().boxFor(Friend::class.java)
         fun get(userID : String) : Query<Friend> {
-            return queryBox.query(Friend_.friendPairID.equal(userID)).build()
+            return queryBox.query(Friend_.userID.equal(userID)).build()
         }
     }
 }

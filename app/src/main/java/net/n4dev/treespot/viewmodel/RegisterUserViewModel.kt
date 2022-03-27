@@ -2,7 +2,6 @@ package net.n4dev.treespot.viewmodel
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.orhanobut.logger.Logger
 import io.appwrite.Client
@@ -12,12 +11,12 @@ import io.appwrite.services.Account
 import io.appwrite.services.Database
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
-import net.n4dev.treespot.core.api.IViewModel
+import net.n4dev.treespot.core.AbstractViewModel
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants
 import net.n4dev.treespot.ui.TreeSpotActivity
 import java.util.*
 
-class RegisterUserViewModel : ViewModel(), IViewModel {
+class RegisterUserViewModel : AbstractViewModel() {
 
     private lateinit var client: Client
     private lateinit var account: Account
