@@ -6,7 +6,7 @@ import com.google.android.gms.tasks.Task
 
 class GPSUtils {
     companion object {
-        private val highAccuracyRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        val highAccuracyRequest = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
 
         private val locationSettingsBuilder = LocationSettingsRequest.Builder()
             .addLocationRequest(highAccuracyRequest)

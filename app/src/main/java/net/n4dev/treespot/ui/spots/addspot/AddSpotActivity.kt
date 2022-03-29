@@ -7,10 +7,19 @@ import android.location.LocationRequest
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.orhanobut.logger.Logger
 import io.appwrite.extensions.toJson
@@ -23,7 +32,7 @@ import java.io.InputStream
 import java.util.*
 
 
-class AddSpotActivity : AppCompatActivity() {
+class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         const val ARG_IMAGES_ARRAY = "ARG_IMAGES_ARRAY"
@@ -36,22 +45,15 @@ class AddSpotActivity : AppCompatActivity() {
     private lateinit var viewmodel : AddSpotViewModel
     private val treeSpot = TreeSpot()
     private val cancelToken = CancellationTokenSource()
+    private lateinit var locationCallback: LocationCallback
 
-    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddSpotBinding.inflate(layoutInflater)
         viewmodel = ViewModelProvider(this).get(AddSpotViewModel::class.java)
         viewmodel.init(this)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            GPSUtils.getLocationClient(this).getCurrentLocation(LocationRequest.QUALITY_HIGH_ACCURACY, cancelToken.token)
-                .addOnSuccessListener {
-                    Logger.i(it.toJson())
-                }
-        } else {
-
-        }
+        val mapsFragment = binding.spotDetailMapsFragment.getFragment() as SupportMapFragment
+        mapsFragment.getMapAsync(this)
 
         binding.addSpotNameSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             hasPrivateName = isChecked
@@ -116,5 +118,33 @@ class AddSpotActivity : AppCompatActivity() {
             e.printStackTrace()
         }
         return getBitmap
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun onMapReady(gmap: GoogleMap) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            GPSUtils.getLocationClient(this).getCurrentLocation(LocationRequest.QUALITY_HIGH_ACCURACY, cancelToken.token)
+                .addOnSuccessListener {
+                    Logger.i(it.toJson())
+                }
+        } else {
+            locationCallback = object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
+                    for (location in locationResult.locations){
+
+                        val coord = LatLng(location.latitude, location.longitude)
+                        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(coord, 16F)
+                        val marker = MarkerOptions()
+                            .position(coord)
+                            .title("New Tree Spot!")
+                        gmap.addMarker(marker)
+                        gmap.moveCamera(CameraUpdateFactory.newLatLng(coord))
+                        gmap.animateCamera(cameraUpdate)
+                    }
+                }
+
+            }
+            GPSUtils.getLocationClient(this).requestLocationUpdates(GPSUtils.highAccuracyRequest, locationCallback, Looper.getMainLooper())
+        }
     }
 }

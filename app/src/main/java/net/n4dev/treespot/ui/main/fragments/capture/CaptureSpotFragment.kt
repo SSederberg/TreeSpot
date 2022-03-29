@@ -75,7 +75,6 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
            } else if(imageCount == 2) {
                takePicture()
 
-
                 val bundle = Bundle()
                bundle.putStringArrayList(AddSpotActivity.ARG_IMAGES_ARRAY, imagesCaptured)
                 ActivityUtil.startActivity(bundle, AddSpotActivity::class.java, requireActivity())

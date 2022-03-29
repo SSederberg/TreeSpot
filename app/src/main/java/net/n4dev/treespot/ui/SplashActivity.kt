@@ -41,7 +41,6 @@ class SplashActivity : TreeSpotActivity() {
         initializeFolders()
         initFirebase()
         TreeSpotObjectBox.purgeStores()
-//        generateSampleData()
         Logger.addLogAdapter(AndroidLogAdapter(developmentFormatStrategy))
         setContentView(binding.root)
         userAuthorizedViewModel = ViewModelProvider(this).get(UserAuthorizedViewModel::class.java)
@@ -97,24 +96,12 @@ class SplashActivity : TreeSpotActivity() {
     }
 
     private fun doesUserAccountExist() : Boolean {
-        val prefs = getSharedPreferences()
-        try {
-            val username = prefs.getString(PREF_ACTIVE_USERNAME_ID, null)
-            val session = prefs.getString(PREF_ACTIVE_SESSION_ID, null)
-
-            return username != null && session != null
-        }catch (exception : Exception) {
-            exception.printStackTrace()
-        }
-
-        return false
+        val box = super.getBox(User::class.java)
+        return box.all.size > 0
     }
 
     private fun userIsAuthorized(): Boolean {
         try {
-            val prefs = getSharedPreferences()
-            val username : String = prefs.getString(PREF_ACTIVE_USERNAME_ID, null) as String
-
             val users = super.getBox(User::class.java).all
 
             if(users.size == 0) {
