@@ -1,6 +1,7 @@
 package net.n4dev.treespot.ui.main
 
 import android.Manifest
+import android.content.IntentSender
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.result.contract.ActivityResultContracts
@@ -9,6 +10,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.orhanobut.logger.Logger
@@ -23,6 +25,7 @@ import net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragment
 import net.n4dev.treespot.ui.main.fragments.spots.MySpotsFragment
 import net.n4dev.treespot.ui.settings.SettingsActivity
 import net.n4dev.treespot.util.ActivityUtil
+import net.n4dev.treespot.util.GPSUtils
 
 
 class MainActivity : TreeSpotActivity() {
@@ -36,6 +39,7 @@ class MainActivity : TreeSpotActivity() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    private val REQUEST_CHECK_SETTINGS = 2327
 
     private var user : User? = null
 
@@ -80,6 +84,25 @@ class MainActivity : TreeSpotActivity() {
 
         setupViewPager()
         fragmentManager = supportFragmentManager
+
+        GPSUtils.checkSettings(this)
+            .addOnFailureListener { exception ->
+                if (exception is ResolvableApiException){
+                    // Location settings are not satisfied, but this can be fixed
+                    // by showing the user a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        exception.startResolutionForResult(this@MainActivity, REQUEST_CHECK_SETTINGS)
+                    } catch (sendEx: IntentSender.SendIntentException) {
+                        // Ignore the error.
+                        Logger.e(sendEx, "")
+                    }
+                }
+
+
+            }
+            .addOnSuccessListener { Logger.i("SUCCESS!") }
     }
 
     private fun setupViewPager() {

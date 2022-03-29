@@ -127,7 +127,7 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
                     }
 
                 imageCapture = ImageCapture.Builder()
-                    .setTargetRotation(ROTATION_90)
+//                    .setTargetRotation(ROTATION_90)
                     .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
                     .setFlashMode(ImageCapture.FLASH_MODE_AUTO)
                     .build()
@@ -146,15 +146,11 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     private fun takePicture() {
         val imageFile = File(ActivityUtil.getAppImagesDirectory(requireActivity()) + "/" + System.currentTimeMillis() + ".png")
         val outputFileOptions = ImageCapture.OutputFileOptions.Builder(imageFile).build()
         val errorContext = super.requireContext()
-        imageCapture!!.takePicture(outputFileOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
+        imageCapture?.takePicture(outputFileOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                 imagesCaptured.add(outputFileResults.savedUri.toString())
 

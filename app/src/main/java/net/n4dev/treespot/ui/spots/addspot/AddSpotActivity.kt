@@ -1,15 +1,22 @@
 package net.n4dev.treespot.ui.spots.addspot
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.LocationRequest
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.orhanobut.logger.Logger
+import io.appwrite.extensions.toJson
 import net.n4dev.treespot.databinding.ActivityAddSpotBinding
 import net.n4dev.treespot.db.entity.TreeSpot
+import net.n4dev.treespot.util.GPSUtils
 import net.n4dev.treespot.viewmodel.AddSpotViewModel
 import java.io.FileNotFoundException
 import java.io.InputStream
@@ -28,13 +35,23 @@ class AddSpotActivity : AppCompatActivity() {
     private var hasPrivateName : Boolean = false
     private lateinit var viewmodel : AddSpotViewModel
     private val treeSpot = TreeSpot()
+    private val cancelToken = CancellationTokenSource()
 
+    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityAddSpotBinding.inflate(layoutInflater)
         viewmodel = ViewModelProvider(this).get(AddSpotViewModel::class.java)
         viewmodel.init(this)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            GPSUtils.getLocationClient(this).getCurrentLocation(LocationRequest.QUALITY_HIGH_ACCURACY, cancelToken.token)
+                .addOnSuccessListener {
+                    Logger.i(it.toJson())
+                }
+        } else {
+
+        }
 
         binding.addSpotNameSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             hasPrivateName = isChecked
