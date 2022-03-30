@@ -11,4 +11,5 @@ interface IEntity {
     fun isUser(): Boolean
 
     fun isTreeSpot(): Boolean
+
 }

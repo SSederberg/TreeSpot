@@ -37,7 +37,7 @@ public class TreeSpotMedia implements ITreeSpotMedia {
     private Long dateCreated;
 
     @NameInDb(TreeSpotMediaConstants.MEDIA_ID)
-    public String mediaID;
+    private String mediaID;
 
     public TreeSpotMedia() { }
 
@@ -133,5 +133,20 @@ public class TreeSpotMedia implements ITreeSpotMedia {
 
     public Long getDateCreated() {
         return dateCreated;
+    }
+
+    @Override
+    public String toString() {
+        return "TreeSpotMedia{" +
+                "localID=" + localID +
+                ", userID='" + userID + '\'' +
+                ", spotID='" + spotID + '\'' +
+                ", typeConst='" + typeConst + '\'' +
+                ", mediaPath='" + mediaPath + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", isUploaded=" + isUploaded +
+                ", dateCreated=" + dateCreated +
+                ", mediaID='" + mediaID + '\'' +
+                '}';
     }
 }

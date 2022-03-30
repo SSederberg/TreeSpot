@@ -162,4 +162,16 @@ public class User implements IUser {
         returnedUser.setAccountCreationDate(user.getRegistration());
         return returnedUser;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "localID=" + localID +
+                ", userID=" + userID +
+                ", username='" + username + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", accountCreationDate=" + accountCreationDate +
+                ", currentSessionID='" + currentSessionID + '\'' +
+                '}';
+    }
 }

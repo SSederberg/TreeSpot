@@ -21,10 +21,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.CancellationTokenSource
-import com.orhanobut.logger.Logger
-import io.appwrite.extensions.toJson
+import net.n4dev.treespot.core.api.ITreeSpot
+import net.n4dev.treespot.core.api.ITreeSpotMedia
 import net.n4dev.treespot.databinding.ActivityAddSpotBinding
 import net.n4dev.treespot.db.entity.TreeSpot
+import net.n4dev.treespot.db.entity.TreeSpotMedia
+import net.n4dev.treespot.db.entity.TypeConst
+import net.n4dev.treespot.ui.main.MainActivity
+import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.GPSUtils
 import net.n4dev.treespot.viewmodel.AddSpotViewModel
 import java.io.FileNotFoundException
@@ -36,6 +40,7 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         const val ARG_IMAGES_ARRAY = "ARG_IMAGES_ARRAY"
+        const val ARG_USER_ID = "ARG_USER_ID";
     }
 
     private lateinit var binding : ActivityAddSpotBinding
@@ -43,9 +48,15 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
     private val photosBitmapArray = ArrayList<Bitmap>()
     private var hasPrivateName : Boolean = false
     private lateinit var viewmodel : AddSpotViewModel
-    private val treeSpot = TreeSpot()
     private val cancelToken = CancellationTokenSource()
     private lateinit var locationCallback: LocationCallback
+
+    private var lat : Double = 0.0
+    private var long : Double = 0.0
+    private lateinit var userID : String
+    private val creationDate = System.currentTimeMillis()
+    private val spotID = UUID.randomUUID().toString()
+    private lateinit var treeMedia : List<ITreeSpotMedia>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,11 +76,15 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         
         binding.addSpotAdd.setOnClickListener {
-            treeSpot.setCreationDate(System.currentTimeMillis())
-            treeSpot.setSpotID(UUID.randomUUID().toString())
-            treeSpot.setDescription(binding.spotPublicText.text.toString())
+            val treeSpot = buildTreeSpot(binding.addSpotNameSwitch.isChecked)
 
-            viewmodel.addSpot(treeSpot)
+            viewmodel.addSpot(treeSpot, treeMedia as List<TreeSpotMedia>)
+
+            val bundle = Bundle()
+            bundle.putString(MainActivity.ARG_USER_ID, userID)
+            ActivityUtil.startActivity(bundle, MainActivity::class.java, this)
+            ActivityUtil.toast(this, "Uploading spot in the background!", false)
+            finish()
         }
 
         if(intent.extras != null) {
@@ -88,11 +103,52 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(binding.root)
     }
 
+    @SuppressLint("MissingPermission")
+    override fun onMapReady(gmap: GoogleMap) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            GPSUtils.getLocationClient(this).getCurrentLocation(LocationRequest.QUALITY_HIGH_ACCURACY, cancelToken.token)
+                .addOnSuccessListener {
+                    this.lat = it.latitude
+                    this.long = it.longitude
+                    val coord = LatLng(it.latitude, it.longitude)
+                    val cameraUpdate = CameraUpdateFactory.newLatLngZoom(coord, 12F)
+                    val marker = MarkerOptions()
+                        .position(coord)
+                        .title("New Tree Spot!")
+                    gmap.addMarker(marker)
+                    gmap.moveCamera(CameraUpdateFactory.newLatLng(coord))
+                    gmap.animateCamera(cameraUpdate)
+                }
+        } else {
+            locationCallback = object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
+                    for (location in locationResult.locations){
+                        this@AddSpotActivity.lat = location.latitude
+                        this@AddSpotActivity.long = location.longitude
+
+                        val coord = LatLng(location.latitude, location.longitude)
+                        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(coord, 12F)
+                        val marker = MarkerOptions()
+                            .position(coord)
+                            .title("New Tree Spot!")
+                        gmap.addMarker(marker)
+                        gmap.moveCamera(CameraUpdateFactory.newLatLng(coord))
+                        gmap.animateCamera(cameraUpdate)
+                    }
+                }
+
+            }
+            GPSUtils.getLocationClient(this).requestLocationUpdates(GPSUtils.highAccuracyRequest, locationCallback, Looper.getMainLooper())
+        }
+    }
+
     private fun setupFromArgs(extras: Bundle) {
         val temp = extras.getStringArrayList(ARG_IMAGES_ARRAY)
         photosUriArray.addAll(temp!!)
-
         setupBitmapsFromUri(photosUriArray)
+
+        this.userID = extras.getString(ARG_USER_ID)!!
+        this.treeMedia = buildTreeSpotMedia()
     }
 
     private fun setupBitmapsFromUri(array : ArrayList<String>) {
@@ -102,6 +158,42 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
             val bitmap : Bitmap? = decodeUriToBitmap(uri)
             photosBitmapArray.add(bitmap!!)
         }
+    }
+
+    private fun buildTreeSpot(usePrivateDescription : Boolean) : ITreeSpot {
+        val newSpot = TreeSpot()
+        val description = binding.spotPublicText.text.toString()
+
+        newSpot.setLatNorth(lat.toString())
+        newSpot.setLongWest(long.toString())
+        newSpot.setCreationDate(creationDate)
+        newSpot.setSpotID(spotID)
+        newSpot.setSpotOwnerID(userID)
+        newSpot.setDescription(description)
+
+        if(usePrivateDescription) {
+            val privateDescription = binding.spotPrivateText.text.toString()
+            newSpot.setPrivateDescription(privateDescription)
+        }
+
+        return newSpot
+    }
+
+    private fun buildTreeSpotMedia() : List<ITreeSpotMedia> {
+        var newMedias = ArrayList<ITreeSpotMedia>()
+        for (uri in this.photosUriArray) {
+            val filename = uri.substring(uri.lastIndexOf("/") + 1)
+            val media = TreeSpotMedia(
+                userID,
+                spotID,
+                TypeConst.MEDIA,
+                uri,
+                filename)
+
+            newMedias.add(media)
+        }
+
+        return newMedias
     }
 
     private fun decodeUriToBitmap(sendUri: Uri): Bitmap? {
@@ -118,33 +210,5 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
             e.printStackTrace()
         }
         return getBitmap
-    }
-
-    @SuppressLint("MissingPermission")
-    override fun onMapReady(gmap: GoogleMap) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            GPSUtils.getLocationClient(this).getCurrentLocation(LocationRequest.QUALITY_HIGH_ACCURACY, cancelToken.token)
-                .addOnSuccessListener {
-                    Logger.i(it.toJson())
-                }
-        } else {
-            locationCallback = object : LocationCallback() {
-                override fun onLocationResult(locationResult: LocationResult) {
-                    for (location in locationResult.locations){
-
-                        val coord = LatLng(location.latitude, location.longitude)
-                        val cameraUpdate = CameraUpdateFactory.newLatLngZoom(coord, 16F)
-                        val marker = MarkerOptions()
-                            .position(coord)
-                            .title("New Tree Spot!")
-                        gmap.addMarker(marker)
-                        gmap.moveCamera(CameraUpdateFactory.newLatLng(coord))
-                        gmap.animateCamera(cameraUpdate)
-                    }
-                }
-
-            }
-            GPSUtils.getLocationClient(this).requestLocationUpdates(GPSUtils.highAccuracyRequest, locationCallback, Looper.getMainLooper())
-        }
     }
 }

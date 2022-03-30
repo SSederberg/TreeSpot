@@ -138,4 +138,18 @@ public class TreeSpot implements ITreeSpot {
     public void setPrivateDescription(@NonNull String string) {
         this.privateDescription = string;
     }
+
+    @Override
+    public String toString() {
+        return "TreeSpot{" +
+                "localID=" + localID +
+                ", latNorth='" + latNorth + '\'' +
+                ", longWest='" + longWest + '\'' +
+                ", creationDate=" + creationDate +
+                ", spotID='" + spotID + '\'' +
+                ", description='" + description + '\'' +
+                ", privateDescription='" + privateDescription + '\'' +
+                ", spotOwnerID='" + spotOwnerID + '\'' +
+                '}';
+    }
 }

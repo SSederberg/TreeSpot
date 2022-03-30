@@ -195,4 +195,19 @@ public class Friend implements IFriend {
     public List<Friend> getUserFriends() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "Friend{" +
+                "localID=" + localID +
+                ", friendID=" + friendID +
+                ", friendsSince=" + friendsSince +
+                ", userID=" + userID +
+                ", friendPairID=" + friendPairID +
+                ", username='" + username + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", accountCreationDate=" + accountCreationDate +
+                ", currentSessionID='" + currentSessionID + '\'' +
+                '}';
+    }
 }

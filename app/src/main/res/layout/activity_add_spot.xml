@@ -25,7 +25,8 @@
             android:id="@+id/spot_public_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="Public name"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,7 +51,8 @@
             android:id="@+id/spot_private_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="Private name hahahaha"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,27 +95,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/add_spot_remaining"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="# of 2 photos/videos required"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/photos_list" />
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/spot_detail_maps_fragment"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/add_spot_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_spot_remaining"
+        app:layout_constraintTop_toBottomOf="@+id/photos_list"
         tools:context=".MapsActivity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

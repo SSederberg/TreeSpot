@@ -59,7 +59,7 @@ class MainActivity : TreeSpotActivity() {
 
         val id = user?.getUserID()
         mySpotsFragment = MySpotsFragment(id.toString())
-        captureSpotFragment = CaptureSpotFragment()
+        captureSpotFragment = CaptureSpotFragment(id.toString())
         myFriendsFragment = MyFriendsFragment(id.toString())
 
         locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))

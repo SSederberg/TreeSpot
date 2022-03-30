@@ -40,6 +40,11 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
     private val cameraRequestCode = 6066
     private var imageCount = 0
     private var imagesCaptured = ArrayList<String>()
+    private lateinit var userID : String
+
+    constructor(userID : String) : this() {
+        this.userID = userID
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +81,8 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
                takePicture()
 
                 val bundle = Bundle()
-               bundle.putStringArrayList(AddSpotActivity.ARG_IMAGES_ARRAY, imagesCaptured)
+                bundle.putStringArrayList(AddSpotActivity.ARG_IMAGES_ARRAY, imagesCaptured)
+                bundle.putString(AddSpotActivity.ARG_USER_ID, userID)
                 ActivityUtil.startActivity(bundle, AddSpotActivity::class.java, requireActivity())
            }
 
@@ -146,12 +152,13 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
     }
 
     private fun takePicture() {
-        val imageFile = File(ActivityUtil.getAppImagesDirectory(requireActivity()) + "/" + System.currentTimeMillis() + ".png")
+        val imageFile = File(ActivityUtil.getAppImagesDirectory(requireActivity()) + "/" + userID + "_" + System.currentTimeMillis() + ".png")
         val outputFileOptions = ImageCapture.OutputFileOptions.Builder(imageFile).build()
         val errorContext = super.requireContext()
         imageCapture?.takePicture(outputFileOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                imagesCaptured.add(outputFileResults.savedUri.toString())
+                val filename = outputFileResults.savedUri.toString()
+                imagesCaptured.add(filename)
 
             }
 
