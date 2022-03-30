@@ -74,7 +74,7 @@ class FriendDetailActivity : TreeSpotActivity() {
         Glide.with(this)
             .asBitmap()
             .load(uri)
-            .into(binding.imageView)
+            .into(binding.friendDetailAvatar)
 
     }
 
