@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.spots.TreeSpotDetailActivity">
+    tools:context=".ui.spots.detail.TreeSpotDetailActivity">
 
     <include
         android:id="@+id/main_include_topbar"
@@ -50,7 +50,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView2"
+        android:id="@+id/spot_photo_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -63,7 +63,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spot_detail_maps_fragment" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/spot_detail_user_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -73,13 +73,13 @@
         app:layout_constraintTop_toBottomOf="@+id/main_include_topbar" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/spot_detail_date_created_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="July 31, 2531 12:59 PM"
         app:layout_constraintStart_toEndOf="@+id/spot_detail_date_created"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/spot_detail_user_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

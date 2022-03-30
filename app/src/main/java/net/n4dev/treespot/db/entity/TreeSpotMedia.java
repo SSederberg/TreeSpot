@@ -1,5 +1,7 @@
 package net.n4dev.treespot.db.entity;
 
+import android.graphics.Bitmap;
+
 import androidx.annotation.NonNull;
 
 import net.n4dev.treespot.core.api.ITreeSpotMedia;
@@ -148,5 +150,11 @@ public class TreeSpotMedia implements ITreeSpotMedia {
                 ", dateCreated=" + dateCreated +
                 ", mediaID='" + mediaID + '\'' +
                 '}';
+    }
+
+    @NonNull
+    @Override
+    public Bitmap getImageAsBitMap() {
+        return null;
     }
 }

@@ -7,7 +7,7 @@ import io.objectbox.query.Query
 import net.n4dev.treespot.BR
 import net.n4dev.treespot.core.AbstractEntityAdapter
 import net.n4dev.treespot.db.entity.TreeSpot
-import net.n4dev.treespot.ui.spots.TreeSpotDetailActivity
+import net.n4dev.treespot.ui.spots.detail.TreeSpotDetailActivity
 import net.n4dev.treespot.util.ActivityUtil
 
 class MySpotsAdapter(holder: MySpotViewHolder, query : Query<TreeSpot>)

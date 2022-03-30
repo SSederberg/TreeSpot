@@ -40,7 +40,7 @@ class SplashActivity : TreeSpotActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         initializeFolders()
         initFirebase()
-        TreeSpotObjectBox.purgeStores()
+//        TreeSpotObjectBox.purgeStores()
         Logger.addLogAdapter(AndroidLogAdapter(developmentFormatStrategy))
         setContentView(binding.root)
         userAuthorizedViewModel = ViewModelProvider(this).get(UserAuthorizedViewModel::class.java)

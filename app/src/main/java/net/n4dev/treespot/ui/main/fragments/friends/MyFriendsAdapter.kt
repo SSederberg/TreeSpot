@@ -20,7 +20,7 @@ class MyFriendsAdapter(viewHolder: MyFriendsViewHolder, query : Query<Friend>) :
         position: Int
     ) {
         val bundle = Bundle()
-        bundle.putString(FriendDetailActivity.ARG_FRIEND_ID, entity.getUserID().toString())
+        bundle.putString(FriendDetailActivity.ARG_FRIEND_ID, entity.getFriendID().toString())
         ActivityUtil.startActivity(bundle, FriendDetailActivity::class.java, holder.itemView.context)
     }
 

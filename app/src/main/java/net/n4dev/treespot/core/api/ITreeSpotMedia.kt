@@ -1,5 +1,7 @@
 package net.n4dev.treespot.core.api
 
+import android.graphics.Bitmap
+
 interface ITreeSpotMedia : IEntity {
 
     fun isVideo() : Boolean
@@ -18,4 +20,6 @@ interface ITreeSpotMedia : IEntity {
     fun getMediaCreationDate() : Long
 
     fun getMediaID() : String
+
+    fun getImageAsBitMap() : Bitmap
 }
