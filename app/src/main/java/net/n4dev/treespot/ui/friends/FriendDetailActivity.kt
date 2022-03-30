@@ -1,11 +1,14 @@
 package net.n4dev.treespot.ui.friends
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import net.n4dev.treespot.databinding.ActivityFriendDetailBinding
 import net.n4dev.treespot.db.entity.Friend
 import net.n4dev.treespot.db.query.GetSingleFriendQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
+import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DateConverter
 import net.n4dev.treespot.viewmodel.FriendDetailViewModel
 
@@ -43,9 +46,21 @@ class FriendDetailActivity : TreeSpotActivity() {
 
         binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).setVisible(false)
 
-        viewModel.setProfilePic(theFriend!!.getUsername(), binding)
+        loadAvatar(friendID)
 
         setContentView(binding.root)
+    }
+
+    private fun loadAvatar(friendID: String) {
+        val fileName = "avatar_$friendID.png"
+        val path = ActivityUtil.getAppFriendImagesDirectory(this) + fileName
+        val uri = Uri.parse(path).path
+
+        Glide.with(this)
+            .asBitmap()
+            .load(uri)
+            .into(binding.imageView)
+
     }
 
     override fun buildFromBundle(bundle: Bundle) {

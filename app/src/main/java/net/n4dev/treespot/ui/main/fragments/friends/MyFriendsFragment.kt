@@ -21,7 +21,6 @@ class MyFriendsFragment(private val userID : String) : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         arguments?.let {
-
         }
     }
 
