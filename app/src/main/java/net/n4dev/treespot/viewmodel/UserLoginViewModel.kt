@@ -2,6 +2,7 @@ package net.n4dev.treespot.viewmodel
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.orhanobut.logger.Logger
@@ -22,6 +23,7 @@ import net.n4dev.treespot.db.constants.TreeSpotUserConstants
 import net.n4dev.treespot.db.entity.Friend
 import net.n4dev.treespot.db.entity.TreeSpot
 import net.n4dev.treespot.ui.TreeSpotActivity
+import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil
 import java.io.FileOutputStream
 import java.util.*
@@ -60,6 +62,10 @@ class UserLoginViewModel : ViewModel(), IViewModel {
                     createUserInDB(account.get())
 
                     pullUserData(account.get(), context)
+
+                    val bundle = Bundle()
+                    bundle.putString(MainActivity.ARG_USER_ID, loggedInUserID)
+                    ActivityUtil.startActivity(bundle, MainActivity::class.java, context)
                 }
             } catch (e: AppwriteException) {
                 e.printStackTrace()

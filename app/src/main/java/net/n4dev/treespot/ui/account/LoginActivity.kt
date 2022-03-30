@@ -5,7 +5,6 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import net.n4dev.treespot.databinding.ActivityLoginBinding
 import net.n4dev.treespot.ui.TreeSpotActivity
-import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.viewmodel.UserLoginViewModel
 import org.apache.commons.validator.routines.EmailValidator
@@ -40,13 +39,14 @@ class LoginActivity : TreeSpotActivity() {
 
             if(validator.isValid(email)) {
                 if(passwd.length >= 8) { //Minimum length required by Appwrite
-                    loginModel.attemptLogin(email, passwd, super.getSharedPreferences(), this).also {
-                        val bundle = Bundle()
-//                        val userID = loginModel.getLoggedInUserID()
-
-//                        bundle.putString(MainActivity.ARG_USER_ID, userID)
-                        ActivityUtil.startActivity(bundle, MainActivity::class.java, this)
-                    }
+                    loginModel.attemptLogin(email, passwd, super.getSharedPreferences(), this)
+//                        .also {
+//                        val bundle = Bundle()
+////                        val userID = loginModel.getLoggedInUserID()
+//
+////                        bundle.putString(MainActivity.ARG_USER_ID, userID)
+//                        ActivityUtil.startActivity(bundle, MainActivity::class.java, this)
+//                    }
 
                 } else {
                     ActivityUtil.toast(this, "Invalid password provided!", true)

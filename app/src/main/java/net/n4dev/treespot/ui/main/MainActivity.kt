@@ -18,6 +18,7 @@ import net.n4dev.treespot.R
 import net.n4dev.treespot.core.ZoomOutPageTransformer
 import net.n4dev.treespot.databinding.ActivityMainBinding
 import net.n4dev.treespot.db.entity.User
+import net.n4dev.treespot.db.query.GetSingleUserQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.ui.friends.add.AddFriendsActivity
 import net.n4dev.treespot.ui.main.fragments.capture.CaptureSpotFragment
@@ -48,14 +49,10 @@ class MainActivity : TreeSpotActivity() {
         const val ARG_USER_EMAIL = "ARG_USER_NAME"
     }
 
-    override fun buildFromBundle(bundle: Bundle) {
-
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        getUserFromDB()
 
         val id = user?.getUserID()
         mySpotsFragment = MySpotsFragment(id.toString())
@@ -105,6 +102,18 @@ class MainActivity : TreeSpotActivity() {
             .addOnSuccessListener { Logger.i("SUCCESS!") }
     }
 
+    override fun buildFromBundle(bundle: Bundle) {
+        val userID = bundle.getString(ARG_USER_ID)
+
+        getUserFromDB(userID!!)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menu.clear()
+        menuInflater.inflate(R.menu.menu_main_capture_spot, menu)
+        return true
+    }
+
     private fun setupViewPager() {
         val pagerAdapter = MainPagerAdapter(this)
         binding.mainFragmentViewpager.adapter = pagerAdapter
@@ -140,18 +149,10 @@ class MainActivity : TreeSpotActivity() {
         })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menu.clear()
-        menuInflater.inflate(R.menu.menu_main_capture_spot, menu)
-        return true
-    }
-
-    private fun getUserFromDB() {
+    private fun getUserFromDB(userID : String) {
       try {
-          val box = super.getBox(User::class.java)
-
-          val users = box.all
-          user = users[0]
+        val query = GetSingleUserQuery.get(userID).find()
+          user = query[0]
       }catch (ex : Exception) {
           ex.printStackTrace()
           user = null
