@@ -54,6 +54,12 @@ class MainActivity : TreeSpotActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
+        if(intent.extras != null) {
+            buildFromBundle(intent.extras!!)
+        } else if(savedInstanceState != null) {
+            buildFromBundle(savedInstanceState)
+        }
+
         val id = user?.getUserID()
         mySpotsFragment = MySpotsFragment(id.toString())
         captureSpotFragment = CaptureSpotFragment(id.toString())

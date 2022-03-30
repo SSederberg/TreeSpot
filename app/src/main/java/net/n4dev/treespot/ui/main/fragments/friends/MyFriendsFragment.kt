@@ -10,12 +10,19 @@ import net.n4dev.treespot.databinding.AdapteritemFriendsBinding
 import net.n4dev.treespot.databinding.FragmentMyFriendsBinding
 import net.n4dev.treespot.db.query.GetUserFriendsQuery
 
-class MyFriendsFragment(private val userID : String) : Fragment() {
+class MyFriendsFragment() : Fragment() {
 
     private var _binding : FragmentMyFriendsBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var adapter : MyFriendsAdapter
+
+
+    private lateinit var userID : String
+
+    constructor(userID : String) : this() {
+        this.userID = userID
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

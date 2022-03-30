@@ -1,12 +1,16 @@
-package net.n4dev.treespot.ui.friends
+package net.n4dev.treespot.ui.friends.detail
 
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import net.n4dev.treespot.core.AbstractViewHolder
 import net.n4dev.treespot.databinding.ActivityFriendDetailBinding
+import net.n4dev.treespot.databinding.AdapteritemTreespotLocationBinding
 import net.n4dev.treespot.db.entity.Friend
 import net.n4dev.treespot.db.query.GetSingleFriendQuery
+import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DateConverter
@@ -44,9 +48,20 @@ class FriendDetailActivity : TreeSpotActivity() {
         binding.friendDetailFrendSinceText.setText(friendSinceString)
         binding.friendDetailJoinedText.setText(accountCreatedString)
 
-        binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).setVisible(false)
-
+//        binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).setVisible(false)
         loadAvatar(friendID)
+
+        val adapterItemBinding  = AdapteritemTreespotLocationBinding.inflate(layoutInflater)
+        val viewHolder = FriendDetailSpotsViewHolder(adapterItemBinding)
+        val query = GetUserTreeSpotsQuery.get(friendID)
+
+        val layoutManager = LinearLayoutManager(this)
+        val adapter = FriendDetailSpotsAdapter(viewHolder, query)
+
+        binding.friendDetailSpotsList.layoutManager = layoutManager
+        binding.friendDetailSpotsList.adapter = adapter
+
+        AbstractViewHolder.generateItemDecoration(binding.friendDetailSpotsList, layoutManager)
 
         setContentView(binding.root)
     }

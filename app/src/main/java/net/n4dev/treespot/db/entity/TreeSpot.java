@@ -1,6 +1,7 @@
 package net.n4dev.treespot.db.entity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import net.n4dev.treespot.core.api.ITreeSpot;
 import net.n4dev.treespot.db.constants.TreeSpotsConstants;
@@ -38,6 +39,7 @@ public class TreeSpot implements ITreeSpot {
     @NameInDb(TreeSpotsConstants.SPOT_DESCRIPTION)
     private String description;
 
+    @Nullable
     @NameInDb(TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION)
     private String privateDescription;
 
@@ -45,6 +47,25 @@ public class TreeSpot implements ITreeSpot {
     private String spotOwnerID;
 
     public TreeSpot() { }
+
+    public TreeSpot(String latNorth, String longWest, Long creationDate, String spotID, String description, @Nullable String privateDescription, String spotOwnerID) {
+        this.latNorth = latNorth;
+        this.longWest = longWest;
+        this.creationDate = creationDate;
+        this.spotID = spotID;
+        this.description = description;
+        this.privateDescription = privateDescription;
+        this.spotOwnerID = spotOwnerID;
+    }
+
+    public TreeSpot(String latNorth, String longWest, Long creationDate, String spotID, String description, String spotOwnerID) {
+        this.latNorth = latNorth;
+        this.longWest = longWest;
+        this.creationDate = creationDate;
+        this.spotID = spotID;
+        this.description = description;
+        this.spotOwnerID = spotOwnerID;
+    }
 
     @Override
     public String getLatNorth() {

@@ -10,7 +10,7 @@ import io.objectbox.query.Query
 import net.n4dev.treespot.BR
 import net.n4dev.treespot.core.AbstractEntityAdapter
 import net.n4dev.treespot.db.entity.Friend
-import net.n4dev.treespot.ui.friends.FriendDetailActivity
+import net.n4dev.treespot.ui.friends.detail.FriendDetailActivity
 import net.n4dev.treespot.util.ActivityUtil
 
 class MyFriendsAdapter(viewHolder: MyFriendsViewHolder, query : Query<Friend>) :

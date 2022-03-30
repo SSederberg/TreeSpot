@@ -20,6 +20,7 @@ import net.n4dev.treespot.core.api.IViewModel
 import net.n4dev.treespot.db.TreeSpotObjectBox
 import net.n4dev.treespot.db.constants.TreeSpotFriendsConstants
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants
+import net.n4dev.treespot.db.constants.TreeSpotsConstants
 import net.n4dev.treespot.db.entity.Friend
 import net.n4dev.treespot.db.entity.TreeSpot
 import net.n4dev.treespot.ui.TreeSpotActivity
@@ -34,6 +35,7 @@ class UserLoginViewModel : ViewModel(), IViewModel {
     private lateinit var account: Account
     private lateinit var avatars: Avatars
     private lateinit var awDatabase: Database
+
     private lateinit var userBox: Box<net.n4dev.treespot.db.entity.User>
     private lateinit var friendBox : Box<Friend>
     private lateinit var spotBox : Box<TreeSpot>
@@ -116,13 +118,57 @@ class UserLoginViewModel : ViewModel(), IViewModel {
                 friendBox.put(tempFriend)
 
                 pullFriendAvatar(username.toString(), friendID.toString(), context)
+                pullFriendSpots(friendID.toString())
             }
 
         }
     }
 
-    private fun pullSpotData(get : User) {
 
+
+    private suspend fun pullSpotData(get : User) {
+        val spotQuery = listOf(Query.equal(TreeSpotsConstants.SPOT_OWNER_ID, get.id))
+
+        val spotDocumentResponse = awDatabase.listDocuments(
+            TreeSpotsConstants.name,
+            spotQuery)
+
+        for(locationDoc in spotDocumentResponse.documents) {
+            val spotData = locationDoc.data
+
+            val ownerID = spotData.get(TreeSpotsConstants.SPOT_OWNER_ID)
+            val latNorth = spotData.get(TreeSpotsConstants.SPOT_LAT_NORTH)
+            val longWest = spotData.get(TreeSpotsConstants.SPOT_LONG_WEST)
+            val creationDate = spotData.get(TreeSpotsConstants.SPOT_CREATION_DATE)
+            val spotID = spotData.get(TreeSpotsConstants.SPOT_UUID)
+            val description = spotData.get(TreeSpotsConstants.SPOT_DESCRIPTION)
+            val privateDescription = spotData.get(TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION)
+
+            if(privateDescription == null) {
+                val tempSpot = TreeSpot(
+                    latNorth as String,
+                    longWest as String,
+                    creationDate as Long,
+                    spotID as String,
+                    description as String,
+                    ownerID as String
+                )
+
+                spotBox.put(tempSpot)
+            } else {
+                val tempSpot = TreeSpot(
+                    latNorth as String,
+                    longWest as String,
+                    creationDate as Long,
+                    spotID as String,
+                    description as String,
+                    privateDescription as String,
+                    ownerID as String
+                )
+
+                spotBox.put(tempSpot)
+            }
+        }
     }
 
 
@@ -141,6 +187,50 @@ class UserLoginViewModel : ViewModel(), IViewModel {
         outPutStream.close()
 
         Logger.i(path)
+    }
+
+    private suspend fun pullFriendSpots(friendID : String) {
+        val friendSpotQuery = listOf(Query.equal(TreeSpotsConstants.SPOT_OWNER_ID, friendID))
+        val spotDocumentResponse = awDatabase.listDocuments(
+            TreeSpotsConstants.name,
+            friendSpotQuery)
+
+        for(locationDoc in spotDocumentResponse.documents) {
+            val spotData = locationDoc.data
+
+            val ownerID = spotData.get(TreeSpotsConstants.SPOT_OWNER_ID)
+            val latNorth = spotData.get(TreeSpotsConstants.SPOT_LAT_NORTH)
+            val longWest = spotData.get(TreeSpotsConstants.SPOT_LONG_WEST)
+            val creationDate = spotData.get(TreeSpotsConstants.SPOT_CREATION_DATE)
+            val spotID = spotData.get(TreeSpotsConstants.SPOT_UUID)
+            val description = spotData.get(TreeSpotsConstants.SPOT_DESCRIPTION)
+            val privateDescription = spotData.get(TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION)
+
+            if(privateDescription == null) {
+                val tempSpot = TreeSpot(
+                    latNorth as String,
+                    longWest as String,
+                    creationDate as Long,
+                    spotID as String,
+                    description as String,
+                    ownerID as String
+                )
+
+                spotBox.put(tempSpot)
+            } else {
+                val tempSpot = TreeSpot(
+                    latNorth as String,
+                    longWest as String,
+                    creationDate as Long,
+                    spotID as String,
+                    description as String,
+                    privateDescription as String,
+                    ownerID as String
+                )
+
+                spotBox.put(tempSpot)
+            }
+        }
     }
 
     fun sessionExists() : Boolean {

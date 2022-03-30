@@ -42,7 +42,7 @@
             android:name=".ui.account.ResetPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.friends.FriendDetailActivity"
+            android:name=".ui.friends.detail.FriendDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.friends.add.AddFriendsActivity"
