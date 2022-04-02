@@ -11,6 +11,7 @@ import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import net.n4dev.treespot.R
+import net.n4dev.treespot.db.entity.TreeSpot
 import java.io.File
 
 class ActivityUtil {
@@ -73,6 +74,14 @@ class ActivityUtil {
 
         fun toast(context: Context, string: String, error: Boolean) {
             Toast.makeText(context, string, Toast.LENGTH_LONG).show()
+        }
+
+         fun forwardToGMaps(entity: TreeSpot, context: Context) {
+            var formatted = ""
+            var uri: Uri? = null
+            formatted = entity.getLatNorth() + "," + entity.getLongWest() + "(" + entity.getDescription() + ")"
+            uri = Uri.parse("geo:0,0?q=$formatted")
+            goToGoogleMaps(context, uri)
         }
 
         fun goToGoogleMaps(context : Context, uri : Uri) {

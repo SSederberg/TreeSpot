@@ -1,7 +1,6 @@
 package net.n4dev.treespot.ui.friends.detail
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import io.objectbox.query.Query
 import net.n4dev.treespot.BR
@@ -23,6 +22,7 @@ class FriendDetailSpotsAdapter(holder: FriendDetailSpotsViewHolder, query : Quer
     ) {
         val bundle = Bundle()
         bundle.putString(TreeSpotDetailActivity.ARG_LOCATION_ID, entity.getSpotID())
+        bundle.putString(TreeSpotDetailActivity.ARG_USER_TYPE, TreeSpotDetailActivity.ARG_FRIEND)
 
         ActivityUtil.startActivity(bundle, TreeSpotDetailActivity::class.java, holder.itemView.context)
     }
@@ -33,19 +33,11 @@ class FriendDetailSpotsAdapter(holder: FriendDetailSpotsViewHolder, query : Quer
         position: Int
     ) {
         holder.xmlBinding.aiTreespotGmap.setOnClickListener {
-            forwardToGMaps(entity, holder.itemView.context)
+            ActivityUtil.forwardToGMaps(entity, holder.itemView.context)
         }
     }
 
     override fun onNoItemsAvailable(holder: FriendDetailSpotsViewHolder?) {
 
-    }
-
-    private fun forwardToGMaps(entity: TreeSpot, context: Context) {
-        var formatted = ""
-        var uri: Uri? = null
-        formatted = entity.getLatNorth() + "," + entity.getLongWest() + "(" + entity.getDescription() + ")"
-        uri = Uri.parse("geo:0,0?q=$formatted")
-        ActivityUtil.goToGoogleMaps(context, uri)
     }
 }

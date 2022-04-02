@@ -74,12 +74,29 @@
 
     <TextView
         android:id="@+id/spot_detail_date_created_text"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="July 31, 2531 12:59 PM"
+        android:layout_marginEnd="16dp"
+        tools:text="July 31, 2531 12:59 PM"
+        app:layout_constraintEnd_toStartOf="@+id/spot_detail_gmaps_button"
         app:layout_constraintStart_toEndOf="@+id/spot_detail_date_created"
         app:layout_constraintTop_toBottomOf="@+id/spot_detail_user_text" />
+
+    <ImageButton
+        android:id="@+id/spot_detail_gmaps_button"
+        style="@style/Theme.TreeSpot.ImageButton"
+        android:contentDescription="@string/view_location_in_google_maps"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/spot_detail_maps_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_include_topbar"
+        app:srcCompat="@drawable/ic_location" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

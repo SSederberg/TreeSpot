@@ -180,7 +180,7 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun buildTreeSpotMedia() : List<ITreeSpotMedia> {
-        var newMedias = ArrayList<ITreeSpotMedia>()
+        val newMedias = ArrayList<ITreeSpotMedia>()
         for (uri in this.photosUriArray) {
             val filename = uri.substring(uri.lastIndexOf("/") + 1)
             val media = TreeSpotMedia(

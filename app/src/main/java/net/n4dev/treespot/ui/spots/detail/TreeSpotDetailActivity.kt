@@ -8,30 +8,32 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.orhanobut.logger.Logger
 import net.n4dev.treespot.core.AbstractViewHolder
+import net.n4dev.treespot.core.api.IUser
 import net.n4dev.treespot.databinding.ActivityTreeSpotDetailBinding
 import net.n4dev.treespot.databinding.AdapteritemSpotMediaBinding
 import net.n4dev.treespot.db.entity.TreeSpot
-import net.n4dev.treespot.db.entity.User
 import net.n4dev.treespot.db.query.GetLocationMediaQuery
 import net.n4dev.treespot.db.query.GetSingleLocationQuery
 import net.n4dev.treespot.db.query.GetSingleUserQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
+import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DateConverter
 
 class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback {
 
     companion object {
         const val ARG_LOCATION_ID = "ARG_LOCATION_ID"
+        const val ARG_USER_TYPE = "ARG_USER_TYPE"
+        const val ARG_USER = "ARG_USER"
+        const val ARG_FRIEND = "ARG_FRIEND"
     }
 
     private lateinit var binding : ActivityTreeSpotDetailBinding
     private lateinit var mapsFragment : SupportMapFragment
     private lateinit var theSpot : TreeSpot
-    private lateinit var theUser : User
-
-    private var spotBox = super.getBox(TreeSpot::class.java)
-    private var userBox = super.getBox(User::class.java)
+    private lateinit var theUser : IUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +63,10 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback {
 
         AbstractViewHolder.generateItemDecoration(binding.spotPhotoList, layoutManager)
 
+        binding.spotDetailGmapsButton.setOnClickListener {
+            ActivityUtil.forwardToGMaps(theSpot, this)
+        }
+
         binding.spotPhotoList.layoutManager = layoutManager
         binding.spotPhotoList.adapter = adapter
         setContentView(binding.root)
@@ -69,12 +75,21 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback {
 
     override fun buildFromBundle(bundle: Bundle) {
         val spotID = bundle.getString(ARG_LOCATION_ID)
+        val userType = bundle.getString(ARG_USER_TYPE)
 
         val spotQuery = GetSingleLocationQuery.get(spotID!!).find()
         theSpot = spotQuery[0]
+        val ownerID = theSpot.getSpotOwnerID();
 
-        val userQuery = GetSingleUserQuery.get(theSpot.getSpotOwnerID()).find()
-        theUser = userQuery[0]
+        if(userType.equals(ARG_USER)) {
+            val userQuery = GetSingleUserQuery.getFromUser(ownerID).find()
+            theUser = userQuery[0]
+        } else if(userType.equals(ARG_FRIEND)) {
+            val friendQuery = GetSingleUserQuery.getFromFriend(ownerID).find()
+            theUser = friendQuery[0]
+        } else {
+            Logger.e("Failed to determine user type for Tree Spot Detail!")
+        }
     }
 
     override fun onMapReady(gmap: GoogleMap) {

@@ -43,4 +43,5 @@
     <string name="friends_since">Friends Since:</string>
     <string name="joined">Joined:</string>
     <string name="user_s_tree_spots">User\'s Tree Spots</string>
+    <string name="view_location_in_google_maps">View Location in Google Maps</string>
 </resources>

@@ -53,7 +53,7 @@ class AddSpotViewModel : AbstractViewModel() {
 
                 awDatabase.createDocument(
                     TreeSpotMediaConstants.name,
-                    "unique()",
+                    toUpload.getMediaID(),
                     mediaData,
                     listOf("role:member"),
                     listOf("role:member")

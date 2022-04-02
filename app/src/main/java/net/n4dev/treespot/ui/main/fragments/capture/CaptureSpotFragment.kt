@@ -152,7 +152,7 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
     }
 
     private fun takePicture() {
-        val imageFile = File(ActivityUtil.getAppImagesDirectory(requireActivity()) + "/" + userID + "_" + System.currentTimeMillis() + ".png")
+        val imageFile = File(ActivityUtil.getAppImagesDirectory(requireActivity()) + "/" + userID + ".png")
         val outputFileOptions = ImageCapture.OutputFileOptions.Builder(imageFile).build()
         val errorContext = super.requireContext()
         imageCapture?.takePicture(outputFileOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {

@@ -157,7 +157,7 @@ class MainActivity : TreeSpotActivity() {
 
     private fun getUserFromDB(userID : String) {
       try {
-        val query = GetSingleUserQuery.get(userID).find()
+        val query = GetSingleUserQuery.getFromUser(userID).find()
           user = query[0]
       }catch (ex : Exception) {
           ex.printStackTrace()
