@@ -22,10 +22,10 @@
     <PreferenceCategory app:title="Friends">
         <ListPreference
             app:defaultValue="fof"
-            app:key="friends_who_add"
-            app:title="Who can add me as a friend"
+            app:key="friend_spot_offline"
+            app:title="Download friend's spots for offline viewing"
             app:useSimpleSummaryProvider="true"
-            app:entries="@array/friend_who_add"
+            app:entries="@array/friend_spot_offline"
             app:entryValues="@array/friends_who_add_values"/>
 
     </PreferenceCategory>

@@ -12,10 +12,10 @@
         <item>connected</item>
     </string-array>
 
-    <string-array name="friend_who_add">
-        <item>Anyone</item>
-        <item>Friends Of Friends</item>
-        <item>No One</item>
+    <string-array name="friend_spot_offline">
+        <item>Yes, do it automatically.</item>
+        <item>Yes, but only when I say to.</item>
+        <item>No, do not download friend spot data.</item>
     </string-array>
 
     <string-array name="friends_who_add_values">

@@ -1,5 +1,6 @@
 package net.n4dev.treespot.core.api
 
+import android.content.Context
 import android.graphics.Bitmap
 
 interface ITreeSpotMedia : IEntity {
@@ -21,5 +22,5 @@ interface ITreeSpotMedia : IEntity {
 
     fun getMediaID() : String
 
-    fun getImageAsBitMap() : Bitmap
+    fun getImageAsBitMap(context: Context) : Bitmap
 }

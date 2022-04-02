@@ -1,12 +1,17 @@
 package net.n4dev.treespot.db.entity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
 import net.n4dev.treespot.core.api.ITreeSpotMedia;
 import net.n4dev.treespot.db.constants.TreeSpotMediaConstants;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.UUID;
 
 import io.objectbox.annotation.Entity;
@@ -154,7 +159,20 @@ public class TreeSpotMedia implements ITreeSpotMedia {
 
     @NonNull
     @Override
-    public Bitmap getImageAsBitMap() {
-        return null;
+    public Bitmap getImageAsBitMap(Context context) {
+        Bitmap getBitmap  = null;
+        try {
+            InputStream image_stream;
+            try {
+                Uri uri = Uri.parse(getMediaPath());
+                image_stream = context.getContentResolver().openInputStream(uri);
+                        getBitmap = BitmapFactory.decodeStream(image_stream);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return getBitmap;
     }
 }
