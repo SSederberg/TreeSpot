@@ -34,6 +34,7 @@ class VerifyEmailActivity : TreeSpotActivity() {
             Logger.e("Failed to verify email/account! The required Bundle was null!")
         }
 
+        verifyViewModel.createVerification()
         binding.emailAddress = email
         setContentView(binding.root)
         binding.verifyEmailAuth.setOnClickListener { l: View? ->

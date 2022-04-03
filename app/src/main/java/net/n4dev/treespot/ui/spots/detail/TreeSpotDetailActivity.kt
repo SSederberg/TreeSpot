@@ -1,6 +1,8 @@
 package net.n4dev.treespot.ui.spots.detail
 
 import android.os.Bundle
+import android.view.MenuItem
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -9,6 +11,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.orhanobut.logger.Logger
+import net.n4dev.treespot.R
 import net.n4dev.treespot.core.AbstractViewHolder
 import net.n4dev.treespot.core.api.IUser
 import net.n4dev.treespot.databinding.ActivityTreeSpotDetailBinding
@@ -21,7 +24,8 @@ import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DateConverter
 
-class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback {
+class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
+    PopupMenu.OnMenuItemClickListener {
 
     companion object {
         const val ARG_LOCATION_ID = "ARG_LOCATION_ID"
@@ -30,18 +34,19 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback {
         const val ARG_FRIEND = "ARG_FRIEND"
     }
 
-    private lateinit var binding : ActivityTreeSpotDetailBinding
-    private lateinit var mapsFragment : SupportMapFragment
-    private lateinit var theSpot : TreeSpot
-    private lateinit var theUser : IUser
+    private lateinit var binding: ActivityTreeSpotDetailBinding
+    private lateinit var mapsFragment: SupportMapFragment
+    private lateinit var theSpot: TreeSpot
+    private lateinit var theUser: IUser
+    private lateinit var popupMenu: PopupMenu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTreeSpotDetailBinding.inflate(layoutInflater)
 
-        if(intent.extras != null) {
+        if (intent.extras != null) {
             this.buildFromBundle(intent.extras!!)
-        } else if(savedInstanceState != null) {
+        } else if (savedInstanceState != null) {
             this.buildFromBundle(savedInstanceState)
         }
 
@@ -61,10 +66,18 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback {
         val query = GetLocationMediaQuery.get(theSpot.getSpotID())
         val adapter = TreeSpotPhotosAdapter(viewHolder, query)
 
+        popupMenu = PopupMenu(this, binding.spotDetailShare)
+        popupMenu.menuInflater.inflate(R.menu.spot_detail_share, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener(this)
+
         AbstractViewHolder.generateItemDecoration(binding.spotPhotoList, layoutManager)
 
         binding.spotDetailGmapsButton.setOnClickListener {
             ActivityUtil.forwardToGMaps(theSpot, this)
+        }
+
+        binding.spotDetailShare.setOnClickListener {
+            popupMenu.show()
         }
 
         binding.spotPhotoList.layoutManager = layoutManager
@@ -81,10 +94,10 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback {
         theSpot = spotQuery[0]
         val ownerID = theSpot.getSpotOwnerID();
 
-        if(userType.equals(ARG_USER)) {
+        if (userType.equals(ARG_USER)) {
             val userQuery = GetSingleUserQuery.getFromUser(ownerID).find()
             theUser = userQuery[0]
-        } else if(userType.equals(ARG_FRIEND)) {
+        } else if (userType.equals(ARG_FRIEND)) {
             val friendQuery = GetSingleUserQuery.getFromFriend(ownerID).find()
             theUser = friendQuery[0]
         } else {
@@ -102,5 +115,20 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback {
         gmap.moveCamera(CameraUpdateFactory.newLatLng(coord))
         gmap.animateCamera(cameraUpdate)
 
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.share_via_treespot -> {
+
+                true
+
+            }
+            R.id.share_via_sharesheet -> {
+
+                true
+            }
+            else -> false
+        }
     }
 }

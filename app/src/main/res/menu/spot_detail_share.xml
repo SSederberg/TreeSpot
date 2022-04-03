@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/share_via_treespot"
+        android:title="@string/share_within_treespot" />
+
+    <item android:id="@+id/share_via_sharesheet"
+        android:title="@string/share_else_where"/>
+</menu>
