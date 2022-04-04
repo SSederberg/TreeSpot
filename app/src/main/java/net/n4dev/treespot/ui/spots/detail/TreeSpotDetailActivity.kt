@@ -1,5 +1,6 @@
 package net.n4dev.treespot.ui.spots.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.PopupMenu
@@ -132,9 +133,24 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
             }
             R.id.share_via_sharesheet -> {
 
+                val share = generateShareSheet()
+
+                startActivity(share)
                 true
             }
             else -> false
         }
+    }
+
+    private fun generateShareSheet() : Intent {
+        val shareStringTitle = resources.getString(R.string.share_sheet_title)
+        val locationTitle = theSpot.getDescription()
+
+        return Intent.createChooser(Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/*"
+
+            putExtra(Intent.EXTRA_TITLE, "Share $locationTitle")
+        }, shareStringTitle + " ( $locationTitle )")
     }
 }
