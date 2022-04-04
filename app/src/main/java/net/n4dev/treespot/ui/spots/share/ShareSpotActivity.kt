@@ -1,6 +1,7 @@
 package net.n4dev.treespot.ui.spots.share
 
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.orhanobut.logger.Logger
 import net.n4dev.treespot.databinding.ActivityShareSpotBinding
 import net.n4dev.treespot.databinding.AdapteritemFriendsSelectBinding
@@ -35,8 +36,13 @@ class ShareSpotActivity : TreeSpotActivity() {
         }
 
         val viewholder = ShareSpotFriendsViewHolder(adapterItemBinding)
-        val friendsQuery = GetUserFriendsQuery()
+        val userID = currentUser.getUserID().toString()
+        val friendsQuery = GetUserFriendsQuery.get(userID)
+        val adapter = ShareSpotFriendsAdapter(viewholder, friendsQuery, binding.shareSpotShare)
+        val layoutManager = LinearLayoutManager(this)
 
+        binding.shareSpotFriendsList.layoutManager = layoutManager
+        binding.shareSpotFriendsList.adapter = adapter
 
         setContentView(binding.root)
     }

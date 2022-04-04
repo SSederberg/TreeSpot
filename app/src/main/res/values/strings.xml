@@ -46,4 +46,5 @@
     <string name="view_location_in_google_maps">View Location in Google Maps</string>
     <string name="share_within_treespot">Share within TreeSpot</string>
     <string name="share_else_where">Share else where</string>
+    <string name="share_spot_with_friends">Share Spot With Friends!</string>
 </resources>

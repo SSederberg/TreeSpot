@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import com.bumptech.glide.Glide
+import com.orhanobut.logger.Logger
 import io.appwrite.Client
 import io.appwrite.services.Avatars
 import io.objectbox.query.Query
@@ -32,14 +33,18 @@ class MyFriendsAdapter(viewHolder: MyFriendsViewHolder, query : Query<Friend>) :
 
     override fun onBindItem(holder: MyFriendsViewHolder, entity: Friend, position: Int) {
 
-        val fileName = "avatar_${entity.getFriendID()}.png"
-        val path = ActivityUtil.getAppFriendImagesDirectory(holder.itemView.context) + fileName
-        val uri = Uri.parse(path).path
+       try {
+           val fileName = "avatar_${entity.getFriendID()}.png"
+           val path = ActivityUtil.getAppFriendImagesDirectory(holder.itemView.context) + fileName
+           val uri = Uri.parse(path).path
 
-        Glide.with(holder.itemView.context)
-            .asBitmap()
-            .load(uri)
-            .into(holder.xmlBinding.aiFriendProfilePicture)
+           Glide.with(holder.itemView.context)
+               .asBitmap()
+               .load(uri)
+               .into(holder.xmlBinding.aiFriendProfilePicture)
+       }catch (e : Exception) {
+           Logger.e(e, "")
+       }
     }
 
     override fun onNoItemsAvailable(holder: MyFriendsViewHolder?) {
