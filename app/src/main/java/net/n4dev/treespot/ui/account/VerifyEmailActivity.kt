@@ -19,7 +19,9 @@ class VerifyEmailActivity : TreeSpotActivity() {
     private lateinit var verifyViewModel : VerifyAccountViewModel
 
     override fun buildFromBundle(bundle: Bundle) {
-
+        accountID = bundle.getString(ARG_USER_UUID)
+        email = bundle.getString(ARG_USER_EMAIL)
+        username = bundle.getString(ARG_USER_USERNAME)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +30,7 @@ class VerifyEmailActivity : TreeSpotActivity() {
         verifyViewModel = ViewModelProvider(this).get(VerifyAccountViewModel::class.java)
 
         if (intent.extras != null) {
-            setupFromArgs(intent.extras)
+            buildFromBundle(intent.extras!!)
             verifyViewModel.init(this)
         } else {
             Logger.e("Failed to verify email/account! The required Bundle was null!")
@@ -37,7 +39,7 @@ class VerifyEmailActivity : TreeSpotActivity() {
         verifyViewModel.createVerification()
         binding.emailAddress = email
         setContentView(binding.root)
-        binding.verifyEmailAuth.setOnClickListener { l: View? ->
+        binding.verifyEmailAuth.setOnClickListener {
             binding.verifyEmailLoading.visibility = View.VISIBLE
 
             val bundle = Bundle()
@@ -47,12 +49,6 @@ class VerifyEmailActivity : TreeSpotActivity() {
         }
     }
 
-
-    private fun setupFromArgs(extras: Bundle?) {
-        accountID = extras!!.getString(ARG_USER_UUID)
-        email = extras.getString(ARG_USER_EMAIL)
-        username = extras.getString(ARG_USER_USERNAME)
-    }
 
     companion object {
         const val ARG_USER_USERNAME = "ARG_USER_USERNAME"

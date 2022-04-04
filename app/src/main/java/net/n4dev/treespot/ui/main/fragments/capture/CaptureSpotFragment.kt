@@ -96,6 +96,11 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
         pictureDir = ActivityUtil.getAppImagesDirectoryAsFile(requireActivity())
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupCamera()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
 //        binding = null

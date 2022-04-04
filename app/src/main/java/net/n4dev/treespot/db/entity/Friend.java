@@ -63,6 +63,9 @@ public class Friend implements IFriend {
     @NameInDb(TreeSpotUserConstants.USER_ACTIVE_SESSION_ID)
     @Nullable private String currentSessionID;
 
+    @NameInDb(TreeSpotUserConstants.LAST_ONLINE)
+    private Long lastOnline;
+
     public Friend() {}
 
     public Friend(UUID friendID, Long friendsSince) {
@@ -194,6 +197,16 @@ public class Friend implements IFriend {
     @Override
     public List<Friend> getUserFriends() {
         return null;
+    }
+
+    @Override
+    public long getLastOnline() {
+        return lastOnline;
+    }
+
+    @Override
+    public void setLastOnline(long date) {
+        this.lastOnline = date;
     }
 
     @Override

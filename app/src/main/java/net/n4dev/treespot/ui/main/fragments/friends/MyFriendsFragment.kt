@@ -50,6 +50,11 @@ class MyFriendsFragment() : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        adapter.notifyDataSetChanged()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

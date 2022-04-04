@@ -35,6 +35,12 @@ class ShareSpotActivity : TreeSpotActivity() {
             buildFromBundle(savedInstanceState)
         }
 
+        binding.shareSpotShare.setOnClickListener {
+            //TODO: Create viewmodel to do the sharing to other users.
+
+            finish()
+        }
+
         val viewholder = ShareSpotFriendsViewHolder(adapterItemBinding)
         val userID = currentUser.getUserID().toString()
         val friendsQuery = GetUserFriendsQuery.get(userID)

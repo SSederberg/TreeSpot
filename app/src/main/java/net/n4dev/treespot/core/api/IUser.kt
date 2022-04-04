@@ -27,5 +27,7 @@ interface IUser : IEntity {
 
     fun getUserFriends() : List<Friend>
 
+    fun getLastOnline() : Long
+    fun setLastOnline(date : Long)
 
 }

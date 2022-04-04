@@ -99,14 +99,13 @@ class UserLoginViewModel : ViewModel(), IViewModel {
             for(userDocument in userDocumentResponse.documents) {
                 val userData = userDocument.data
 
-                val email = userData.get(TreeSpotUserConstants.EMAIL_ADDRESS)
-                val username = userData.get(TreeSpotUserConstants.USERNAME)
-                val creationDate = userData.get(TreeSpotUserConstants.USER_CREATION_DATE)
-                val userID = userData.get(TreeSpotFriendsConstants.USER_ID)
-
-                val friendID = friendData.get(TreeSpotFriendsConstants.FRIEND_ID)
-                val since = friendData.get(TreeSpotFriendsConstants.FRIENDS_SINCE)
-                val pairID = friendData.get(TreeSpotFriendsConstants.FRIEND_PAIR_ID)
+                val email = userData[TreeSpotUserConstants.EMAIL_ADDRESS]
+                val username = userData[TreeSpotUserConstants.USERNAME]
+                val creationDate = userData[TreeSpotUserConstants.USER_CREATION_DATE]
+                val lastOnline = userData[TreeSpotUserConstants.LAST_ONLINE]
+                val friendID = friendData[TreeSpotFriendsConstants.FRIEND_ID]
+                val since = friendData[TreeSpotFriendsConstants.FRIENDS_SINCE]
+                val pairID = friendData[TreeSpotFriendsConstants.FRIEND_PAIR_ID]
 
                 tempFriend.setEmailAddress(email.toString())
                 tempFriend.setUsername(username.toString())
@@ -115,6 +114,7 @@ class UserLoginViewModel : ViewModel(), IViewModel {
                 tempFriend.setFriendID(UUID.fromString(friendID.toString()))
                 tempFriend.setFriendsSince(since as Long)
                 tempFriend.setFriendPairID(UUID.fromString(pairID.toString()))
+                tempFriend.setLastOnline(lastOnline as Long)
                 friendBox.put(tempFriend)
 
                 pullFriendAvatar(username.toString(), friendID.toString(), context)
@@ -136,13 +136,13 @@ class UserLoginViewModel : ViewModel(), IViewModel {
         for(locationDoc in spotDocumentResponse.documents) {
             val spotData = locationDoc.data
 
-            val ownerID = spotData.get(TreeSpotsConstants.SPOT_OWNER_ID)
-            val latNorth = spotData.get(TreeSpotsConstants.SPOT_LAT_NORTH)
-            val longWest = spotData.get(TreeSpotsConstants.SPOT_LONG_WEST)
-            val creationDate = spotData.get(TreeSpotsConstants.SPOT_CREATION_DATE)
-            val spotID = spotData.get(TreeSpotsConstants.SPOT_UUID)
-            val description = spotData.get(TreeSpotsConstants.SPOT_DESCRIPTION)
-            val privateDescription = spotData.get(TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION)
+            val ownerID = spotData[TreeSpotsConstants.SPOT_OWNER_ID]
+            val latNorth = spotData[TreeSpotsConstants.SPOT_LAT_NORTH]
+            val longWest = spotData[TreeSpotsConstants.SPOT_LONG_WEST]
+            val creationDate = spotData[TreeSpotsConstants.SPOT_CREATION_DATE]
+            val spotID = spotData[TreeSpotsConstants.SPOT_UUID]
+            val description = spotData[TreeSpotsConstants.SPOT_DESCRIPTION]
+            val privateDescription = spotData[TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION]
 
             if(privateDescription == null) {
                 val tempSpot = TreeSpot(
@@ -198,13 +198,13 @@ class UserLoginViewModel : ViewModel(), IViewModel {
         for(locationDoc in spotDocumentResponse.documents) {
             val spotData = locationDoc.data
 
-            val ownerID = spotData.get(TreeSpotsConstants.SPOT_OWNER_ID)
-            val latNorth = spotData.get(TreeSpotsConstants.SPOT_LAT_NORTH)
-            val longWest = spotData.get(TreeSpotsConstants.SPOT_LONG_WEST)
-            val creationDate = spotData.get(TreeSpotsConstants.SPOT_CREATION_DATE)
-            val spotID = spotData.get(TreeSpotsConstants.SPOT_UUID)
-            val description = spotData.get(TreeSpotsConstants.SPOT_DESCRIPTION)
-            val privateDescription = spotData.get(TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION)
+            val ownerID = spotData[TreeSpotsConstants.SPOT_OWNER_ID]
+            val latNorth = spotData[TreeSpotsConstants.SPOT_LAT_NORTH]
+            val longWest = spotData[TreeSpotsConstants.SPOT_LONG_WEST]
+            val creationDate = spotData[TreeSpotsConstants.SPOT_CREATION_DATE]
+            val spotID = spotData[TreeSpotsConstants.SPOT_UUID]
+            val description = spotData[TreeSpotsConstants.SPOT_DESCRIPTION]
+            val privateDescription = spotData[TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION]
 
             if(privateDescription == null) {
                 val tempSpot = TreeSpot(

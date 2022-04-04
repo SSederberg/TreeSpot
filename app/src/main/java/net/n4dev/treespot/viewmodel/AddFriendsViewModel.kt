@@ -17,6 +17,7 @@ import net.n4dev.treespot.core.AbstractViewModel
 import net.n4dev.treespot.db.constants.TreeSpotFriendRequestConstants
 import net.n4dev.treespot.db.constants.TreeSpotFriendsConstants
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants
+import net.n4dev.treespot.db.query.GetUserFriendsQuery
 import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
 import java.util.*
 
@@ -33,12 +34,17 @@ import java.util.*
     private val fieldFriendID = "friend_id"
     private val fieldFriendsSince = "friends_since"
     private val fieldUserName = TreeSpotUserConstants.USERNAME
+     private lateinit var userID : String
 
     override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
         awDatabase = Database(client)
         avatars = Avatars(client)
     }
+
+     fun setID(userID: String) {
+         this.userID = userID
+     }
 
 
     fun createFriendship(user : String, friend : String) {
@@ -81,11 +87,10 @@ import java.util.*
          viewModelScope.launch {
             try {
                 val queryResponse : DocumentList
+                val listOfQueries : List<String> = getFriendsOfUser(usernameInput)
 
                 if(usernameInput.isEmpty()) {
-                    queryResponse = awDatabase.listDocuments(usersCollectionID,
-                        listOf(Query.notEqual(fieldUserName, calledByUsername))
-                    )
+                    queryResponse = awDatabase.listDocuments(usersCollectionID, listOfQueries)
                 } else {
                    queryResponse = awDatabase.listDocuments(usersCollectionID,
                         listOf(Query.search(fieldUserName, usernameInput))
@@ -114,6 +119,20 @@ import java.util.*
             }
          }
 
+     }
+
+     private fun getFriendsOfUser(usernameInput: String): List<String> {
+         val queryArray = ArrayList<String>()
+         queryArray.add(Query.notEqual(fieldUserName, usernameInput))
+
+         val friendsQuery = GetUserFriendsQuery.get(userID).find()
+
+         for(friend in friendsQuery) {
+             val id = friend.getFriendID().toString()
+
+             queryArray.add(Query.notEqual(userID, id))
+         }
+         return queryArray
      }
 
      fun searchByAddress(addressInput : String) : List<User> {
