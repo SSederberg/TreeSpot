@@ -27,7 +27,7 @@
         android:theme="@style/Theme.TreeSpot"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.spots.ShareSpotActivity"
+            android:name=".ui.spots.share.ShareSpotActivity"
             android:exported="false" />
 
         <meta-data

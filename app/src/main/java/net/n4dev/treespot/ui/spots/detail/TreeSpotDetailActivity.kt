@@ -21,6 +21,7 @@ import net.n4dev.treespot.db.query.GetLocationMediaQuery
 import net.n4dev.treespot.db.query.GetSingleLocationQuery
 import net.n4dev.treespot.db.query.GetSingleUserQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
+import net.n4dev.treespot.ui.spots.share.ShareSpotActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DateConverter
 
@@ -120,7 +121,12 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
     override fun onMenuItemClick(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.share_via_treespot -> {
+                val bundle = Bundle()
 
+                bundle.putString(ShareSpotActivity.ARG_LOCATION_ID, theSpot.getSpotID())
+                bundle.putString(ShareSpotActivity.ARG_USER_ID, theUser.getUserID().toString())
+
+                ActivityUtil.startActivity(bundle, ShareSpotActivity::class.java, this)
                 true
 
             }
