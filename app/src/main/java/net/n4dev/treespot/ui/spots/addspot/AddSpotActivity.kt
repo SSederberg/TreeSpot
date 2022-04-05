@@ -169,6 +169,7 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
         newSpot.setSpotID(spotID)
         newSpot.setSpotOwnerID(userID)
         newSpot.setDescription(description)
+        newSpot.setIsFavorite(false)
 
         if(usePrivateDescription) {
             val privateDescription = binding.spotPrivateText.text.toString()

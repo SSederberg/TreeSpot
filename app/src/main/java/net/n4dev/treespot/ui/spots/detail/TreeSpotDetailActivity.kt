@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -22,6 +23,7 @@ import net.n4dev.treespot.db.query.GetLocationMediaQuery
 import net.n4dev.treespot.db.query.GetSingleLocationQuery
 import net.n4dev.treespot.db.query.GetSingleUserQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
+import net.n4dev.treespot.ui.settings.SettingsActivity
 import net.n4dev.treespot.ui.spots.share.ShareSpotActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DateConverter
@@ -69,8 +71,36 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
         val adapter = TreeSpotPhotosAdapter(viewHolder, query)
 
         popupMenu = PopupMenu(this, binding.spotDetailShare)
-        popupMenu.menuInflater.inflate(R.menu.spot_detail_share, popupMenu.menu)
+        popupMenu.menuInflater.inflate(R.menu.menu_popup_spot_detail_share, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener(this)
+
+        binding.mainIncludeTopbar.mainAppbarBar.setOnMenuItemClickListener { menuItem ->
+            val itemID = menuItem.itemId
+
+            if(itemID == R.id.menu_main_capture_settings) {
+                ActivityUtil.startActivity(SettingsActivity::class.java, this)
+            } else if(itemID == R.id.menu_spot_detail_favorite) {
+                val ownSpot = isOwnSpot()
+                val alreadyFavorite = isAlreadyAFavorite()
+
+                if(ownSpot) {
+                    false
+                }
+
+                if(alreadyFavorite) {
+                    val solidDrawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_border)
+                    menuItem.setIcon(solidDrawable)
+                    false
+                } else {
+                    val solidDrawable = ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24)
+                    menuItem.setIcon(solidDrawable)
+
+                    //TODO: Do favorite logic
+                }
+            }
+
+         true
+        }
 
         AbstractViewHolder.generateItemDecoration(binding.spotPhotoList, layoutManager)
 
@@ -86,6 +116,14 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
         binding.spotPhotoList.adapter = adapter
         setContentView(binding.root)
 
+    }
+
+    private fun isOwnSpot(): Boolean {
+        return false
+    }
+
+    private fun isAlreadyAFavorite() : Boolean {
+        return false
     }
 
     override fun buildFromBundle(bundle: Bundle) {

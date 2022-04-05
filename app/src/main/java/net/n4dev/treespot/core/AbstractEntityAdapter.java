@@ -128,7 +128,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * @param query
      * @throws Exception
      */
-    public synchronized void load(Query query)
+    public synchronized void load(Query<T> query)
             throws Exception
     {
       if(query != null) {
@@ -136,7 +136,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
           CopyOnWriteArrayList<IEntity> copyEntities = new CopyOnWriteArrayList<>();
 
           Thread loadThread = new Thread(() -> {
-              List returnedQuery = query.find();
+              List<T> returnedQuery = query.find();
               copyEntities.addAll(returnedQuery);
           });
 
@@ -172,7 +172,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
             throws Exception {
 
         Thread loadSecondaryThread = new Thread(() -> {
-            List<T> retunedQuery = query.find();
+            List retunedQuery = query.find();
             queryList.addAll(retunedQuery);
         });
 
