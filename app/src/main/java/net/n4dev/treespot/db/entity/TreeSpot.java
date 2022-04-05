@@ -7,12 +7,10 @@ import net.n4dev.treespot.core.api.ITreeSpot;
 import net.n4dev.treespot.db.constants.TreeSpotsConstants;
 
 import io.objectbox.annotation.ConflictStrategy;
-import io.objectbox.annotation.DatabaseType;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.Index;
 import io.objectbox.annotation.NameInDb;
-import io.objectbox.annotation.Type;
 import io.objectbox.annotation.Unique;
 
 @Entity
@@ -46,9 +44,12 @@ public class TreeSpot implements ITreeSpot {
     @NameInDb(TreeSpotsConstants.SPOT_OWNER_ID)
     private String spotOwnerID;
 
+    @NameInDb(TreeSpotsConstants.SPOT_FAVORITE)
+    private Boolean isFavorite;
+
     public TreeSpot() { }
 
-    public TreeSpot(String latNorth, String longWest, Long creationDate, String spotID, String description, @Nullable String privateDescription, String spotOwnerID) {
+    public TreeSpot(String latNorth, String longWest, Long creationDate, String spotID, String description, @Nullable String privateDescription, String spotOwnerID, Boolean isFavorite) {
         this.latNorth = latNorth;
         this.longWest = longWest;
         this.creationDate = creationDate;
@@ -56,15 +57,17 @@ public class TreeSpot implements ITreeSpot {
         this.description = description;
         this.privateDescription = privateDescription;
         this.spotOwnerID = spotOwnerID;
+        this.isFavorite = isFavorite;
     }
 
-    public TreeSpot(String latNorth, String longWest, Long creationDate, String spotID, String description, String spotOwnerID) {
+    public TreeSpot(String latNorth, String longWest, Long creationDate, String spotID, String description, String spotOwnerID, Boolean isFavorite) {
         this.latNorth = latNorth;
         this.longWest = longWest;
         this.creationDate = creationDate;
         this.spotID = spotID;
         this.description = description;
         this.spotOwnerID = spotOwnerID;
+        this.isFavorite = isFavorite;
     }
 
     @Override
@@ -161,6 +164,16 @@ public class TreeSpot implements ITreeSpot {
     }
 
     @Override
+    public boolean getIsFavorite() {
+        return isFavorite;
+    }
+
+    @Override
+    public void setIsFavorite(boolean favorite) {
+        this.isFavorite = favorite;
+    }
+
+    @Override
     public String toString() {
         return "TreeSpot{" +
                 "localID=" + localID +
@@ -171,6 +184,7 @@ public class TreeSpot implements ITreeSpot {
                 ", description='" + description + '\'' +
                 ", privateDescription='" + privateDescription + '\'' +
                 ", spotOwnerID='" + spotOwnerID + '\'' +
+                ", isFavorite=" + isFavorite +
                 '}';
     }
 }

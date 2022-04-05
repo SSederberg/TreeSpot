@@ -78,7 +78,7 @@ class MainActivity : TreeSpotActivity() {
             } else if(itemID == R.id.menu_main_friends_add) {
                 val bundle = Bundle()
                 bundle.putString(AddFriendsActivity.ARG_USER_ID, user!!.getUserID().toString())
-                ActivityUtil.startActivity(bundle, AddFriendsActivity::class.java, this)
+                ActivityUtil.startActivity(bundle, AddFriendsActivity::class.java, this, true)
             } else false
 
              true

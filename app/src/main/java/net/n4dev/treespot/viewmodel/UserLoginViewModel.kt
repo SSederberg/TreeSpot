@@ -67,7 +67,7 @@ class UserLoginViewModel : ViewModel(), IViewModel {
 
                     val bundle = Bundle()
                     bundle.putString(MainActivity.ARG_USER_ID, loggedInUserID)
-                    ActivityUtil.startActivity(bundle, MainActivity::class.java, context)
+                    ActivityUtil.startActivity(bundle, MainActivity::class.java, context, true)
                 }
             } catch (e: AppwriteException) {
                 e.printStackTrace()
@@ -143,6 +143,7 @@ class UserLoginViewModel : ViewModel(), IViewModel {
             val spotID = spotData[TreeSpotsConstants.SPOT_UUID]
             val description = spotData[TreeSpotsConstants.SPOT_DESCRIPTION]
             val privateDescription = spotData[TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION]
+            val isFavorite = spotData[TreeSpotsConstants.SPOT_FAVORITE]
 
             if(privateDescription == null) {
                 val tempSpot = TreeSpot(
@@ -151,7 +152,8 @@ class UserLoginViewModel : ViewModel(), IViewModel {
                     creationDate as Long,
                     spotID as String,
                     description as String,
-                    ownerID as String
+                    ownerID as String,
+                    isFavorite as Boolean
                 )
 
                 spotBox.put(tempSpot)
@@ -163,7 +165,8 @@ class UserLoginViewModel : ViewModel(), IViewModel {
                     spotID as String,
                     description as String,
                     privateDescription as String,
-                    ownerID as String
+                    ownerID as String,
+                    isFavorite as Boolean
                 )
 
                 spotBox.put(tempSpot)
@@ -205,6 +208,7 @@ class UserLoginViewModel : ViewModel(), IViewModel {
             val spotID = spotData[TreeSpotsConstants.SPOT_UUID]
             val description = spotData[TreeSpotsConstants.SPOT_DESCRIPTION]
             val privateDescription = spotData[TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION]
+            val isFavorite = spotData[TreeSpotsConstants.SPOT_FAVORITE]
 
             if(privateDescription == null) {
                 val tempSpot = TreeSpot(
@@ -213,7 +217,8 @@ class UserLoginViewModel : ViewModel(), IViewModel {
                     creationDate as Long,
                     spotID as String,
                     description as String,
-                    ownerID as String
+                    ownerID as String,
+                    isFavorite as Boolean
                 )
 
                 spotBox.put(tempSpot)
@@ -225,7 +230,8 @@ class UserLoginViewModel : ViewModel(), IViewModel {
                     spotID as String,
                     description as String,
                     privateDescription as String,
-                    ownerID as String
+                    ownerID as String,
+                    isFavorite as Boolean
                 )
 
                 spotBox.put(tempSpot)

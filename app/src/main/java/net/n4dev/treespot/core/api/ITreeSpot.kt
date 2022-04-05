@@ -22,4 +22,7 @@ interface ITreeSpot : IEntity {
 
     fun getPrivateDescription() : String
     fun setPrivateDescription(string : String)
+
+    fun getIsFavorite() : Boolean
+    fun setIsFavorite(favorite : Boolean)
 }

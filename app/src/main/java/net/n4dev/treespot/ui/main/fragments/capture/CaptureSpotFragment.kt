@@ -83,7 +83,7 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
                 val bundle = Bundle()
                 bundle.putStringArrayList(AddSpotActivity.ARG_IMAGES_ARRAY, imagesCaptured)
                 bundle.putString(AddSpotActivity.ARG_USER_ID, userID)
-                ActivityUtil.startActivity(bundle, AddSpotActivity::class.java, requireActivity())
+                ActivityUtil.startActivity(bundle, AddSpotActivity::class.java, requireActivity(), false)
            }
 
         }

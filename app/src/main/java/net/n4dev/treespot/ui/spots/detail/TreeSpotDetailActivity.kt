@@ -127,7 +127,7 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
                 bundle.putString(ShareSpotActivity.ARG_LOCATION_ID, theSpot.getSpotID())
                 bundle.putString(ShareSpotActivity.ARG_USER_ID, theUser.getUserID().toString())
 
-                ActivityUtil.startActivity(bundle, ShareSpotActivity::class.java, this)
+                ActivityUtil.startActivity(bundle, ShareSpotActivity::class.java, this, true)
                 true
 
             }

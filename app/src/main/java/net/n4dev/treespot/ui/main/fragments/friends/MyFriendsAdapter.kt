@@ -28,7 +28,7 @@ class MyFriendsAdapter(viewHolder: MyFriendsViewHolder, query : Query<Friend>) :
     ) {
         val bundle = Bundle()
         bundle.putString(FriendDetailActivity.ARG_FRIEND_ID, entity.getFriendID().toString())
-        ActivityUtil.startActivity(bundle, FriendDetailActivity::class.java, holder.itemView.context)
+        ActivityUtil.startActivity(bundle, FriendDetailActivity::class.java, holder.itemView.context, false)
     }
 
     override fun onBindItem(holder: MyFriendsViewHolder, entity: Friend, position: Int) {

@@ -3,6 +3,7 @@ package net.n4dev.treespot.firebase
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.orhanobut.logger.Logger
 
 class TreespotFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -10,10 +11,12 @@ class TreespotFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(newToken: String) {
         super.onNewToken(newToken)
+        Logger.i("New Token For Firebase was given!")
     }
 
     override fun onDeletedMessages() {
         super.onDeletedMessages()
+        Logger.i("OnDeletedMessages was called!")
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {

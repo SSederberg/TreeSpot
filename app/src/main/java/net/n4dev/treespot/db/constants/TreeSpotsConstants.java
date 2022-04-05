@@ -10,4 +10,5 @@ public class TreeSpotsConstants {
     public static final  String SPOT_UUID          = "spot_uuid";
     public static final  String SPOT_DESCRIPTION   = "spot_description";
     public static final  String SPOT_PRIVATE_DESCRIPTION   = "spot_private_description";
+    public static final String SPOT_FAVORITE = "spot_favorite";
 }

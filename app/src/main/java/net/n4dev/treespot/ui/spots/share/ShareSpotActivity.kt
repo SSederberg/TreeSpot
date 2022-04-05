@@ -10,6 +10,7 @@ import net.n4dev.treespot.db.entity.User
 import net.n4dev.treespot.db.query.GetSingleLocationQuery
 import net.n4dev.treespot.db.query.GetSingleUserQuery
 import net.n4dev.treespot.db.query.GetUserFriendsQuery
+import net.n4dev.treespot.firebase.notifications.ShareSpotNotification
 import net.n4dev.treespot.ui.TreeSpotActivity
 
 class ShareSpotActivity : TreeSpotActivity() {
@@ -37,6 +38,10 @@ class ShareSpotActivity : TreeSpotActivity() {
 
         binding.shareSpotShare.setOnClickListener {
             //TODO: Create viewmodel to do the sharing to other users.
+            val shareNotification  = ShareSpotNotification(currentUser.getUsername())
+
+            shareNotification.prepareNotification(this)
+            shareNotification.buildAndDisplay(this)
 
             finish()
         }

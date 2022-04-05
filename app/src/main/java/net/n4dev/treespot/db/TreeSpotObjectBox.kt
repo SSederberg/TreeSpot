@@ -1,8 +1,10 @@
 package net.n4dev.treespot.db
 
 import android.content.Context
+import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.android.AndroidObjectBrowser
+import net.n4dev.treespot.core.api.IEntity
 import net.n4dev.treespot.db.entity.Friend
 import net.n4dev.treespot.db.entity.MyObjectBox
 import net.n4dev.treespot.db.entity.TreeSpot
@@ -27,5 +29,9 @@ object TreeSpotObjectBox {
     fun purgeStores() {
         store.boxFor(Friend::class.java).removeAll();
         store.boxFor(TreeSpot::class.java).removeAll()
+    }
+
+    fun <T : IEntity> getBox(klass : Class<T>): Box<T> {
+        return store.boxFor(klass)
     }
 }

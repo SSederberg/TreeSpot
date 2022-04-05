@@ -24,7 +24,7 @@ class FriendDetailSpotsAdapter(holder: FriendDetailSpotsViewHolder, query : Quer
         bundle.putString(TreeSpotDetailActivity.ARG_LOCATION_ID, entity.getSpotID())
         bundle.putString(TreeSpotDetailActivity.ARG_USER_TYPE, TreeSpotDetailActivity.ARG_FRIEND)
 
-        ActivityUtil.startActivity(bundle, TreeSpotDetailActivity::class.java, holder.itemView.context)
+        ActivityUtil.startActivity(bundle, TreeSpotDetailActivity::class.java, holder.itemView.context, false)
     }
 
     override fun onBindItem(

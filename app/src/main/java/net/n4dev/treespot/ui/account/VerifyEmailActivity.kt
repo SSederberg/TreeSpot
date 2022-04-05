@@ -45,7 +45,7 @@ class VerifyEmailActivity : TreeSpotActivity() {
             val bundle = Bundle()
             bundle.putString(MainActivity.ARG_USER_ID, accountID)
             bundle.putString(MainActivity.ARG_USER_EMAIL, username)
-            startActivity(bundle, MainActivity::class.java, this)
+            startActivity(bundle, MainActivity::class.java, this, true)
         }
     }
 

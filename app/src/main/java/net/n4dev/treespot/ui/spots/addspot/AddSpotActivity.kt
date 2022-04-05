@@ -82,7 +82,7 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
 
             val bundle = Bundle()
             bundle.putString(MainActivity.ARG_USER_ID, userID)
-            ActivityUtil.startActivity(bundle, MainActivity::class.java, this)
+            ActivityUtil.startActivity(bundle, MainActivity::class.java, this, false)
             ActivityUtil.toast(this, "Uploading spot in the background!", false)
             finish()
         }
@@ -94,7 +94,6 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-//        val layoutManager = LinearLayoutManager(this)
         val adapter = AddSpotPhotosAdapter(photosBitmapArray)
 
         binding.photosList.layoutManager = layoutManager
