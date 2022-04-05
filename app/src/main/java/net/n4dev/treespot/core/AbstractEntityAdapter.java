@@ -66,7 +66,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      *
      * @param holder - The custom viewholder that extends {@link AbstractViewHolder}.
      * @param query - The query being used
-     * @param selection - Expects a com.synsoltec.losscontrol.mobile.app.BR variable, it should correspond with
+     * @param selection - Expects a net.n4dev.treespot..BR variable, it should correspond with
      *                  the xml file being used.
      */
     public AbstractEntityAdapter(H holder, Query query, int selection, boolean simple, Class<T> klass) {
