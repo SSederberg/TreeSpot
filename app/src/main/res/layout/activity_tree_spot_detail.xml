@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/main_include_topbar"
-        layout="@layout/appbar_main"
+        layout="@layout/appbar_spot_detail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,7 +19,7 @@
         android:id="@+id/spot_detail_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="Submitted By:"
         android:textStyle="bold"
@@ -30,7 +30,7 @@
         android:id="@+id/spot_detail_date_created"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Logged On:"
         android:textStyle="bold"
@@ -64,13 +64,15 @@
 
     <TextView
         android:id="@+id/spot_detail_user_text"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        tools:text="Chris Jericho"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/spot_detail_share"
         app:layout_constraintStart_toEndOf="@+id/spot_detail_user"
-        app:layout_constraintTop_toBottomOf="@+id/main_include_topbar" />
+        app:layout_constraintTop_toBottomOf="@+id/main_include_topbar"
+        tools:text="Chris Jericho" />
 
     <TextView
         android:id="@+id/spot_detail_date_created_text"
@@ -78,11 +80,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        tools:text="July 31, 2531 12:59 PM"
-        app:layout_constraintEnd_toStartOf="@+id/spot_detail_gmaps_button"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/spot_detail_share"
         app:layout_constraintStart_toEndOf="@+id/spot_detail_date_created"
-        app:layout_constraintTop_toBottomOf="@+id/spot_detail_user_text" />
+        app:layout_constraintTop_toBottomOf="@+id/spot_detail_user_text"
+        tools:text="July 31, 2531 12:59 PM" />
 
     <ImageButton
         android:id="@+id/spot_detail_gmaps_button"
@@ -98,5 +100,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_include_topbar"
         app:srcCompat="@drawable/ic_location" />
+
+    <ImageButton
+        android:id="@+id/spot_detail_share"
+        style="@style/Theme.TreeSpot.ImageButton"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/spot_detail_maps_fragment"
+        app:layout_constraintEnd_toStartOf="@+id/spot_detail_gmaps_button"
+        app:layout_constraintTop_toBottomOf="@+id/main_include_topbar"
+        app:srcCompat="@drawable/ic_share" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,7 +43,7 @@ public abstract class AbstractViewHolder<B extends ViewDataBinding> extends Recy
     /**
      * Sets the object to be displayed for the view item.
      *
-     * @param br_selection - The com.synsoltec.losscontrol.mobile.app.BR variable associated with the XML file being used.
+     * @param br_selection - The net.n4dev.treespot..BR variable associated with the XML file being used.
      * @param obj - The IEntity being assigned.
      */
     public void set(int br_selection, IEntity obj) {

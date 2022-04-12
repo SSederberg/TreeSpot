@@ -41,6 +41,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "APPWRITE_URL", "\"appwrite.n4dev.net/v1\""
+            buildConfigField "String", "PROJECT_ID", "\"treespot-dev\""
+        }
+
+        debug {
+            buildConfigField "String", "APPWRITE_URL", "\"http://192.168.1.245/v1\""
+            buildConfigField "String", "PROJECT_ID", "\"treespot-dev\""
         }
     }
     compileOptions {

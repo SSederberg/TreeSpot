@@ -27,7 +27,8 @@ class RegisterUserViewModel : AbstractViewModel() {
     private val userAttCount = TreeSpotUserConstants.FRIEND_COUNT
     private val userAttName = TreeSpotUserConstants.USERNAME
     private val userAttID = TreeSpotUserConstants.USER_ID
-    private val userAttDate = TreeSpotUserConstants.USER_CREATION_DATE;
+    private val userAttDate = TreeSpotUserConstants.USER_CREATION_DATE
+    private val userLateOnline = TreeSpotUserConstants.LAST_ONLINE
 
     override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
@@ -61,12 +62,14 @@ class RegisterUserViewModel : AbstractViewModel() {
             UUID.fromString(awUser.id)
         )
         user.setAccountCreationDate(time)
+        user.setLastOnline(time)
 
         val data = mapOf(userAttID to user.getUserID(),
             userAttCount to 0,
             userAttEmail to user.getEmailAddress(),
             userAttName to user.getUsername(),
-            userAttDate to time)
+            userAttDate to time,
+            userLateOnline to time)
 
         //Appwrite Database
         awDatabase.createDocument(usersCollectionID, awUser.id, data, listOf("role:member"))

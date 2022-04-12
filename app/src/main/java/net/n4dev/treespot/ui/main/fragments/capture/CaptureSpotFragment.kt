@@ -83,7 +83,7 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
                 val bundle = Bundle()
                 bundle.putStringArrayList(AddSpotActivity.ARG_IMAGES_ARRAY, imagesCaptured)
                 bundle.putString(AddSpotActivity.ARG_USER_ID, userID)
-                ActivityUtil.startActivity(bundle, AddSpotActivity::class.java, requireActivity())
+                ActivityUtil.startActivity(bundle, AddSpotActivity::class.java, requireActivity(), false)
            }
 
         }
@@ -94,6 +94,11 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pictureDir = ActivityUtil.getAppImagesDirectoryAsFile(requireActivity())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupCamera()
     }
 
     override fun onDestroyView() {

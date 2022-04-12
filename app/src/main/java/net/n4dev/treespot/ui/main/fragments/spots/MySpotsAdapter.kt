@@ -26,7 +26,7 @@ class MySpotsAdapter(holder: MySpotViewHolder, query : Query<TreeSpot>)
         bundle.putString(TreeSpotDetailActivity.ARG_LOCATION_ID, entity.getSpotID())
         bundle.putString(TreeSpotDetailActivity.ARG_USER_TYPE, TreeSpotDetailActivity.ARG_USER)
 
-        ActivityUtil.startActivity(bundle, TreeSpotDetailActivity::class.java, holder.itemView.context)
+        ActivityUtil.startActivity(bundle, TreeSpotDetailActivity::class.java, holder.itemView.context, false)
     }
 
     override fun onBindItem(holder: MySpotViewHolder, entity: TreeSpot, position: Int) {
@@ -38,7 +38,6 @@ class MySpotsAdapter(holder: MySpotViewHolder, query : Query<TreeSpot>)
 
         if(mediaQuery.size > 0) {
             val media = mediaQuery[0]
-//            val preview = media.getImageAsBitMap(holder.itemView.context)
 
             Glide.with(holder.itemView.context)
                 .asBitmap()

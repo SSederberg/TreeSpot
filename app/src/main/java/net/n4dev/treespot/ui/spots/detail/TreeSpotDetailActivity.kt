@@ -1,6 +1,10 @@
 package net.n4dev.treespot.ui.spots.detail
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
+import android.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -9,6 +13,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.orhanobut.logger.Logger
+import net.n4dev.treespot.R
 import net.n4dev.treespot.core.AbstractViewHolder
 import net.n4dev.treespot.core.api.IUser
 import net.n4dev.treespot.databinding.ActivityTreeSpotDetailBinding
@@ -18,10 +23,13 @@ import net.n4dev.treespot.db.query.GetLocationMediaQuery
 import net.n4dev.treespot.db.query.GetSingleLocationQuery
 import net.n4dev.treespot.db.query.GetSingleUserQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
+import net.n4dev.treespot.ui.settings.SettingsActivity
+import net.n4dev.treespot.ui.spots.share.ShareSpotActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DateConverter
 
-class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback {
+class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
+    PopupMenu.OnMenuItemClickListener {
 
     companion object {
         const val ARG_LOCATION_ID = "ARG_LOCATION_ID"
@@ -30,18 +38,19 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback {
         const val ARG_FRIEND = "ARG_FRIEND"
     }
 
-    private lateinit var binding : ActivityTreeSpotDetailBinding
-    private lateinit var mapsFragment : SupportMapFragment
-    private lateinit var theSpot : TreeSpot
-    private lateinit var theUser : IUser
+    private lateinit var binding: ActivityTreeSpotDetailBinding
+    private lateinit var mapsFragment: SupportMapFragment
+    private lateinit var theSpot: TreeSpot
+    private lateinit var theUser: IUser
+    private lateinit var popupMenu: PopupMenu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTreeSpotDetailBinding.inflate(layoutInflater)
 
-        if(intent.extras != null) {
+        if (intent.extras != null) {
             this.buildFromBundle(intent.extras!!)
-        } else if(savedInstanceState != null) {
+        } else if (savedInstanceState != null) {
             this.buildFromBundle(savedInstanceState)
         }
 
@@ -61,16 +70,60 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback {
         val query = GetLocationMediaQuery.get(theSpot.getSpotID())
         val adapter = TreeSpotPhotosAdapter(viewHolder, query)
 
+        popupMenu = PopupMenu(this, binding.spotDetailShare)
+        popupMenu.menuInflater.inflate(R.menu.menu_popup_spot_detail_share, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener(this)
+
+        binding.mainIncludeTopbar.mainAppbarBar.setOnMenuItemClickListener { menuItem ->
+            val itemID = menuItem.itemId
+
+            if(itemID == R.id.menu_main_capture_settings) {
+                ActivityUtil.startActivity(SettingsActivity::class.java, this)
+            } else if(itemID == R.id.menu_spot_detail_favorite) {
+                val ownSpot = isOwnSpot()
+                val alreadyFavorite = isAlreadyAFavorite()
+
+                if(ownSpot) {
+                    false
+                }
+
+                if(alreadyFavorite) {
+                    val solidDrawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_border)
+                    menuItem.setIcon(solidDrawable)
+                    false
+                } else {
+                    val solidDrawable = ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24)
+                    menuItem.setIcon(solidDrawable)
+
+                    //TODO: Do favorite logic
+                }
+            }
+
+         true
+        }
+
         AbstractViewHolder.generateItemDecoration(binding.spotPhotoList, layoutManager)
 
         binding.spotDetailGmapsButton.setOnClickListener {
             ActivityUtil.forwardToGMaps(theSpot, this)
         }
 
+        binding.spotDetailShare.setOnClickListener {
+            popupMenu.show()
+        }
+
         binding.spotPhotoList.layoutManager = layoutManager
         binding.spotPhotoList.adapter = adapter
         setContentView(binding.root)
 
+    }
+
+    private fun isOwnSpot(): Boolean {
+        return false
+    }
+
+    private fun isAlreadyAFavorite() : Boolean {
+        return false
     }
 
     override fun buildFromBundle(bundle: Bundle) {
@@ -81,10 +134,10 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback {
         theSpot = spotQuery[0]
         val ownerID = theSpot.getSpotOwnerID();
 
-        if(userType.equals(ARG_USER)) {
+        if (userType.equals(ARG_USER)) {
             val userQuery = GetSingleUserQuery.getFromUser(ownerID).find()
             theUser = userQuery[0]
-        } else if(userType.equals(ARG_FRIEND)) {
+        } else if (userType.equals(ARG_FRIEND)) {
             val friendQuery = GetSingleUserQuery.getFromFriend(ownerID).find()
             theUser = friendQuery[0]
         } else {
@@ -102,5 +155,40 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback {
         gmap.moveCamera(CameraUpdateFactory.newLatLng(coord))
         gmap.animateCamera(cameraUpdate)
 
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.share_via_treespot -> {
+                val bundle = Bundle()
+
+                bundle.putString(ShareSpotActivity.ARG_LOCATION_ID, theSpot.getSpotID())
+                bundle.putString(ShareSpotActivity.ARG_USER_ID, theUser.getUserID().toString())
+
+                ActivityUtil.startActivity(bundle, ShareSpotActivity::class.java, this, true)
+                true
+
+            }
+            R.id.share_via_sharesheet -> {
+
+                val share = generateShareSheet()
+
+                startActivity(share)
+                true
+            }
+            else -> false
+        }
+    }
+
+    private fun generateShareSheet() : Intent {
+        val shareStringTitle = resources.getString(R.string.share_sheet_title)
+        val locationTitle = theSpot.getDescription()
+
+        return Intent.createChooser(Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/*"
+
+            putExtra(Intent.EXTRA_TITLE, "Share $locationTitle")
+        }, shareStringTitle + " ( $locationTitle )")
     }
 }

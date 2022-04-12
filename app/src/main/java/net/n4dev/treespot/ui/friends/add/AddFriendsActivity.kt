@@ -35,6 +35,7 @@ class AddFriendsActivity : AppCompatActivity() {
         emailValidator = EmailValidator.getInstance()
         viewModel = ViewModelProvider(this).get(AddFriendsViewModel::class.java)
         viewModel.init(this)
+        viewModel.setID(userID)
 
         binding.addFriendButton.setOnClickListener(onAddOrSearchFriendListener)
 

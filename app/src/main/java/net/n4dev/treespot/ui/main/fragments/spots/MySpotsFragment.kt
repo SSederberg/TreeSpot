@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import net.n4dev.treespot.R
+import net.n4dev.treespot.core.AbstractViewHolder
 import net.n4dev.treespot.databinding.AdapteritemTreespotLocationBinding
 import net.n4dev.treespot.databinding.FragmentMySpotsBinding
 import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery
@@ -44,9 +46,27 @@ class MySpotsFragment() : Fragment() {
         val query = GetUserTreeSpotsQuery.get(userID)
         mySpotsViewHolder = MySpotViewHolder(adapterItemBinding)
         mySpotsAdapter = MySpotsAdapter(mySpotsViewHolder, query)
+        val layoutManager = LinearLayoutManager(requireContext())
+
+        binding.switchMaterial.setOnCheckedChangeListener { compoundButton, isChecked ->
+            if(isChecked) {
+                val text = getString(R.string.my_spots)
+                binding.textView.text = text
+
+            } else {
+                val text = "Favorite Spots"
+                binding.textView.text = text
+
+
+
+            }
+        }
 
         binding.mySpotsList.adapter = mySpotsAdapter
-        binding.mySpotsList.layoutManager = LinearLayoutManager(requireContext())
+        binding.mySpotsList.layoutManager = layoutManager
+
+        AbstractViewHolder.generateItemDecoration(binding.mySpotsList, layoutManager)
+
         return binding.root
     }
 

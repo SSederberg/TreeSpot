@@ -30,10 +30,9 @@ class VerifyAccountViewModel : AbstractViewModel() {
         viewModelScope.launch {
 
            try {
-               val verifyResponse = account.createVerification("verified.n4dev.net")
+               val verifyResponse = account.createVerification("http://192.168.1.245")
 //               val sessionResponse = account.createSession(emailAddress, password)
 //               val dbResponse = awDatabase.createDocument(usersCollectionID, account.get().id, awData, arrayListOf("role:member"))
-               Logger.json(verifyResponse.toString())
            }catch (ex : AppwriteException) {
                ex.printStackTrace()
            }

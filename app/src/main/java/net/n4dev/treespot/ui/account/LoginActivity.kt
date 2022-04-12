@@ -15,10 +15,6 @@ class LoginActivity : TreeSpotActivity() {
     private lateinit var validator: EmailValidator
     private lateinit var loginModel : UserLoginViewModel
 
-    override fun buildFromBundle(bundle: Bundle) {
-
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -29,6 +25,10 @@ class LoginActivity : TreeSpotActivity() {
         binding.loginResetPassword.setOnClickListener(onResetPassword)
         loginModel = ViewModelProvider(this).get(UserLoginViewModel::class.java)
         loginModel.init(this)
+    }
+
+    override fun buildFromBundle(bundle: Bundle) {
+
     }
 
     private val onLoginAttempt = View.OnClickListener { l ->

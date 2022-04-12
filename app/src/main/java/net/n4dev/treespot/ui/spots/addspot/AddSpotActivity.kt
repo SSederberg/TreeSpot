@@ -78,11 +78,11 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.addSpotAdd.setOnClickListener {
             val treeSpot = buildTreeSpot(binding.addSpotNameSwitch.isChecked)
 
-            viewmodel.addSpot(treeSpot, treeMedia as List<TreeSpotMedia>)
+            viewmodel.addSpot(treeSpot, treeMedia as List<TreeSpotMedia>, this)
 
             val bundle = Bundle()
             bundle.putString(MainActivity.ARG_USER_ID, userID)
-            ActivityUtil.startActivity(bundle, MainActivity::class.java, this)
+            ActivityUtil.startActivity(bundle, MainActivity::class.java, this, false)
             ActivityUtil.toast(this, "Uploading spot in the background!", false)
             finish()
         }
@@ -94,7 +94,6 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-//        val layoutManager = LinearLayoutManager(this)
         val adapter = AddSpotPhotosAdapter(photosBitmapArray)
 
         binding.photosList.layoutManager = layoutManager
@@ -170,6 +169,7 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
         newSpot.setSpotID(spotID)
         newSpot.setSpotOwnerID(userID)
         newSpot.setDescription(description)
+        newSpot.setIsFavorite(false)
 
         if(usePrivateDescription) {
             val privateDescription = binding.spotPrivateText.text.toString()

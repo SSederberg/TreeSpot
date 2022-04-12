@@ -5,10 +5,9 @@
     <uses-feature
         android:name="android.hardware.camera.any"
         android:required="true" />
-
     <uses-feature
-        android:name="android.hardware.location.gps
-"       android:required="true"/>
+        android:name="android.hardware.location.gps "
+        android:required="true" />
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -27,6 +26,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TreeSpot"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.spots.share.ShareSpotActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -36,7 +38,7 @@
             android:name=".ui.spots.detail.TreeSpotDetailActivity"
             android:exported="false" />
         <activity
-            android:name="net.n4dev.treespot.ui.spots.addspot.AddSpotActivity"
+            android:name=".ui.spots.addspot.AddSpotActivity"
             android:exported="false" />
         <activity
             android:name=".ui.account.ResetPasswordActivity"
@@ -92,7 +94,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-</application>
+    </application>
 
 </manifest>

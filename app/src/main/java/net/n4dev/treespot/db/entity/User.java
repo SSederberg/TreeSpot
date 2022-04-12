@@ -47,6 +47,9 @@ public class User implements IUser {
     @NameInDb(TreeSpotUserConstants.USER_ACTIVE_SESSION_ID)
     @Nullable private String currentSessionID;
 
+    @NameInDb(TreeSpotUserConstants.LAST_ONLINE)
+    private Long lastOnline;
+
 //    private final Box<User> userBoxInstance;
 //    private final Box<TreeSpot> treeSpotBoxInstance;
 
@@ -157,9 +160,20 @@ public class User implements IUser {
         this.currentSessionID = string;
     }
 
+    @Override
+    public long getLastOnline() {
+        return lastOnline;
+    }
+
+    @Override
+    public void setLastOnline(long date) {
+        this.lastOnline = date;
+    }
+
     public static User convertFromAWUser(io.appwrite.models.User user) {
         User returnedUser = new User(user.getName(), user.getEmail(), UUID.fromString(user.getId()));
         returnedUser.setAccountCreationDate(user.getRegistration());
+        returnedUser.setLastOnline(0);
         return returnedUser;
     }
 

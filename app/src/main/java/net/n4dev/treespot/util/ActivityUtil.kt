@@ -18,13 +18,16 @@ class ActivityUtil {
 
     companion object {
 
-        fun startActivity(@Nullable bundle: Bundle, klass : Class<*>, context: Context) {
+         fun startActivity(@Nullable bundle: Bundle, klass : Class<*>, context: Context, internetRequired : Boolean) {
+            val type = DeviceConnectionHelper.getConnectionType(context)
             val intent = Intent(context, klass)
             intent.putExtras(bundle)
             context.startActivity(intent)
         }
 
-        fun startActivity(@Nullable bundle: Bundle, klass : Class<*>, activity: Activity) {
+        fun startActivity(@Nullable bundle: Bundle, klass : Class<*>, activity: Activity, internetRequired: Boolean) {
+
+           val type = DeviceConnectionHelper.getConnectionType(activity)
             val intent = Intent(activity, klass)
             intent.putExtras(bundle)
             activity.startActivity(intent)

@@ -67,7 +67,7 @@ class SplashActivity : TreeSpotActivity() {
             } else if (savedVersionCode == DOESNT_EXIST) {
                 // TODO This is a new install (or the user cleared the shared preferences)
 
-                if(DeviceConnectionHelper.isConnected(applicationContext)) {
+                if(DeviceConnectionHelper.getConnectionType(this) > 0) {
                     ActivityUtil.startActivity(RegisterAccountActivity::class.java, this)
                 } else {
                   ActivityUtil.toast(this, "A internet connection is required for new installs and after resetting preferences!", true)
@@ -107,7 +107,7 @@ class SplashActivity : TreeSpotActivity() {
             if(users.size == 0) {
                 return false
             } else {
-                if(DeviceConnectionHelper.isConnected(applicationContext)) {
+                if(DeviceConnectionHelper.getConnectionType(this) > 0) {
 
                     //TODO Verify session is still valid before returning true
                     val user = users[0]

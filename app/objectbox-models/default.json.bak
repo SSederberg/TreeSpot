@@ -1,0 +1,232 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:2778491781221392230",
+      "lastPropertyId": "10:8029861918301210852",
+      "name": "Friend",
+      "properties": [
+        {
+          "id": "1:7520059566254643181",
+          "name": "localID",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3439770794406391773",
+          "name": "friend_id",
+          "type": 9
+        },
+        {
+          "id": "3:406048510749318065",
+          "name": "friends_since",
+          "type": 6
+        },
+        {
+          "id": "4:7809300023435841438",
+          "name": "user_id",
+          "type": 9
+        },
+        {
+          "id": "5:2163355335403710839",
+          "name": "FRIEND_PAIR_ID",
+          "type": 9
+        },
+        {
+          "id": "6:4273815187881485694",
+          "name": "user_name",
+          "indexId": "1:5024704933118946253",
+          "type": 9,
+          "flags": 34848
+        },
+        {
+          "id": "7:6891951645285133149",
+          "name": "user_email",
+          "type": 9
+        },
+        {
+          "id": "8:4438869522399036588",
+          "name": "user_creation_date",
+          "type": 6
+        },
+        {
+          "id": "9:829220706897071222",
+          "name": "user_session_id",
+          "type": 9
+        },
+        {
+          "id": "10:8029861918301210852",
+          "name": "user_last_online",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:224714782940140671",
+      "lastPropertyId": "8:1811246156953155912",
+      "name": "TreeSpot",
+      "properties": [
+        {
+          "id": "1:8495559648990375831",
+          "name": "localID",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3883068494317407726",
+          "name": "spot_lat_north",
+          "type": 9
+        },
+        {
+          "id": "3:3383503632264222589",
+          "name": "spot_long_west",
+          "type": 9
+        },
+        {
+          "id": "4:8850908402964327122",
+          "name": "spot_creation_date",
+          "indexId": "2:4597027687529141630",
+          "type": 6,
+          "flags": 8
+        },
+        {
+          "id": "5:2113158969375308288",
+          "name": "spot_uuid",
+          "indexId": "3:143835427211923142",
+          "type": 9,
+          "flags": 34848
+        },
+        {
+          "id": "6:8496876942956487255",
+          "name": "spot_description",
+          "type": 9
+        },
+        {
+          "id": "7:1447681354396603938",
+          "name": "spot_private_description",
+          "type": 9
+        },
+        {
+          "id": "8:1811246156953155912",
+          "name": "spot_owner_uuid",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:480983825098091444",
+      "lastPropertyId": "9:4509558233517838992",
+      "name": "TreeSpotMedia",
+      "properties": [
+        {
+          "id": "1:729865753195217491",
+          "name": "localID",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7284451548338881639",
+          "name": "user_id",
+          "type": 9
+        },
+        {
+          "id": "3:6258834938930717645",
+          "name": "spot_id",
+          "type": 9
+        },
+        {
+          "id": "4:8902044430760558014",
+          "name": "typeConst",
+          "type": 9
+        },
+        {
+          "id": "5:687442154861652355",
+          "name": "media_filepath",
+          "type": 9
+        },
+        {
+          "id": "6:7250672836280420622",
+          "name": "media_filename",
+          "type": 9
+        },
+        {
+          "id": "7:8829504174275669871",
+          "name": "isUploaded",
+          "type": 1
+        },
+        {
+          "id": "8:5524888663516025994",
+          "name": "media_taken_at",
+          "type": 6
+        },
+        {
+          "id": "9:4509558233517838992",
+          "name": "media_id",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:5360981821891388771",
+      "lastPropertyId": "7:3487033169690408908",
+      "name": "User",
+      "properties": [
+        {
+          "id": "1:551379310159533071",
+          "name": "localID",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4339537499295910554",
+          "name": "user_id",
+          "type": 9
+        },
+        {
+          "id": "3:4971382470678232071",
+          "name": "user_name",
+          "indexId": "4:6678848496964749608",
+          "type": 9,
+          "flags": 34848
+        },
+        {
+          "id": "4:9213500113494272663",
+          "name": "user_email",
+          "type": 9
+        },
+        {
+          "id": "5:222223387049768229",
+          "name": "user_creation_date",
+          "type": 6
+        },
+        {
+          "id": "6:5281141363029286292",
+          "name": "user_session_id",
+          "type": 9
+        },
+        {
+          "id": "7:3487033169690408908",
+          "name": "user_last_online",
+          "type": 6
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "4:5360981821891388771",
+  "lastIndexId": "4:6678848496964749608",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

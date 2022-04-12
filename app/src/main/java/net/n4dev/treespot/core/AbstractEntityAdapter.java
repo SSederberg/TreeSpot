@@ -14,6 +14,7 @@ import com.orhanobut.logger.Logger;
 import net.n4dev.treespot.core.api.IEntity;
 import net.n4dev.treespot.core.api.IFriend;
 import net.n4dev.treespot.core.api.ITreeSpot;
+import net.n4dev.treespot.core.api.ITreeSpotMedia;
 import net.n4dev.treespot.db.TreeSpotObjectBox;
 
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
     private final SortedList<T> entities;
     private final H             viewHolder;
     private final int           br_selection;
-    private final boolean isSimple;
-    private final Box<T> mainBox;
+    private final boolean       isSimple;
+    private final Box<T>        mainBox;
 
     /**
      * The onItemSelected is where customization and business logic of a pressing/selecting a item as a whole is applied.
@@ -66,7 +67,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      *
      * @param holder - The custom viewholder that extends {@link AbstractViewHolder}.
      * @param query - The query being used
-     * @param selection - Expects a com.synsoltec.losscontrol.mobile.app.BR variable, it should correspond with
+     * @param selection - Expects a net.n4dev.treespot..BR variable, it should correspond with
      *                  the xml file being used.
      */
     public AbstractEntityAdapter(H holder, Query query, int selection, boolean simple, Class<T> klass) {
@@ -97,7 +98,9 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
     public final void onBindViewHolder(@NonNull H holder, int position) {
         T entity = entities.get(position);
         Context context = holder.itemView.getContext();
-        holder.itemView.setOnClickListener(l -> this.onItemSelected(holder, entity, context, position));
+        holder.itemView.setOnClickListener(l -> {
+            this.onItemSelected(holder, entity, context, position);
+        });
 
         holder.set(br_selection, entity);
         if (!isSimple) {
@@ -128,7 +131,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * @param query
      * @throws Exception
      */
-    public synchronized void load(Query query)
+    public synchronized void load(Query<T> query)
             throws Exception
     {
       if(query != null) {
@@ -136,7 +139,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
           CopyOnWriteArrayList<IEntity> copyEntities = new CopyOnWriteArrayList<>();
 
           Thread loadThread = new Thread(() -> {
-              List returnedQuery = query.find();
+              List<T> returnedQuery = query.find();
               copyEntities.addAll(returnedQuery);
           });
 
@@ -154,7 +157,6 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
           }
 
           Log.i("SST", "Item Range Changed! (" + entities.size() + ")");
-//          notifyDataSetChanged();
           notifyItemRangeChanged(0, entities.size(), entities);
       } else {
           Logger.e(new Throwable(), "AbstractEntityAdapter.load() failed to run because the provided query was null!");
@@ -172,7 +174,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
             throws Exception {
 
         Thread loadSecondaryThread = new Thread(() -> {
-            List<T> retunedQuery = query.find();
+            List retunedQuery = query.find();
             queryList.addAll(retunedQuery);
         });
 
@@ -260,6 +262,14 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
                 IFriend friend2 = (IFriend) item2;
 
                 return friend1.getFriendID().compareTo(friend2.getFriendID());
+            } else if(item1 instanceof ITreeSpotMedia && item2 instanceof ITreeSpotMedia) {
+              ITreeSpotMedia media1 = (ITreeSpotMedia) item1;
+              ITreeSpotMedia media2 = (ITreeSpotMedia) item2;
+
+              Long timestamp1 = media1.getMediaCreationDate();
+              Long timestamp2 = media2.getMediaCreationDate();
+
+              return timestamp1.compareTo(timestamp2);
             } else {
                 Logger.e(new Throwable(), "Failed to properly compare in SortedList.Callback! (" + item1.getClass() + ")");
             }
