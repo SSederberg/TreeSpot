@@ -24,17 +24,19 @@ class TreeSpotApplication : Application(), CameraXConfig.Provider {
     companion object {
         fun getClient(context: Context): Client {
             val url = BuildConfig.APPWRITE_URL
+            val projectID = BuildConfig.PROJECT_ID
             return Client(context)
                 .setEndpoint(url)
-                .setProject("treespot-dev")
+                .setProject(projectID)
                 .setSelfSigned(true);
         }
 
         fun getClient(context: Context, secretJWT : String) : Client {
             val url = BuildConfig.APPWRITE_URL
+            val projectID = BuildConfig.PROJECT_ID
             return Client(context)
                 .setEndpoint(url)
-                .setProject("treespot-dev")
+                .setProject(projectID)
                 .setJWT(secretJWT)
                 .setSelfSigned(true);
         }

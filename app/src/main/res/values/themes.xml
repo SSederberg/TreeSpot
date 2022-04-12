@@ -47,4 +47,9 @@
     <style name="Theme.TreeSpot.Text.Bold">
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="Theme.TreeSpot.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="thumbTint">@color/primaryDarkColor</item>
+        <item name="trackTint">@color/primaryLightColor</item>
+    </style>
 </resources>

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import net.n4dev.treespot.core.AbstractViewHolder
 import net.n4dev.treespot.databinding.AdapteritemFriendsBinding
 import net.n4dev.treespot.databinding.FragmentMyFriendsBinding
 import net.n4dev.treespot.db.query.GetUserFriendsQuery
@@ -16,7 +17,6 @@ class MyFriendsFragment() : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter : MyFriendsAdapter
-
 
     private lateinit var userID : String
 
@@ -42,11 +42,13 @@ class MyFriendsFragment() : Fragment() {
         val viewHolder = MyFriendsViewHolder(adapterItemBinding)
         val query = GetUserFriendsQuery.get(userID)
 
+        val layoutManager = LinearLayoutManager(requireContext())
         adapter = MyFriendsAdapter(viewHolder, query)
 
-        binding.myFriendsList.layoutManager = LinearLayoutManager(requireContext())
+        binding.myFriendsList.layoutManager = layoutManager
         binding.myFriendsList.adapter = adapter
 
+        AbstractViewHolder.generateItemDecoration(binding.myFriendsList, layoutManager)
         return binding.root
     }
 

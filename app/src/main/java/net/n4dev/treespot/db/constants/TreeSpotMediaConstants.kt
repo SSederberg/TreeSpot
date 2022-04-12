@@ -11,5 +11,6 @@ class TreeSpotMediaConstants {
        const val TAKEN_AT = "media_taken_at"
        const val SPOT_ID = "spot_id"
        const val MEDIA_ID = "media_id"
+       const val WORKER_UPLOAD_TAG = "TS_UPLOAD_MEDIA"
    }
 }

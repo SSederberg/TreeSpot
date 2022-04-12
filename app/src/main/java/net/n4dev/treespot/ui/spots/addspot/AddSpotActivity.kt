@@ -78,7 +78,7 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.addSpotAdd.setOnClickListener {
             val treeSpot = buildTreeSpot(binding.addSpotNameSwitch.isChecked)
 
-            viewmodel.addSpot(treeSpot, treeMedia as List<TreeSpotMedia>)
+            viewmodel.addSpot(treeSpot, treeMedia as List<TreeSpotMedia>, this)
 
             val bundle = Bundle()
             bundle.putString(MainActivity.ARG_USER_ID, userID)

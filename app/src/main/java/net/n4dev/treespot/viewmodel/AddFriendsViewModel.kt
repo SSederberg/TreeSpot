@@ -30,9 +30,6 @@ import java.util.*
     private val friendRequestCollectionID = TreeSpotFriendRequestConstants.name
     private val usersCollectionID = TreeSpotUserConstants.name
     private val friendsCollectionID = TreeSpotFriendsConstants.name
-    private val fieldUserID = "user_id"
-    private val fieldFriendID = "friend_id"
-    private val fieldFriendsSince = "friends_since"
     private val fieldUserName = TreeSpotUserConstants.USERNAME
      private lateinit var userID : String
 

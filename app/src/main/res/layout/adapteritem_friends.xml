@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="net.n4dev.treespot.util.DateConverter"/>
         <variable
             name="adapterFriend"
             type="net.n4dev.treespot.core.api.IFriend" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/friend_card"
+        android:elevation="4dp"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -49,4 +55,5 @@
         app:layout_constraintStart_toEndOf="@+id/ai_friend_profile_picture"
         app:layout_constraintTop_toBottomOf="@+id/ai_friend_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

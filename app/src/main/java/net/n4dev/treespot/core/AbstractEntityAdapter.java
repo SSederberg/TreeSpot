@@ -14,6 +14,7 @@ import com.orhanobut.logger.Logger;
 import net.n4dev.treespot.core.api.IEntity;
 import net.n4dev.treespot.core.api.IFriend;
 import net.n4dev.treespot.core.api.ITreeSpot;
+import net.n4dev.treespot.core.api.ITreeSpotMedia;
 import net.n4dev.treespot.db.TreeSpotObjectBox;
 
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
     private final SortedList<T> entities;
     private final H             viewHolder;
     private final int           br_selection;
-    private final boolean isSimple;
-    private final Box<T> mainBox;
+    private final boolean       isSimple;
+    private final Box<T>        mainBox;
 
     /**
      * The onItemSelected is where customization and business logic of a pressing/selecting a item as a whole is applied.
@@ -97,7 +98,9 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
     public final void onBindViewHolder(@NonNull H holder, int position) {
         T entity = entities.get(position);
         Context context = holder.itemView.getContext();
-        holder.itemView.setOnClickListener(l -> this.onItemSelected(holder, entity, context, position));
+        holder.itemView.setOnClickListener(l -> {
+            this.onItemSelected(holder, entity, context, position);
+        });
 
         holder.set(br_selection, entity);
         if (!isSimple) {
@@ -154,7 +157,6 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
           }
 
           Log.i("SST", "Item Range Changed! (" + entities.size() + ")");
-//          notifyDataSetChanged();
           notifyItemRangeChanged(0, entities.size(), entities);
       } else {
           Logger.e(new Throwable(), "AbstractEntityAdapter.load() failed to run because the provided query was null!");
@@ -260,6 +262,14 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
                 IFriend friend2 = (IFriend) item2;
 
                 return friend1.getFriendID().compareTo(friend2.getFriendID());
+            } else if(item1 instanceof ITreeSpotMedia && item2 instanceof ITreeSpotMedia) {
+              ITreeSpotMedia media1 = (ITreeSpotMedia) item1;
+              ITreeSpotMedia media2 = (ITreeSpotMedia) item2;
+
+              Long timestamp1 = media1.getMediaCreationDate();
+              Long timestamp2 = media2.getMediaCreationDate();
+
+              return timestamp1.compareTo(timestamp2);
             } else {
                 Logger.e(new Throwable(), "Failed to properly compare in SortedList.Callback! (" + item1.getClass() + ")");
             }
