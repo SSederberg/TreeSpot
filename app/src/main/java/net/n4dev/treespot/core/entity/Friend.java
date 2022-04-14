@@ -1,4 +1,4 @@
-package net.n4dev.treespot.db.entity;
+package net.n4dev.treespot.core.entity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

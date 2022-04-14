@@ -1,8 +1,8 @@
 package net.n4dev.treespot.core.api
 
 import androidx.annotation.Nullable
-import net.n4dev.treespot.db.entity.Friend
-import net.n4dev.treespot.db.entity.TreeSpot
+import net.n4dev.treespot.core.entity.Friend
+import net.n4dev.treespot.core.entity.TreeSpot
 import java.util.*
 
 interface IUser : IEntity {

@@ -1,9 +1,9 @@
 package net.n4dev.treespot.db.query
 
 import io.objectbox.query.Query
+import net.n4dev.treespot.core.entity.User
+import net.n4dev.treespot.core.entity.User_
 import net.n4dev.treespot.db.TreeSpotObjectBox
-import net.n4dev.treespot.db.entity.User
-import net.n4dev.treespot.db.entity.User_
 
 class GetLocalUsersQuery  {
 

@@ -21,8 +21,6 @@ import net.n4dev.treespot.db.TreeSpotObjectBox
 import net.n4dev.treespot.db.constants.TreeSpotFriendsConstants
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants
 import net.n4dev.treespot.db.constants.TreeSpotsConstants
-import net.n4dev.treespot.db.entity.Friend
-import net.n4dev.treespot.db.entity.TreeSpot
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil
@@ -36,9 +34,9 @@ class UserLoginViewModel : ViewModel(), IViewModel {
     private lateinit var avatars: Avatars
     private lateinit var awDatabase: Database
 
-    private lateinit var userBox: Box<net.n4dev.treespot.db.entity.User>
-    private lateinit var friendBox : Box<Friend>
-    private lateinit var spotBox : Box<TreeSpot>
+    private lateinit var userBox: Box<net.n4dev.treespot.core.entity.User>
+    private lateinit var friendBox : Box<net.n4dev.treespot.core.entity.Friend>
+    private lateinit var spotBox : Box<net.n4dev.treespot.core.entity.TreeSpot>
     private lateinit var loggedInUserID : String
 
    override fun init(context: Context) {
@@ -46,9 +44,9 @@ class UserLoginViewModel : ViewModel(), IViewModel {
         account = Account(client)
         awDatabase = Database(client)
         avatars = Avatars(client)
-        userBox = TreeSpotObjectBox.getBoxStore().boxFor(net.n4dev.treespot.db.entity.User::class.java)
-        friendBox = TreeSpotObjectBox.getBoxStore().boxFor(Friend::class.java)
-        spotBox = TreeSpotObjectBox.getBoxStore().boxFor(TreeSpot::class.java)
+        userBox = TreeSpotObjectBox.getBoxStore().boxFor(net.n4dev.treespot.core.entity.User::class.java)
+        friendBox = TreeSpotObjectBox.getBoxStore().boxFor(net.n4dev.treespot.core.entity.Friend::class.java)
+        spotBox = TreeSpotObjectBox.getBoxStore().boxFor(net.n4dev.treespot.core.entity.TreeSpot::class.java)
     }
 
     fun attemptLogin(emailAddress : String, password : String, sharedPreferences: SharedPreferences, context: Context) {
@@ -93,7 +91,7 @@ class UserLoginViewModel : ViewModel(), IViewModel {
             val data = document.data
             val userQuery = listOf(Query.equal(TreeSpotUserConstants.USER_ID, data.get(TreeSpotFriendsConstants.FRIEND_ID)!!))
             val userDocumentResponse = awDatabase.listDocuments(TreeSpotUserConstants.name, userQuery, 5)
-            val tempFriend = Friend()
+            val tempFriend = net.n4dev.treespot.core.entity.Friend()
             val friendData = document.data
 
             for(userDocument in userDocumentResponse.documents) {
@@ -146,7 +144,7 @@ class UserLoginViewModel : ViewModel(), IViewModel {
             val isFavorite = spotData[TreeSpotsConstants.SPOT_FAVORITE]
 
             if(privateDescription == null) {
-                val tempSpot = TreeSpot(
+                val tempSpot = net.n4dev.treespot.core.entity.TreeSpot(
                     latNorth as String,
                     longWest as String,
                     creationDate as Long,
@@ -158,7 +156,7 @@ class UserLoginViewModel : ViewModel(), IViewModel {
 
                 spotBox.put(tempSpot)
             } else {
-                val tempSpot = TreeSpot(
+                val tempSpot = net.n4dev.treespot.core.entity.TreeSpot(
                     latNorth as String,
                     longWest as String,
                     creationDate as Long,
@@ -176,7 +174,7 @@ class UserLoginViewModel : ViewModel(), IViewModel {
 
 
     private fun createUserInDB(get: User) {
-        val convert = net.n4dev.treespot.db.entity.User.convertFromAWUser(get)
+        val convert = net.n4dev.treespot.core.entity.User.convertFromAWUser(get)
         userBox.removeAll()
         userBox.put(convert)
     }
@@ -211,7 +209,7 @@ class UserLoginViewModel : ViewModel(), IViewModel {
             val isFavorite = spotData[TreeSpotsConstants.SPOT_FAVORITE]
 
             if(privateDescription == null) {
-                val tempSpot = TreeSpot(
+                val tempSpot = net.n4dev.treespot.core.entity.TreeSpot(
                     latNorth as String,
                     longWest as String,
                     creationDate as Long,
@@ -223,7 +221,7 @@ class UserLoginViewModel : ViewModel(), IViewModel {
 
                 spotBox.put(tempSpot)
             } else {
-                val tempSpot = TreeSpot(
+                val tempSpot = net.n4dev.treespot.core.entity.TreeSpot(
                     latNorth as String,
                     longWest as String,
                     creationDate as Long,

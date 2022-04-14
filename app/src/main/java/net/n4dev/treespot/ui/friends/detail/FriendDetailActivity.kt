@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import net.n4dev.treespot.core.AbstractViewHolder
+import net.n4dev.treespot.core.entity.Friend
 import net.n4dev.treespot.databinding.ActivityFriendDetailBinding
 import net.n4dev.treespot.databinding.AdapteritemTreespotLocationBinding
-import net.n4dev.treespot.db.entity.Friend
 import net.n4dev.treespot.db.query.GetSingleFriendQuery
 import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery
 import net.n4dev.treespot.ui.TreeSpotActivity

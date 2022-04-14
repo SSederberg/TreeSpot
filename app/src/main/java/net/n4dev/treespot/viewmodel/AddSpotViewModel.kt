@@ -7,9 +7,9 @@ import io.objectbox.Box
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.core.AbstractViewModel
 import net.n4dev.treespot.core.api.ITreeSpot
+import net.n4dev.treespot.core.entity.TreeSpot
+import net.n4dev.treespot.core.entity.TreeSpotMedia
 import net.n4dev.treespot.db.constants.TreeSpotsConstants
-import net.n4dev.treespot.db.entity.TreeSpot
-import net.n4dev.treespot.db.entity.TreeSpotMedia
 import net.n4dev.treespot.worker.UploadTreeSpotWorker
 import net.n4dev.treespot.worker.WorkerUtil
 

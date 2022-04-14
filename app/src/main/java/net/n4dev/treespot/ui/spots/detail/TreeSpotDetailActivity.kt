@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -16,9 +17,9 @@ import com.orhanobut.logger.Logger
 import net.n4dev.treespot.R
 import net.n4dev.treespot.core.AbstractViewHolder
 import net.n4dev.treespot.core.api.IUser
+import net.n4dev.treespot.core.entity.TreeSpot
 import net.n4dev.treespot.databinding.ActivityTreeSpotDetailBinding
 import net.n4dev.treespot.databinding.AdapteritemSpotMediaBinding
-import net.n4dev.treespot.db.entity.TreeSpot
 import net.n4dev.treespot.db.query.GetLocationMediaQuery
 import net.n4dev.treespot.db.query.GetSingleLocationQuery
 import net.n4dev.treespot.db.query.GetSingleUserQuery
@@ -43,6 +44,7 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
     private lateinit var theSpot: TreeSpot
     private lateinit var theUser: IUser
     private lateinit var popupMenu: PopupMenu
+    private var isFavorite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,21 +82,20 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
             if(itemID == R.id.menu_main_capture_settings) {
                 ActivityUtil.startActivity(SettingsActivity::class.java, this)
             } else if(itemID == R.id.menu_spot_detail_favorite) {
-                val ownSpot = isOwnSpot()
-                val alreadyFavorite = isAlreadyAFavorite()
 
-                if(ownSpot) {
-                    false
-                }
 
-                if(alreadyFavorite) {
+                if(isFavorite) {
                     val solidDrawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_border)
                     menuItem.setIcon(solidDrawable)
-                    false
+                    isFavorite = false
+                    theSpot.setIsFavorite(isFavorite)
+                    true
                 } else {
                     val solidDrawable = ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24)
                     menuItem.setIcon(solidDrawable)
-
+                    isFavorite = true
+                    theSpot.setIsFavorite(isFavorite)
+                    true
                     //TODO: Do favorite logic
                 }
             }
@@ -118,14 +119,6 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
 
     }
 
-    private fun isOwnSpot(): Boolean {
-        return false
-    }
-
-    private fun isAlreadyAFavorite() : Boolean {
-        return false
-    }
-
     override fun buildFromBundle(bundle: Bundle) {
         val spotID = bundle.getString(ARG_LOCATION_ID)
         val userType = bundle.getString(ARG_USER_TYPE)
@@ -137,6 +130,7 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
         if (userType.equals(ARG_USER)) {
             val userQuery = GetSingleUserQuery.getFromUser(ownerID).find()
             theUser = userQuery[0]
+            binding.mainIncludeTopbar.mainAppbarBar.menu[1].isVisible = false
         } else if (userType.equals(ARG_FRIEND)) {
             val friendQuery = GetSingleUserQuery.getFromFriend(ownerID).find()
             theUser = friendQuery[0]

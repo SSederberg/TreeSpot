@@ -11,7 +11,7 @@ import io.objectbox.query.Query
 import net.n4dev.treespot.BR
 import net.n4dev.treespot.R
 import net.n4dev.treespot.core.AbstractEntityAdapter
-import net.n4dev.treespot.db.entity.Friend
+import net.n4dev.treespot.core.entity.Friend
 import net.n4dev.treespot.util.ActivityUtil
 
 class ShareSpotFriendsAdapter(holder: ShareSpotFriendsViewHolder, query : Query<Friend>, private val shareButton : MaterialButton)

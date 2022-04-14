@@ -23,10 +23,10 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.CancellationTokenSource
 import net.n4dev.treespot.core.api.ITreeSpot
 import net.n4dev.treespot.core.api.ITreeSpotMedia
+import net.n4dev.treespot.core.entity.TreeSpot
+import net.n4dev.treespot.core.entity.TreeSpotMedia
+import net.n4dev.treespot.core.entity.TypeConst
 import net.n4dev.treespot.databinding.ActivityAddSpotBinding
-import net.n4dev.treespot.db.entity.TreeSpot
-import net.n4dev.treespot.db.entity.TreeSpotMedia
-import net.n4dev.treespot.db.entity.TypeConst
 import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.GPSUtils
@@ -188,7 +188,8 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
                 spotID,
                 TypeConst.MEDIA,
                 uri,
-                filename)
+                filename
+            )
 
             newMedias.add(media)
         }

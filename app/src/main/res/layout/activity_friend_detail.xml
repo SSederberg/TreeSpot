@@ -5,7 +5,7 @@
     <data>
         <variable
             name="friendDetail"
-            type="net.n4dev.treespot.db.entity.Friend" />
+            type="net.n4dev.treespot.core.entity.Friend" />
 
         <import type="net.n4dev.treespot.util.DateConverter"/>
     </data>

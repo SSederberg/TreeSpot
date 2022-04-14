@@ -1,28 +1,21 @@
-package net.n4dev.treespot.db.entity;
+package net.n4dev.treespot.core.entity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import net.n4dev.treespot.core.api.IFriend;
-import net.n4dev.treespot.core.api.ITreeSpot;
 import net.n4dev.treespot.core.api.IUser;
-import net.n4dev.treespot.db.TreeSpotObjectBox;
 import net.n4dev.treespot.db.UUIDConverter;
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants;
-import net.n4dev.treespot.db.constants.TreeSpotsConstants;
-import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery;
 
 import java.util.List;
 import java.util.UUID;
 
-import io.objectbox.Box;
 import io.objectbox.annotation.ConflictStrategy;
 import io.objectbox.annotation.Convert;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.NameInDb;
 import io.objectbox.annotation.Unique;
-import io.objectbox.query.Query;
 
 @Entity
 public class User implements IUser {

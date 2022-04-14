@@ -1,9 +1,9 @@
 package net.n4dev.treespot.db.query
 
 import io.objectbox.query.Query
+import net.n4dev.treespot.core.entity.TreeSpot
+import net.n4dev.treespot.core.entity.TreeSpot_
 import net.n4dev.treespot.db.TreeSpotObjectBox
-import net.n4dev.treespot.db.entity.TreeSpot
-import net.n4dev.treespot.db.entity.TreeSpot_
 
 class GetSingleLocationQuery {
 

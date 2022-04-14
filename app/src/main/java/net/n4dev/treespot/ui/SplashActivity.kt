@@ -12,11 +12,10 @@ import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import net.n4dev.treespot.BuildConfig
 import net.n4dev.treespot.R
+import net.n4dev.treespot.core.entity.Friend
+import net.n4dev.treespot.core.entity.TreeSpot
 import net.n4dev.treespot.databinding.ActivitySplashBinding
 import net.n4dev.treespot.db.TreeSpotObjectBox
-import net.n4dev.treespot.db.entity.Friend
-import net.n4dev.treespot.db.entity.TreeSpot
-import net.n4dev.treespot.db.entity.User
 import net.n4dev.treespot.ui.account.RegisterAccountActivity
 import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil
@@ -96,13 +95,13 @@ class SplashActivity : TreeSpotActivity() {
     }
 
     private fun doesUserAccountExist() : Boolean {
-        val box = super.getBox(User::class.java)
+        val box = super.getBox(net.n4dev.treespot.core.entity.User::class.java)
         return box.all.size > 0
     }
 
     private fun userIsAuthorized(): Boolean {
         try {
-            val users = super.getBox(User::class.java).all
+            val users = super.getBox(net.n4dev.treespot.core.entity.User::class.java).all
 
             if(users.size == 0) {
                 return false
@@ -162,7 +161,7 @@ class SplashActivity : TreeSpotActivity() {
 
         try {
 
-            val personalID = super.getBox(User::class.java).all.get(0).getUserID()
+            val personalID = super.getBox(net.n4dev.treespot.core.entity.User::class.java).all.get(0).getUserID()
 
             for(i in 0..10) {
                 val loopFriend = Friend()

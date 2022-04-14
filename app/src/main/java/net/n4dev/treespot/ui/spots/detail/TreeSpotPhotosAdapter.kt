@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide
 import io.objectbox.query.Query
 import net.n4dev.treespot.BR
 import net.n4dev.treespot.core.AbstractEntityAdapter
-import net.n4dev.treespot.db.entity.TreeSpotMedia
+import net.n4dev.treespot.core.entity.TreeSpotMedia
 
 class TreeSpotPhotosAdapter(viewHolder: TreeSpotPhotosViewHolder, query : Query<TreeSpotMedia>
 ) : AbstractEntityAdapter<TreeSpotMedia, TreeSpotPhotosViewHolder>(viewHolder, query, BR.media, false, TreeSpotMedia::class.java){

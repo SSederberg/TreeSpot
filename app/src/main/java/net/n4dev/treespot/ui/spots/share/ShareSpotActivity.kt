@@ -3,10 +3,10 @@ package net.n4dev.treespot.ui.spots.share
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.orhanobut.logger.Logger
+import net.n4dev.treespot.core.entity.TreeSpot
+import net.n4dev.treespot.core.entity.User
 import net.n4dev.treespot.databinding.ActivityShareSpotBinding
 import net.n4dev.treespot.databinding.AdapteritemFriendsSelectBinding
-import net.n4dev.treespot.db.entity.TreeSpot
-import net.n4dev.treespot.db.entity.User
 import net.n4dev.treespot.db.query.GetSingleLocationQuery
 import net.n4dev.treespot.db.query.GetSingleUserQuery
 import net.n4dev.treespot.db.query.GetUserFriendsQuery

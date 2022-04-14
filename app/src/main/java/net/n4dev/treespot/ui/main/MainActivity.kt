@@ -16,8 +16,8 @@ import com.google.android.gms.location.LocationServices
 import com.orhanobut.logger.Logger
 import net.n4dev.treespot.R
 import net.n4dev.treespot.core.ZoomOutPageTransformer
+import net.n4dev.treespot.core.entity.User
 import net.n4dev.treespot.databinding.ActivityMainBinding
-import net.n4dev.treespot.db.entity.User
 import net.n4dev.treespot.db.query.GetSingleUserQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.ui.friends.add.AddFriendsActivity

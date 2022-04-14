@@ -1,4 +1,4 @@
-package net.n4dev.treespot.db.entity;
+package net.n4dev.treespot.core.entity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,7 +17,6 @@ import java.util.UUID;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.NameInDb;
-import io.objectbox.tree.Tree;
 
 @Entity
 public class TreeSpotMedia implements ITreeSpotMedia {

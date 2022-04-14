@@ -5,9 +5,9 @@ import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.android.AndroidObjectBrowser
 import net.n4dev.treespot.core.api.IEntity
-import net.n4dev.treespot.db.entity.Friend
-import net.n4dev.treespot.db.entity.MyObjectBox
-import net.n4dev.treespot.db.entity.TreeSpot
+import net.n4dev.treespot.core.entity.Friend
+import net.n4dev.treespot.core.entity.MyObjectBox
+import net.n4dev.treespot.core.entity.TreeSpot
 
 object TreeSpotObjectBox {
     private lateinit var store: BoxStore

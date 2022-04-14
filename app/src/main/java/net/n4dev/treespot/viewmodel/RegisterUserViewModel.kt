@@ -56,7 +56,7 @@ class RegisterUserViewModel : AbstractViewModel() {
 
         val time = System.currentTimeMillis()
         //Local database
-        val user = net.n4dev.treespot.db.entity.User(
+        val user = net.n4dev.treespot.core.entity.User(
             awUser.name,
             awUser.email,
             UUID.fromString(awUser.id)

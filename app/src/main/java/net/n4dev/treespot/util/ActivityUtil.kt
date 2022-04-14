@@ -3,7 +3,7 @@ package net.n4dev.treespot.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
- import android.net.Uri
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -11,7 +11,7 @@ import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import net.n4dev.treespot.R
-import net.n4dev.treespot.db.entity.TreeSpot
+import net.n4dev.treespot.core.entity.TreeSpot
 import java.io.File
 
 class ActivityUtil {
