@@ -14,7 +14,7 @@ import net.n4dev.treespot.core.entity.Friend
 import net.n4dev.treespot.ui.friends.detail.FriendDetailActivity
 import net.n4dev.treespot.util.ActivityUtil
 
-class MyFriendsAdapter(viewHolder: MyFriendsViewHolder, query : Query<Friend>) :
+class MyFriendsAdapter(viewHolder: MyFriendsViewHolder, query : Query<Friend>, val userID: String) :
     AbstractEntityAdapter<Friend, MyFriendsViewHolder>(viewHolder, query, BR.adapterFriend, false, Friend::class.java) {
 
     private lateinit var client : Client
@@ -28,6 +28,7 @@ class MyFriendsAdapter(viewHolder: MyFriendsViewHolder, query : Query<Friend>) :
     ) {
         val bundle = Bundle()
         bundle.putString(FriendDetailActivity.ARG_FRIEND_ID, entity.getFriendID().toString())
+        bundle.putString(FriendDetailActivity.ARG_USER_ID, userID)
         ActivityUtil.startActivity(bundle, FriendDetailActivity::class.java, holder.itemView.context, false)
     }
 

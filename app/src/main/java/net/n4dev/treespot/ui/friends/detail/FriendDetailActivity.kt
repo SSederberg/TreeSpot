@@ -21,10 +21,12 @@ class FriendDetailActivity : TreeSpotActivity() {
     private lateinit var binding : ActivityFriendDetailBinding
     private var theFriend : Friend? = null
     private lateinit var friendID : String
+    private lateinit var userID : String
     private lateinit var viewModel : FriendDetailViewModel
 
     companion object {
         const val ARG_FRIEND_ID = "ARG_FRIEND_ID"
+        const val ARG_USER_ID = "ARG_USER_ID"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +58,7 @@ class FriendDetailActivity : TreeSpotActivity() {
         val query = GetUserTreeSpotsQuery.get(friendID)
 
         val layoutManager = LinearLayoutManager(this)
-        val adapter = FriendDetailSpotsAdapter(viewHolder, query)
+        val adapter = FriendDetailSpotsAdapter(viewHolder, query, userID)
 
         binding.friendDetailSpotsList.layoutManager = layoutManager
         binding.friendDetailSpotsList.adapter = adapter
@@ -80,6 +82,7 @@ class FriendDetailActivity : TreeSpotActivity() {
 
     override fun buildFromBundle(bundle: Bundle) {
         friendID = bundle.getString(ARG_FRIEND_ID, "NULL")
+        userID = bundle.getString(ARG_USER_ID)!!
     }
 
     private fun getFriend() : Friend {

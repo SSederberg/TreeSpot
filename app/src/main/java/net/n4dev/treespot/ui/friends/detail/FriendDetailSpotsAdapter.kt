@@ -10,7 +10,7 @@ import net.n4dev.treespot.ui.spots.detail.TreeSpotDetailActivity
 import net.n4dev.treespot.util.ActivityUtil
 
 
-class FriendDetailSpotsAdapter(holder: FriendDetailSpotsViewHolder, query : Query<TreeSpot>)
+class FriendDetailSpotsAdapter(holder: FriendDetailSpotsViewHolder, query : Query<TreeSpot>, val requestedID : String)
     : AbstractEntityAdapter<TreeSpot, FriendDetailSpotsViewHolder>(holder, query, BR.myTreeSpot, false, TreeSpot::class.java) {
 
 
@@ -23,6 +23,7 @@ class FriendDetailSpotsAdapter(holder: FriendDetailSpotsViewHolder, query : Quer
         val bundle = Bundle()
         bundle.putString(TreeSpotDetailActivity.ARG_LOCATION_ID, entity.getSpotID())
         bundle.putString(TreeSpotDetailActivity.ARG_USER_TYPE, TreeSpotDetailActivity.ARG_FRIEND)
+        bundle.putString(TreeSpotDetailActivity.ARG_REQUESTED_BY_ID, requestedID)
 
         ActivityUtil.startActivity(bundle, TreeSpotDetailActivity::class.java, holder.itemView.context, false)
     }

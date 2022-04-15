@@ -1,16 +1,20 @@
 package net.n4dev.treespot.core.entity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import net.n4dev.treespot.core.api.IFavoriteTreeSpot;
 import net.n4dev.treespot.db.UUIDConverter;
 import net.n4dev.treespot.db.constants.TreeSpotFavoriteConstants;
+import net.n4dev.treespot.db.constants.TreeSpotsConstants;
 
+import io.objectbox.annotation.ConflictStrategy;
 import io.objectbox.annotation.Convert;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.Index;
 import io.objectbox.annotation.NameInDb;
+import io.objectbox.annotation.Unique;
 
 @Entity
 public class FavoriteSpot implements IFavoriteTreeSpot {
@@ -18,13 +22,32 @@ public class FavoriteSpot implements IFavoriteTreeSpot {
     @Id
     public Long localID;
 
-    @NameInDb(TreeSpotFavoriteConstants.SPOT_UUID)
-//    @Convert(converter = UUIDConverter.class, dbType = String.class)
-    private String spotID;
+    @NameInDb(TreeSpotsConstants.SPOT_LAT_NORTH)
+    private String latNorth;
 
-    @NameInDb(TreeSpotFavoriteConstants.SPOT_OWNER_ID)
-//    @Convert(converter = UUIDConverter.class, dbType = String.class)
+    @NameInDb(TreeSpotsConstants.SPOT_LONG_WEST)
+    private String longWest;
+
+    @Index
+    @NameInDb(TreeSpotsConstants.SPOT_CREATION_DATE)
+    private Long  creationDate;
+
+    @Unique(onConflict = ConflictStrategy.REPLACE)
+    @NameInDb(TreeSpotsConstants.SPOT_UUID)
+    private  String spotID;
+
+    @NameInDb(TreeSpotsConstants.SPOT_DESCRIPTION)
+    private String description;
+
+    @Nullable
+    @NameInDb(TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION)
+    private String privateDescription;
+
+    @NameInDb(TreeSpotsConstants.SPOT_OWNER_ID)
     private String spotOwnerID;
+
+    @NameInDb(TreeSpotsConstants.SPOT_FAVORITE)
+    private Boolean isFavorite;
 
     @NameInDb(TreeSpotFavoriteConstants.SPOT_FAV_USER_ID)
 //    @Convert(converter = UUIDConverter.class, dbType = String.class)

@@ -1,18 +1,6 @@
 package net.n4dev.treespot.core.api
 
-interface IFavoriteTreeSpot : IEntity {
-
-    /**
-     * The UUID of the spot
-     */
-    fun getSpotID() :  String
-    fun setSpotID(uuid: String)
-
-    /**
-     * The user UUID of the spot creator.
-     */
-    fun setSpotOwnerID(userID : String)
-    fun getSpotOwnerID() : String
+interface IFavoriteTreeSpot : ITreeSpot {
 
 
     fun getFavoriteUserID() : String

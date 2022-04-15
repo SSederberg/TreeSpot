@@ -13,6 +13,7 @@ import com.orhanobut.logger.Logger;
 
 import net.n4dev.treespot.core.api.IEntity;
 import net.n4dev.treespot.core.api.IFriend;
+import net.n4dev.treespot.core.api.IQuery;
 import net.n4dev.treespot.core.api.ITreeSpot;
 import net.n4dev.treespot.core.api.ITreeSpotMedia;
 import net.n4dev.treespot.db.TreeSpotObjectBox;
@@ -70,7 +71,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * @param selection - Expects a net.n4dev.treespot..BR variable, it should correspond with
      *                  the xml file being used.
      */
-    public AbstractEntityAdapter(H holder, Query query, int selection, boolean simple, Class<T> klass) {
+    public AbstractEntityAdapter(H holder, IQuery query, int selection, boolean simple, Class<T> klass) {
         this.viewHolder = holder;
         this.br_selection = selection;
         this.isSimple = simple;
@@ -79,7 +80,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
          mainBox = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(klass);
 
         try {
-             load(query);
+             load((Query<T>) query);
         } catch (Exception e) {
             Logger.e(e, "Attempted to invoke primary query load but returned exception!");
             this.onNoItemsAvailable(holder);
@@ -141,6 +142,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
           Thread loadThread = new Thread(() -> {
               List<T> returnedQuery = query.find();
               copyEntities.addAll(returnedQuery);
+              query.close();
           });
 
           loadThread.start();
@@ -176,6 +178,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
         Thread loadSecondaryThread = new Thread(() -> {
             List retunedQuery = query.find();
             queryList.addAll(retunedQuery);
+            query.close();
         });
 
         loadSecondaryThread.start();

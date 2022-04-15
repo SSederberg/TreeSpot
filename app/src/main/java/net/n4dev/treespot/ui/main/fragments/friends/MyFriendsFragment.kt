@@ -43,7 +43,7 @@ class MyFriendsFragment() : Fragment() {
         val query = GetUserFriendsQuery.get(userID)
 
         val layoutManager = LinearLayoutManager(requireContext())
-        adapter = MyFriendsAdapter(viewHolder, query)
+        adapter = MyFriendsAdapter(viewHolder, query, userID)
 
         binding.myFriendsList.layoutManager = layoutManager
         binding.myFriendsList.adapter = adapter

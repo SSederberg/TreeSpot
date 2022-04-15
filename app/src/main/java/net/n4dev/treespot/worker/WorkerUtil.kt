@@ -46,5 +46,9 @@ class WorkerUtil {
         fun beginChainedWork(context: Context, workRequest: OneTimeWorkRequest) : WorkContinuation  {
            return WorkManager.getInstance(context).beginWith(workRequest)
         }
+
+        fun getMemberRole() : List<String> {
+            return listOf("role:member")
+        }
     }
 }

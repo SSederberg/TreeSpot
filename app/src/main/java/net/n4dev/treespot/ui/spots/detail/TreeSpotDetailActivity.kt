@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,6 +29,7 @@ import net.n4dev.treespot.ui.settings.SettingsActivity
 import net.n4dev.treespot.ui.spots.share.ShareSpotActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DateConverter
+import net.n4dev.treespot.viewmodel.FavoriteSpotViewModel
 
 class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
     PopupMenu.OnMenuItemClickListener {
@@ -37,6 +39,7 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
         const val ARG_USER_TYPE = "ARG_USER_TYPE"
         const val ARG_USER = "ARG_USER"
         const val ARG_FRIEND = "ARG_FRIEND"
+        const val ARG_REQUESTED_BY_ID = "ARG_REQUESTED_BY_ID"
     }
 
     private lateinit var binding: ActivityTreeSpotDetailBinding
@@ -44,17 +47,21 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
     private lateinit var theSpot: TreeSpot
     private lateinit var theUser: IUser
     private lateinit var popupMenu: PopupMenu
+    private lateinit var favoriteModel : FavoriteSpotViewModel
+    private lateinit var requestedByID : String
     private var isFavorite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTreeSpotDetailBinding.inflate(layoutInflater)
+        favoriteModel = ViewModelProvider(this).get(FavoriteSpotViewModel::class.java)
 
         if (intent.extras != null) {
             this.buildFromBundle(intent.extras!!)
         } else if (savedInstanceState != null) {
             this.buildFromBundle(savedInstanceState)
         }
+        favoriteModel.init(this)
 
         mapsFragment = binding.spotDetailMapsFragment.getFragment() as SupportMapFragment
         mapsFragment.getMapAsync(this)
@@ -88,15 +95,15 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
                     val solidDrawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_border)
                     menuItem.setIcon(solidDrawable)
                     isFavorite = false
-                    theSpot.setIsFavorite(isFavorite)
                     true
                 } else {
                     val solidDrawable = ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24)
                     menuItem.setIcon(solidDrawable)
                     isFavorite = true
-                    theSpot.setIsFavorite(isFavorite)
+
+                    favoriteModel.addFavoriteSpot(theSpot, requestedByID, this)
+
                     true
-                    //TODO: Do favorite logic
                 }
             }
 
@@ -122,10 +129,12 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
     override fun buildFromBundle(bundle: Bundle) {
         val spotID = bundle.getString(ARG_LOCATION_ID)
         val userType = bundle.getString(ARG_USER_TYPE)
+        val requestedBy = bundle.getString(ARG_REQUESTED_BY_ID)!!
 
         val spotQuery = GetSingleLocationQuery.get(spotID!!).find()
         theSpot = spotQuery[0]
         val ownerID = theSpot.getSpotOwnerID();
+        this.requestedByID = requestedBy
 
         if (userType.equals(ARG_USER)) {
             val userQuery = GetSingleUserQuery.getFromUser(ownerID).find()

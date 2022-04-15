@@ -4,18 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import net.n4dev.treespot.core.api.IUser;
+import net.n4dev.treespot.db.TreeSpotObjectBox;
 import net.n4dev.treespot.db.UUIDConverter;
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants;
+import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery;
 
 import java.util.List;
 import java.util.UUID;
 
+import io.objectbox.Box;
 import io.objectbox.annotation.ConflictStrategy;
 import io.objectbox.annotation.Convert;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.NameInDb;
+import io.objectbox.annotation.Transient;
 import io.objectbox.annotation.Unique;
+import io.objectbox.query.Query;
 
 @Entity
 public class User implements IUser {
@@ -43,18 +48,21 @@ public class User implements IUser {
     @NameInDb(TreeSpotUserConstants.LAST_ONLINE)
     private Long lastOnline;
 
-//    private final Box<User> userBoxInstance;
-//    private final Box<TreeSpot> treeSpotBoxInstance;
+    @Transient
+    private final Box<User> userBoxInstance;
+
+    @Transient
+    private final Box<TreeSpot> treeSpotBoxInstance;
 
     public User() {
         //Required to compile
-//        userBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(User.class);
-//        treeSpotBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(TreeSpot.class);
+        userBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(User.class);
+        treeSpotBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(TreeSpot.class);
     }
 
     public User(String username, String emailAddress, UUID uuid) {
-//        userBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(User.class);
-//        treeSpotBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(TreeSpot.class);
+        userBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(User.class);
+        treeSpotBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(TreeSpot.class);
 
         this.username = username;
         this.emailAddress = emailAddress;
@@ -129,11 +137,11 @@ public class User implements IUser {
     @NonNull
     @Override
     public List<TreeSpot> getUserSpots() {
-//        Query<TreeSpot> query = new GetUserTreeSpotsQuery(treeSpotBoxInstance, TreeSpotsConstants.name, this.userID).buildQuery();
-//        List<TreeSpot> returnedSpots = query.find();
-//        query.close();
-//        return returnedSpots;
-        return null;
+        Query<TreeSpot> query = GetUserTreeSpotsQuery.Companion.get(userID.toString());
+        List<TreeSpot> returnedSpots = query.find();
+        query.close();
+        return returnedSpots;
+//        return null;
     }
 
     @NonNull
