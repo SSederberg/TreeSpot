@@ -46,9 +46,6 @@ public class FavoriteSpot implements IFavoriteTreeSpot {
     @NameInDb(TreeSpotsConstants.SPOT_OWNER_ID)
     private String spotOwnerID;
 
-    @NameInDb(TreeSpotsConstants.SPOT_FAVORITE)
-    private Boolean isFavorite;
-
     @NameInDb(TreeSpotFavoriteConstants.SPOT_FAV_USER_ID)
 //    @Convert(converter = UUIDConverter.class, dbType = String.class)
     private String favoriteUserID;
@@ -139,5 +136,59 @@ public class FavoriteSpot implements IFavoriteTreeSpot {
                 ", favoriteUserID='" + favoriteUserID + '\'' +
                 ", favoriteDate=" + favoriteDate +
                 '}';
+    }
+
+    @Override
+    public long getCreationDate() {
+        return creationDate;
+    }
+
+    @Override
+    public void setCreationDate(long date) {
+        this.creationDate = date;
+    }
+
+    @NonNull
+    @Override
+    public String getLatNorth() {
+        return latNorth;
+    }
+
+    @Override
+    public void setLatNorth(@NonNull String string) {
+        this.latNorth = string;
+    }
+
+    @NonNull
+    @Override
+    public String getLongWest() {
+        return longWest;
+    }
+
+    @Override
+    public void setLongWest(@NonNull String string) {
+        this.longWest = string;
+    }
+
+    @NonNull
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public void setDescription(@NonNull String description) {
+        this.description = description;
+    }
+
+    @NonNull
+    @Override
+    public String getPrivateDescription() {
+        return privateDescription;
+    }
+
+    @Override
+    public void setPrivateDescription(@NonNull String string) {
+        this.privateDescription = string;
     }
 }

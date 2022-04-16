@@ -10,7 +10,6 @@ import net.n4dev.treespot.R
 import net.n4dev.treespot.core.AbstractViewHolder
 import net.n4dev.treespot.databinding.AdapteritemTreespotLocationBinding
 import net.n4dev.treespot.databinding.FragmentMySpotsBinding
-import net.n4dev.treespot.db.query.GetFavoriteUserSpotsQuery
 import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery
 
 class MySpotsFragment() : Fragment() {
@@ -45,8 +44,9 @@ class MySpotsFragment() : Fragment() {
 
         val adapterItemBinding = AdapteritemTreespotLocationBinding.inflate(LayoutInflater.from(requireContext()))
         val query = GetUserTreeSpotsQuery.get(userID)
+
         mySpotsViewHolder = MySpotViewHolder(adapterItemBinding)
-        mySpotsAdapter = MySpotsAdapter(mySpotsViewHolder, query, userID)
+        mySpotsAdapter = MySpotsAdapter(mySpotsViewHolder, query!!, userID)
         val layoutManager = LinearLayoutManager(requireContext())
 
         binding.switchMaterial.setOnCheckedChangeListener { compoundButton, isChecked ->
@@ -61,8 +61,8 @@ class MySpotsFragment() : Fragment() {
                 val text = "Favorite Spots"
                 binding.textView.text = text
 
-                val newQuery = GetFavoriteUserSpotsQuery.get(userID)
-                mySpotsAdapter.load(newQuery)
+//                val newQuery = GetFavoriteUserSpotsQuery.get(userID)
+//                mySpotsAdapter.load(newQuery)
             }
         }
 

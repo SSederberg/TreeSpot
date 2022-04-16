@@ -95,6 +95,8 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
                     val solidDrawable = ContextCompat.getDrawable(this, R.drawable.ic_favorite_border)
                     menuItem.setIcon(solidDrawable)
                     isFavorite = false
+
+                    favoriteModel.removeFavoriteSpot(theSpot, requestedByID, this)
                     true
                 } else {
                     val solidDrawable = ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24)

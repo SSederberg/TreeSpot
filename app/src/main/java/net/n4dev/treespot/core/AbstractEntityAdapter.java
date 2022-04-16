@@ -71,7 +71,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * @param selection - Expects a net.n4dev.treespot..BR variable, it should correspond with
      *                  the xml file being used.
      */
-    public AbstractEntityAdapter(H holder, IQuery query, int selection, boolean simple, Class<T> klass) {
+    public AbstractEntityAdapter(H holder, Query<T> query, int selection, boolean simple, Class<T> klass) {
         this.viewHolder = holder;
         this.br_selection = selection;
         this.isSimple = simple;

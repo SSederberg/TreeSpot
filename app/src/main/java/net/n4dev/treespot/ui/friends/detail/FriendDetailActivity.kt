@@ -58,7 +58,7 @@ class FriendDetailActivity : TreeSpotActivity() {
         val query = GetUserTreeSpotsQuery.get(friendID)
 
         val layoutManager = LinearLayoutManager(this)
-        val adapter = FriendDetailSpotsAdapter(viewHolder, query, userID)
+        val adapter = FriendDetailSpotsAdapter(viewHolder, query!!, userID)
 
         binding.friendDetailSpotsList.layoutManager = layoutManager
         binding.friendDetailSpotsList.adapter = adapter

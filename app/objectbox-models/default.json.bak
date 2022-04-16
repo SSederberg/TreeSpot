@@ -113,11 +113,6 @@
           "id": "8:1811246156953155912",
           "name": "spot_owner_uuid",
           "type": 9
-        },
-        {
-          "id": "9:1836873287318200532",
-          "name": "spot_favorite",
-          "type": 1
         }
       ],
       "relations": []
@@ -224,7 +219,7 @@
     },
     {
       "id": "5:5904761566930863678",
-      "lastPropertyId": "5:8880160397739531992",
+      "lastPropertyId": "11:6023332712721440477",
       "name": "FavoriteSpot",
       "properties": [
         {
@@ -236,7 +231,9 @@
         {
           "id": "2:1748030051820827020",
           "name": "spot_uuid",
-          "type": 9
+          "indexId": "7:2915947785070459415",
+          "type": 9,
+          "flags": 34848
         },
         {
           "id": "3:6977965829481855491",
@@ -251,21 +248,57 @@
         {
           "id": "5:8880160397739531992",
           "name": "spot_fav_date",
-          "type": 6
+          "indexId": "5:4643048223198640876",
+          "type": 6,
+          "flags": 8
+        },
+        {
+          "id": "6:117113316160478513",
+          "name": "spot_lat_north",
+          "type": 9
+        },
+        {
+          "id": "7:8523633975239020214",
+          "name": "spot_long_west",
+          "type": 9
+        },
+        {
+          "id": "8:2837997786627545651",
+          "name": "spot_creation_date",
+          "indexId": "6:2566825988076364249",
+          "type": 6,
+          "flags": 8
+        },
+        {
+          "id": "9:6566261970100702608",
+          "name": "spot_description",
+          "type": 9
+        },
+        {
+          "id": "10:2592971082320312668",
+          "name": "spot_private_description",
+          "type": 9
+        },
+        {
+          "id": "11:6023332712721440477",
+          "name": "spot_favorite",
+          "type": 1
         }
       ],
       "relations": []
     }
   ],
   "lastEntityId": "5:5904761566930863678",
-  "lastIndexId": "4:6678848496964749608",
+  "lastIndexId": "7:2915947785070459415",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    1836873287318200532
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

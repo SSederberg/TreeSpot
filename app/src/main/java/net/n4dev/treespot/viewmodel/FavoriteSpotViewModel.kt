@@ -8,6 +8,7 @@ import net.n4dev.treespot.core.entity.FavoriteSpot
 import net.n4dev.treespot.core.entity.TreeSpot
 import net.n4dev.treespot.db.TreeSpotObjectBox
 import net.n4dev.treespot.db.constants.TreeSpotFavoriteConstants
+import net.n4dev.treespot.db.query.GetSingleFavoriteSpotQuery
 import net.n4dev.treespot.worker.UploadFavoriteTreeSpotWorker
 import net.n4dev.treespot.worker.WorkerUtil
 
@@ -32,7 +33,6 @@ class FavoriteSpotViewModel : AbstractViewModel() {
 
         favoriteBox.put(favoriteSpot)
 
-
         val workData = Data.Builder()
             .putString(TreeSpotFavoriteConstants.SPOT_UUID, spot.getSpotID())
             .putString(TreeSpotFavoriteConstants.SPOT_OWNER_ID, spot.getSpotOwnerID())
@@ -50,6 +50,9 @@ class FavoriteSpotViewModel : AbstractViewModel() {
     }
 
     fun removeFavoriteSpot(spot: TreeSpot, requestedUserID: String, context: Context) {
+        val singleSpotQuery = GetSingleFavoriteSpotQuery.get(spot.getSpotID())
+        val singleSpot = singleSpotQuery.findFirst()
 
+        favoriteBox.remove(singleSpot!!.localID)
     }
 }

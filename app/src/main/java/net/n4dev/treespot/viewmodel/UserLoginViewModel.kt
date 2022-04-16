@@ -151,7 +151,6 @@ class UserLoginViewModel : ViewModel(), IViewModel {
                     spotID as String,
                     description as String,
                     ownerID as String,
-                    isFavorite as Boolean
                 )
 
                 spotBox.put(tempSpot)
@@ -164,7 +163,6 @@ class UserLoginViewModel : ViewModel(), IViewModel {
                     description as String,
                     privateDescription as String,
                     ownerID as String,
-                    isFavorite as Boolean
                 )
 
                 spotBox.put(tempSpot)
@@ -216,7 +214,6 @@ class UserLoginViewModel : ViewModel(), IViewModel {
                     spotID as String,
                     description as String,
                     ownerID as String,
-                    isFavorite as Boolean
                 )
 
                 spotBox.put(tempSpot)
@@ -229,7 +226,6 @@ class UserLoginViewModel : ViewModel(), IViewModel {
                     description as String,
                     privateDescription as String,
                     ownerID as String,
-                    isFavorite as Boolean
                 )
 
                 spotBox.put(tempSpot)
