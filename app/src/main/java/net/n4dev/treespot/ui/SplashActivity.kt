@@ -14,8 +14,10 @@ import net.n4dev.treespot.BuildConfig
 import net.n4dev.treespot.R
 import net.n4dev.treespot.core.entity.Friend
 import net.n4dev.treespot.core.entity.TreeSpot
+import net.n4dev.treespot.core.entity.User
 import net.n4dev.treespot.databinding.ActivitySplashBinding
 import net.n4dev.treespot.db.TreeSpotObjectBox
+import net.n4dev.treespot.db.query.GetLocalUsersQuery
 import net.n4dev.treespot.ui.account.RegisterAccountActivity
 import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil
@@ -44,6 +46,16 @@ class SplashActivity : TreeSpotActivity() {
         setContentView(binding.root)
         userAuthorizedViewModel = ViewModelProvider(this).get(UserAuthorizedViewModel::class.java)
         userAuthorizedViewModel.init(this)
+
+        val tempQuery = GetLocalUsersQuery()
+
+        val tempBox = TreeSpotObjectBox.getBox(User::class.java)
+
+        val tempResult = tempBox.query(tempQuery.buildQuery()).build().find()
+
+        tempResult.forEach {
+            Logger.i(it.toString())
+        }
 
         performFirstRunCheck()
     }

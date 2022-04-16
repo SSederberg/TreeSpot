@@ -9,6 +9,7 @@ import net.n4dev.treespot.db.UUIDConverter;
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants;
 import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,6 +50,9 @@ public class User implements IUser {
     private Long lastOnline;
 
     @Transient
+    public static HashMap<String, Integer> fieldConverter = initHashMap();
+
+    @Transient
     private final Box<User> userBoxInstance;
 
     @Transient
@@ -58,6 +62,8 @@ public class User implements IUser {
         //Required to compile
         userBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(User.class);
         treeSpotBoxInstance = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(TreeSpot.class);
+
+        initHashMap();
     }
 
     public User(String username, String emailAddress, UUID uuid) {
@@ -67,6 +73,9 @@ public class User implements IUser {
         this.username = username;
         this.emailAddress = emailAddress;
         this.userID = uuid;
+
+        initHashMap();
+
     }
 
     @NonNull
@@ -169,6 +178,18 @@ public class User implements IUser {
     @Override
     public void setLastOnline(long date) {
         this.lastOnline = date;
+    }
+
+    private static HashMap<String, Integer> initHashMap() {
+        HashMap<String, Integer> staticMap = new HashMap<>();
+        staticMap.put("localID", 0);
+        staticMap.put(TreeSpotUserConstants.USER_ID, 1);
+        staticMap.put(TreeSpotUserConstants.USERNAME, 2);
+        staticMap.put(TreeSpotUserConstants.EMAIL_ADDRESS, 3);
+        staticMap.put(TreeSpotUserConstants.USER_CREATION_DATE, 4);
+        staticMap.put(TreeSpotUserConstants.USER_ACTIVE_SESSION_ID, 5);
+        staticMap.put(TreeSpotUserConstants.LAST_ONLINE, 6);
+        return fieldConverter;
     }
 
     public static User convertFromAWUser(io.appwrite.models.User user) {

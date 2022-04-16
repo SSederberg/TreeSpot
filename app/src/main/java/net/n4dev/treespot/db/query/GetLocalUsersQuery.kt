@@ -1,17 +1,16 @@
 package net.n4dev.treespot.db.query
 
-import io.objectbox.query.Query
+import io.objectbox.Property
+import io.objectbox.query.QueryCondition
+import net.n4dev.treespot.core.AbstractQuery
 import net.n4dev.treespot.core.entity.User
-import net.n4dev.treespot.core.entity.User_
-import net.n4dev.treespot.db.TreeSpotObjectBox
 
-class GetLocalUsersQuery  {
+class GetLocalUsersQuery : AbstractQuery<User>(User::class.java) {
 
-    companion object {
-        private val queryBox = TreeSpotObjectBox.getBoxStore().boxFor(User::class.java)
 
-        fun get() : Query<User> {
-            return queryBox.query(User_.emailAddress.notNull()).build()
-        }
+    override fun buildConditions(fields: Array<out Property<User>>): QueryCondition<User> {
+        return fields[3].equal("test@test.com")
     }
+
+
 }
