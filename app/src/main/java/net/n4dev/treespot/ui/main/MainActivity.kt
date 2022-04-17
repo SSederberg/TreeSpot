@@ -65,7 +65,11 @@ class MainActivity : TreeSpotActivity() {
         captureSpotFragment = CaptureSpotFragment(id.toString())
         myFriendsFragment = MyFriendsFragment(id.toString())
 
-        locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
+         locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+                                                 Manifest.permission.ACCESS_COARSE_LOCATION,
+                                                 Manifest.permission.CAMERA,
+                                                Manifest.permission.INTERNET))
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
 
@@ -83,6 +87,9 @@ class MainActivity : TreeSpotActivity() {
 
              true
         }
+
+
+        binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).isVisible = false
         setContentView(binding.root)
 
         setupViewPager()

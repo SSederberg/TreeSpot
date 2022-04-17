@@ -28,6 +28,10 @@ class DeviceConnectionHelper {
             }
             return result
         }
+
+        fun isConnected(context: Context) : Boolean {
+            return getConnectionType(context) > 0
+        }
     }
 
 }

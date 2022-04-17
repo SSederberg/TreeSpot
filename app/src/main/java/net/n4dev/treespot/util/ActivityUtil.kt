@@ -19,18 +19,32 @@ class ActivityUtil {
     companion object {
 
          fun startActivity(@Nullable bundle: Bundle, klass : Class<*>, context: Context, internetRequired : Boolean) {
-            val type = DeviceConnectionHelper.getConnectionType(context)
-            val intent = Intent(context, klass)
-            intent.putExtras(bundle)
-            context.startActivity(intent)
+             if(internetRequired) {
+                 if(DeviceConnectionHelper.isConnected(context)) {
+                     val intent = Intent(context, klass)
+                     intent.putExtras(bundle)
+                     context.startActivity(intent)
+                 }
+             } else {
+                 val intent = Intent(context, klass)
+                 intent.putExtras(bundle)
+                 context.startActivity(intent)
+             }
+
         }
 
         fun startActivity(@Nullable bundle: Bundle, klass : Class<*>, activity: Activity, internetRequired: Boolean) {
-
-           val type = DeviceConnectionHelper.getConnectionType(activity)
-            val intent = Intent(activity, klass)
-            intent.putExtras(bundle)
-            activity.startActivity(intent)
+            if(internetRequired) {
+                if(DeviceConnectionHelper.isConnected(activity)) {
+                    val intent = Intent(activity, klass)
+                    intent.putExtras(bundle)
+                    activity.startActivity(intent)
+                }
+            } else {
+                val intent = Intent(activity, klass)
+                intent.putExtras(bundle)
+                activity.startActivity(intent)
+            }
         }
 
 
