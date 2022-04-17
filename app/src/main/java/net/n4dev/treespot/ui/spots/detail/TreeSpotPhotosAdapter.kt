@@ -13,9 +13,9 @@ class TreeSpotPhotosAdapter(viewHolder: TreeSpotPhotosViewHolder, query : Abstra
 
 
     override fun onItemSelected(
-        holder: TreeSpotPhotosViewHolder?,
-        entity: TreeSpotMedia?,
-        context: Context?,
+        holder: TreeSpotPhotosViewHolder,
+        entity: TreeSpotMedia,
+        context: Context,
         position: Int
     ) {
 
@@ -35,7 +35,7 @@ class TreeSpotPhotosAdapter(viewHolder: TreeSpotPhotosViewHolder, query : Abstra
 
     }
 
-    override fun onNoItemsAvailable(holder: TreeSpotPhotosViewHolder?) {
+    override fun onNoItemsAvailable(holder: TreeSpotPhotosViewHolder) {
 
     }
 }

@@ -38,7 +38,7 @@ class FriendDetailSpotsAdapter(holder: FriendDetailSpotsViewHolder, query : Abst
         }
     }
 
-    override fun onNoItemsAvailable(holder: FriendDetailSpotsViewHolder?) {
+    override fun onNoItemsAvailable(holder: FriendDetailSpotsViewHolder) {
 
     }
 }

@@ -6,24 +6,23 @@ import com.bumptech.glide.Glide
 import net.n4dev.treespot.BR
 import net.n4dev.treespot.core.AbstractEntityAdapter
 import net.n4dev.treespot.core.AbstractQuery
-import net.n4dev.treespot.core.entity.TreeSpot
+import net.n4dev.treespot.core.entity.FavoriteSpot
 import net.n4dev.treespot.core.entity.TreeSpotMedia
 import net.n4dev.treespot.db.TreeSpotObjectBox
 import net.n4dev.treespot.db.query.GetLocationMediaQuery
 import net.n4dev.treespot.ui.spots.detail.TreeSpotDetailActivity
 import net.n4dev.treespot.util.ActivityUtil
 
-class MySpotsAdapter(holder: MySpotViewHolder, query : AbstractQuery<TreeSpot>, val requestedID : String)
-    : AbstractEntityAdapter<TreeSpot, MySpotViewHolder>(holder, query, BR.myTreeSpot, false, TreeSpot::class.java) {
+class MyFavoriteSpotsAdapter(holder: MySpotViewHolder, query : AbstractQuery<FavoriteSpot>, val requestedID : String)
+    : AbstractEntityAdapter<FavoriteSpot, MySpotViewHolder>(holder, query, BR.myTreeSpot, false, FavoriteSpot::class.java) {
 
 
     override fun onItemSelected(
         holder: MySpotViewHolder,
-        entity: TreeSpot,
+        entity: FavoriteSpot,
         context: Context,
         position: Int
     ) {
-
         val bundle = Bundle()
         bundle.putString(TreeSpotDetailActivity.ARG_LOCATION_ID, entity.getSpotID())
         bundle.putString(TreeSpotDetailActivity.ARG_USER_TYPE, TreeSpotDetailActivity.ARG_USER)
@@ -32,7 +31,7 @@ class MySpotsAdapter(holder: MySpotViewHolder, query : AbstractQuery<TreeSpot>, 
         ActivityUtil.startActivity(bundle, TreeSpotDetailActivity::class.java, holder.itemView.context, false)
     }
 
-    override fun onBindItem(holder: MySpotViewHolder, entity: TreeSpot, position: Int) {
+    override fun onBindItem(holder: MySpotViewHolder, entity: FavoriteSpot, position: Int) {
         holder.xmlBinding.aiTreespotGmap.setOnClickListener {
             ActivityUtil.forwardToGMaps(entity, holder.itemView.context)
         }
@@ -57,5 +56,4 @@ class MySpotsAdapter(holder: MySpotViewHolder, query : AbstractQuery<TreeSpot>, 
     override fun onNoItemsAvailable(holder: MySpotViewHolder) {
 
     }
-
 }

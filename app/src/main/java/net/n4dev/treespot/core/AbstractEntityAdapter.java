@@ -37,7 +37,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * The onItemSelected is where customization and business logic of a pressing/selecting a item as a whole is applied.
      * Setting up click listeners for individual buttons and icons should be done in {@link AbstractEntityAdapter#onBindItem(AbstractViewHolder, IEntity, int)}
      */
-    protected abstract void onItemSelected(H holder, T entity, Context context, int position);
+    protected abstract void onItemSelected(@NonNull H holder, @NonNull T entity, @NonNull Context context, int position);
 
     /**
      * Allows customization of each item in the list.
@@ -49,7 +49,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * @param entity
      * @param position
      */
-    protected abstract void onBindItem(H holder, T entity, int position);
+    protected abstract void onBindItem(@NonNull H holder, @NonNull T entity, int position);
 
     /**
      * Invoked when the Primary Entity (T) under the specific parameters of
@@ -57,7 +57,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * for secondary entity lists.
      * @param holder - The ViewHolder representing a adapteritem object.
      */
-    protected abstract void onNoItemsAvailable(H holder);
+    protected abstract void onNoItemsAvailable(@NonNull H holder);
 
     public void removeItem(int position) {
         getEntities().removeItemAt(position);

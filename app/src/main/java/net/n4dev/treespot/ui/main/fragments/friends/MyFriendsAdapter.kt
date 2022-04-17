@@ -48,7 +48,7 @@ class MyFriendsAdapter(viewHolder: MyFriendsViewHolder, query : AbstractQuery<Fr
        }
     }
 
-    override fun onNoItemsAvailable(holder: MyFriendsViewHolder?) {
+    override fun onNoItemsAvailable(holder: MyFriendsViewHolder) {
     }
 
 }
