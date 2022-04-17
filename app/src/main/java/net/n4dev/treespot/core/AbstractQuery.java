@@ -12,24 +12,16 @@ import io.objectbox.query.QueryCondition;
 public abstract class AbstractQuery<T extends IEntity> implements IQuery<T> {
 
     private final Box<T> paramBox;
-    private Query<T> query;
-    private Class<T> entityClass;
 
     public abstract QueryCondition<T> buildConditions(Property<T>[] fields);
 
     public AbstractQuery(Class<T> klass) {
-        this.entityClass = klass;
-        paramBox = TreeSpotObjectBox.INSTANCE.getBox(entityClass);
+        paramBox = TreeSpotObjectBox.INSTANCE.getBox(klass);
     }
 
 
     @Override
     public QueryCondition<T> buildQuery() {
         return buildConditions(paramBox.getEntityInfo().getAllProperties());
-    }
-
-    @Override
-    public Query<T> get() {
-        return query;
     }
 }

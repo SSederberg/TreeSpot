@@ -17,7 +17,7 @@ class CaptureTreeSpotViewModel : AbstractViewModel() {
     override fun init(context: Context) {
         val client = TreeSpotApplication.getClient(context)
 
-        awDatabase = Database(client)
+        awDatabase = super.getAppWriteDatabase(context)
         awStorage = Storage(client)
     }
 

@@ -33,7 +33,8 @@ class RegisterUserViewModel : AbstractViewModel() {
     override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
         account = Account(client)
-        awDatabase = Database(client)
+
+        awDatabase = super.getAppWriteDatabase(context)
     }
 
     fun registerAccount(emailAddress : String, password : String, username : String, userID: UUID) {

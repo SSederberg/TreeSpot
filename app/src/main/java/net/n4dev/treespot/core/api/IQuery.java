@@ -8,6 +8,4 @@ import io.objectbox.query.QueryCondition;
 public interface IQuery<T extends IEntity> {
 
     QueryCondition<T> buildQuery();
-
-    Query<T> get();
 }
