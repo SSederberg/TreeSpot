@@ -8,6 +8,7 @@ open class AddFriendsViewHolder(private val binding: AdapteritemFriendAddBinding
 
     fun bind(username: String) {
         binding.setVariable(BR.addableFriendName, username)
+        binding.executePendingBindings()
     }
 
     fun getBinding() : AdapteritemFriendAddBinding {

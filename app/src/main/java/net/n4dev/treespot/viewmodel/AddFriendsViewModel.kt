@@ -12,12 +12,9 @@ import io.appwrite.services.Avatars
 import io.appwrite.services.Database
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.core.AbstractViewModel
-import net.n4dev.treespot.core.entity.Friend
-import net.n4dev.treespot.db.TreeSpotObjectBox
 import net.n4dev.treespot.db.constants.TreeSpotFriendRequestConstants
 import net.n4dev.treespot.db.constants.TreeSpotFriendsConstants
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants
-import net.n4dev.treespot.db.query.GetUserFriendsQuery
 import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
 import java.util.*
 
@@ -120,16 +117,6 @@ import java.util.*
          val queryArray = ArrayList<String>()
          queryArray.add(Query.notEqual(fieldUserName, usernameInput))
 
-         val friendsQuery = GetUserFriendsQuery(userID)
-         val friendBox = TreeSpotObjectBox.getBox(Friend::class.java)
-
-         val friendResult = friendBox.query(friendsQuery.buildQuery()).build().find()
-
-         for(friend in friendResult) {
-             val id = friend.getFriendID().toString()
-
-             queryArray.add(Query.notEqual(userID, id))
-         }
          return queryArray
      }
 

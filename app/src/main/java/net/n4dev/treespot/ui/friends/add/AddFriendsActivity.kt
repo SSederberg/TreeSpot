@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import net.n4dev.treespot.core.AbstractViewHolder
 import net.n4dev.treespot.databinding.ActivityAddFriendsBinding
 import net.n4dev.treespot.viewmodel.AddFriendsViewModel
 import org.apache.commons.validator.routines.EmailValidator
@@ -40,8 +41,11 @@ class AddFriendsActivity : AppCompatActivity() {
         binding.addFriendButton.setOnClickListener(onAddOrSearchFriendListener)
 
         adapter = AddFriendsAdapter(viewModel, userID)
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = adapter
+
+        AbstractViewHolder.generateItemDecoration(binding.recyclerView, layoutManager)
 
         viewModel.searchByUsername("", adapter, userID)
     }

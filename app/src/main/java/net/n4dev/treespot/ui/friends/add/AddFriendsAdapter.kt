@@ -22,11 +22,11 @@ class AddFriendsAdapter(private val viewModel: AddFriendsViewModel, private val 
     }
 
     override fun onBindViewHolder(holder: AddFriendsViewHolder, position: Int) {
-        val user = users.get(position)
-        val avatar = avatars.get(position)
+        val user = users[position]
+        val avatar = avatars[position]
         val userData = user.data
-        val name = userData.get("user_name")
-        val uuid = userData.get("user_id")
+        val name = userData["user_name"]
+        val uuid = userData["user_id"]
         holder.bind(name as String)
 
         Glide.with(holder.itemView.context)
