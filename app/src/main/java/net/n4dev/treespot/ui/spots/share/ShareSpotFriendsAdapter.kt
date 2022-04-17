@@ -7,14 +7,14 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.orhanobut.logger.Logger
-import io.objectbox.query.Query
 import net.n4dev.treespot.BR
 import net.n4dev.treespot.R
 import net.n4dev.treespot.core.AbstractEntityAdapter
+import net.n4dev.treespot.core.AbstractQuery
 import net.n4dev.treespot.core.entity.Friend
 import net.n4dev.treespot.util.ActivityUtil
 
-class ShareSpotFriendsAdapter(holder: ShareSpotFriendsViewHolder, query : Query<Friend>, private val shareButton : MaterialButton)
+class ShareSpotFriendsAdapter(holder: ShareSpotFriendsViewHolder, query : AbstractQuery<Friend>, private val shareButton : MaterialButton)
     : AbstractEntityAdapter<Friend, ShareSpotFriendsViewHolder>(holder, query, BR.adapterFriend, false, Friend::class.java) {
 
     private val selectedFriends = ArrayList<Friend>()

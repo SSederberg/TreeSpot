@@ -4,13 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import net.n4dev.treespot.core.api.ITreeSpot;
+import net.n4dev.treespot.db.constants.TreeSpotUserConstants;
 import net.n4dev.treespot.db.constants.TreeSpotsConstants;
+
+import java.util.HashMap;
 
 import io.objectbox.annotation.ConflictStrategy;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.Index;
 import io.objectbox.annotation.NameInDb;
+import io.objectbox.annotation.Transient;
 import io.objectbox.annotation.Unique;
 
 @Entity
@@ -44,6 +48,8 @@ public class TreeSpot implements ITreeSpot {
     @NameInDb(TreeSpotsConstants.SPOT_OWNER_ID)
     private String spotOwnerID;
 
+    @Transient
+    public static HashMap<String, Integer> fieldConverter = initHashMap();
 
     public TreeSpot() { }
 
@@ -171,5 +177,18 @@ public class TreeSpot implements ITreeSpot {
                 ", privateDescription='" + privateDescription + '\'' +
                 ", spotOwnerID='" + spotOwnerID + '\'' +
                 '}';
+    }
+
+    private static HashMap<String, Integer> initHashMap() {
+        HashMap<String, Integer> staticMap = new HashMap<>();
+        staticMap.put("localID", 0);
+        staticMap.put(TreeSpotsConstants.SPOT_LAT_NORTH, 1);
+        staticMap.put(TreeSpotsConstants.SPOT_LONG_WEST, 2);
+        staticMap.put(TreeSpotsConstants.SPOT_CREATION_DATE, 3);
+        staticMap.put(TreeSpotsConstants.SPOT_UUID, 4);
+        staticMap.put(TreeSpotsConstants.SPOT_DESCRIPTION, 5);
+        staticMap.put(TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION, 6);
+        staticMap.put(TreeSpotsConstants.SPOT_OWNER_ID, 7);
+        return staticMap;
     }
 }

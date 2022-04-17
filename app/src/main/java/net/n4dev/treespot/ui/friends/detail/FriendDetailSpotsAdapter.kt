@@ -2,15 +2,15 @@ package net.n4dev.treespot.ui.friends.detail
 
 import android.content.Context
 import android.os.Bundle
-import io.objectbox.query.Query
 import net.n4dev.treespot.BR
 import net.n4dev.treespot.core.AbstractEntityAdapter
+import net.n4dev.treespot.core.AbstractQuery
 import net.n4dev.treespot.core.entity.TreeSpot
 import net.n4dev.treespot.ui.spots.detail.TreeSpotDetailActivity
 import net.n4dev.treespot.util.ActivityUtil
 
 
-class FriendDetailSpotsAdapter(holder: FriendDetailSpotsViewHolder, query : Query<TreeSpot>, val requestedID : String)
+class FriendDetailSpotsAdapter(holder: FriendDetailSpotsViewHolder, query : AbstractQuery<TreeSpot>, val requestedID : String)
     : AbstractEntityAdapter<TreeSpot, FriendDetailSpotsViewHolder>(holder, query, BR.myTreeSpot, false, TreeSpot::class.java) {
 
 
@@ -38,7 +38,7 @@ class FriendDetailSpotsAdapter(holder: FriendDetailSpotsViewHolder, query : Quer
         }
     }
 
-    override fun onNoItemsAvailable(holder: FriendDetailSpotsViewHolder?) {
+    override fun onNoItemsAvailable(holder: FriendDetailSpotsViewHolder) {
 
     }
 }

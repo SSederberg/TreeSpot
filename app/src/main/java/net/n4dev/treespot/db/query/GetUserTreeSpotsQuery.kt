@@ -1,18 +1,23 @@
 package net.n4dev.treespot.db.query
 
-import io.objectbox.query.Query
-import net.n4dev.treespot.core.api.IQuery
+import io.objectbox.Property
+import io.objectbox.query.QueryCondition
+import net.n4dev.treespot.core.AbstractQuery
 import net.n4dev.treespot.core.entity.TreeSpot
-import net.n4dev.treespot.core.entity.TreeSpot_
-import net.n4dev.treespot.db.TreeSpotObjectBox
+import net.n4dev.treespot.db.constants.TreeSpotsConstants
 
-class GetUserTreeSpotsQuery : IQuery {
+class GetUserTreeSpotsQuery(private val ownerID : String) : AbstractQuery<TreeSpot>(TreeSpot::class.java) {
 
-   companion object {
-       private val queryBox = TreeSpotObjectBox.getBoxStore().boxFor(TreeSpot::class.java)
-       fun get(ownerID : String) : Query<TreeSpot>? {
-           return queryBox.query(TreeSpot_.spotOwnerID.equal(ownerID)).build()
-       }
-   }
+    //   companion object {
+//       private val queryBox = TreeSpotObjectBox.getBoxStore().boxFor(TreeSpot::class.java)
+//       fun get(ownerID : String) : Query<TreeSpot>? {
+//           return queryBox.query(TreeSpot_.spotOwnerID.equal(ownerID)).build()
+//       }
+//   }
+
+    override fun buildConditions(fields: Array<out Property<TreeSpot>>): QueryCondition<TreeSpot> {
+        val field = TreeSpot.fieldConverter[TreeSpotsConstants.SPOT_OWNER_ID] as Int
+        return fields[field].equal(ownerID)
+    }
 
 }

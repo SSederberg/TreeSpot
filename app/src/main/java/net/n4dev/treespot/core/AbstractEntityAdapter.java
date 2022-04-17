@@ -37,7 +37,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * The onItemSelected is where customization and business logic of a pressing/selecting a item as a whole is applied.
      * Setting up click listeners for individual buttons and icons should be done in {@link AbstractEntityAdapter#onBindItem(AbstractViewHolder, IEntity, int)}
      */
-    protected abstract void onItemSelected(H holder, T entity, Context context, int position);
+    protected abstract void onItemSelected(@NonNull H holder, @NonNull T entity, @NonNull Context context, int position);
 
     /**
      * Allows customization of each item in the list.
@@ -49,7 +49,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * @param entity
      * @param position
      */
-    protected abstract void onBindItem(H holder, T entity, int position);
+    protected abstract void onBindItem(@NonNull H holder, @NonNull T entity, int position);
 
     /**
      * Invoked when the Primary Entity (T) under the specific parameters of
@@ -57,7 +57,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * for secondary entity lists.
      * @param holder - The ViewHolder representing a adapteritem object.
      */
-    protected abstract void onNoItemsAvailable(H holder);
+    protected abstract void onNoItemsAvailable(@NonNull H holder);
 
     public void removeItem(int position) {
         getEntities().removeItemAt(position);
@@ -71,7 +71,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * @param selection - Expects a net.n4dev.treespot..BR variable, it should correspond with
      *                  the xml file being used.
      */
-    public AbstractEntityAdapter(H holder, Query<T> query, int selection, boolean simple, Class<T> klass) {
+    public AbstractEntityAdapter(H holder, AbstractQuery<T> query, int selection, boolean simple, Class<T> klass) {
         this.viewHolder = holder;
         this.br_selection = selection;
         this.isSimple = simple;
@@ -80,7 +80,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
          mainBox = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(klass);
 
         try {
-             load((Query<T>) query);
+             load(query);
         } catch (Exception e) {
             Logger.e(e, "Attempted to invoke primary query load but returned exception!");
             this.onNoItemsAvailable(holder);
@@ -132,7 +132,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * @param query
      * @throws Exception
      */
-    public synchronized void load(Query<T> query)
+    public synchronized void load(AbstractQuery<T> query)
             throws Exception
     {
       if(query != null) {
@@ -140,9 +140,8 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
           CopyOnWriteArrayList<IEntity> copyEntities = new CopyOnWriteArrayList<>();
 
           Thread loadThread = new Thread(() -> {
-              List<T> returnedQuery = query.find();
+              List<T> returnedQuery = mainBox.query(query.buildQuery()).build().find();
               copyEntities.addAll(returnedQuery);
-              query.close();
           });
 
           loadThread.start();

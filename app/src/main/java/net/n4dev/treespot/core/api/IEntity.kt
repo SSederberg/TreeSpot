@@ -12,4 +12,6 @@ interface IEntity {
 
     fun isTreeSpot(): Boolean
 
+//    fun initHashMap()
+
 }

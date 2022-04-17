@@ -31,6 +31,11 @@ class FavoriteSpotViewModel : AbstractViewModel() {
            currentTime
         )
 
+        favoriteSpot.setCreationDate(spot.getCreationDate())
+        favoriteSpot.setDescription(spot.getDescription())
+        favoriteSpot.setLatNorth(spot.getLatNorth())
+        favoriteSpot.setLongWest(spot.getLongWest())
+
         favoriteBox.put(favoriteSpot)
 
         val workData = Data.Builder()

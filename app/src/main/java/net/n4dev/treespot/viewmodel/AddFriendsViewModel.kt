@@ -3,7 +3,6 @@
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.orhanobut.logger.Logger
-import io.appwrite.Client
 import io.appwrite.Query
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.models.Document
@@ -12,19 +11,16 @@ import io.appwrite.models.User
 import io.appwrite.services.Avatars
 import io.appwrite.services.Database
 import kotlinx.coroutines.launch
-import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.core.AbstractViewModel
 import net.n4dev.treespot.db.constants.TreeSpotFriendRequestConstants
 import net.n4dev.treespot.db.constants.TreeSpotFriendsConstants
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants
-import net.n4dev.treespot.db.query.GetUserFriendsQuery
 import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
 import java.util.*
 
  class AddFriendsViewModel : AbstractViewModel() {
 
     private lateinit var awDatabase: Database
-    private lateinit var client : Client
     private lateinit var avatars: Avatars
 
     private val friendRequestCollectionID = TreeSpotFriendRequestConstants.name
@@ -34,9 +30,8 @@ import java.util.*
      private lateinit var userID : String
 
     override fun init(context: Context) {
-        client = TreeSpotApplication.getClient(context)
-        awDatabase = Database(client)
-        avatars = Avatars(client)
+        awDatabase = super.getAppWriteDatabase(context)
+        avatars = super.getAppWriteAvatars(context)
     }
 
      fun setID(userID: String) {
@@ -122,13 +117,6 @@ import java.util.*
          val queryArray = ArrayList<String>()
          queryArray.add(Query.notEqual(fieldUserName, usernameInput))
 
-         val friendsQuery = GetUserFriendsQuery.get(userID).find()
-
-         for(friend in friendsQuery) {
-             val id = friend.getFriendID().toString()
-
-             queryArray.add(Query.notEqual(userID, id))
-         }
          return queryArray
      }
 

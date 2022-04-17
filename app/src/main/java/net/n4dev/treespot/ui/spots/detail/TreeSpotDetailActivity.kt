@@ -76,7 +76,7 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
         val viewHolder = TreeSpotPhotosViewHolder(adapterItemBinding)
 
         val layoutManager = LinearLayoutManager(this)
-        val query = GetLocationMediaQuery.get(theSpot.getSpotID())
+        val query = GetLocationMediaQuery(theSpot.getSpotID())
         val adapter = TreeSpotPhotosAdapter(viewHolder, query)
 
         popupMenu = PopupMenu(this, binding.spotDetailShare)

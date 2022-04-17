@@ -6,7 +6,10 @@ import androidx.annotation.Nullable;
 import net.n4dev.treespot.core.api.IFavoriteTreeSpot;
 import net.n4dev.treespot.db.UUIDConverter;
 import net.n4dev.treespot.db.constants.TreeSpotFavoriteConstants;
+import net.n4dev.treespot.db.constants.TreeSpotUserConstants;
 import net.n4dev.treespot.db.constants.TreeSpotsConstants;
+
+import java.util.HashMap;
 
 import io.objectbox.annotation.ConflictStrategy;
 import io.objectbox.annotation.Convert;
@@ -14,6 +17,7 @@ import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.Index;
 import io.objectbox.annotation.NameInDb;
+import io.objectbox.annotation.Transient;
 import io.objectbox.annotation.Unique;
 
 @Entity
@@ -53,6 +57,9 @@ public class FavoriteSpot implements IFavoriteTreeSpot {
     @Index
     @NameInDb(TreeSpotFavoriteConstants.SPOT_FAV_DATE)
     private Long favoriteDate;
+
+    @Transient
+    public static HashMap<String, Integer> fieldConverter = initHashMap();
 
     public FavoriteSpot() { }
 
@@ -190,5 +197,20 @@ public class FavoriteSpot implements IFavoriteTreeSpot {
     @Override
     public void setPrivateDescription(@NonNull String string) {
         this.privateDescription = string;
+    }
+
+    private static HashMap<String, Integer> initHashMap() {
+        HashMap<String, Integer> staticMap = new HashMap<>();
+        staticMap.put("localID", 0);
+        staticMap.put(TreeSpotsConstants.SPOT_LAT_NORTH, 1);
+        staticMap.put(TreeSpotsConstants.SPOT_LONG_WEST, 2);
+        staticMap.put(TreeSpotsConstants.SPOT_CREATION_DATE, 3);
+        staticMap.put(TreeSpotsConstants.SPOT_UUID, 4);
+        staticMap.put(TreeSpotsConstants.SPOT_DESCRIPTION, 5);
+        staticMap.put(TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION, 6);
+        staticMap.put(TreeSpotsConstants.SPOT_OWNER_ID, 7);
+        staticMap.put(TreeSpotFavoriteConstants.SPOT_FAV_USER_ID, 8);
+        staticMap.put(TreeSpotFavoriteConstants.SPOT_FAV_DATE, 9);
+        return staticMap;
     }
 }

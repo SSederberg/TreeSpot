@@ -3,7 +3,6 @@ package net.n4dev.treespot.viewmodel
 import android.content.Context
 import io.appwrite.Client
 import io.appwrite.services.Avatars
-import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.core.AbstractViewModel
 
 class FriendDetailViewModel : AbstractViewModel() {
@@ -12,7 +11,6 @@ class FriendDetailViewModel : AbstractViewModel() {
     private lateinit var avatars: Avatars
 
     override fun init(context: Context) {
-        client = TreeSpotApplication.getClient(context)
-        avatars = Avatars(client)
+        avatars = super.getAppWriteAvatars(context)
     }
 }

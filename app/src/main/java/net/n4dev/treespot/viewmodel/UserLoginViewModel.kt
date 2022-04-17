@@ -3,7 +3,6 @@ package net.n4dev.treespot.viewmodel
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.orhanobut.logger.Logger
 import io.appwrite.Client
@@ -16,7 +15,7 @@ import io.appwrite.services.Database
 import io.objectbox.Box
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
-import net.n4dev.treespot.core.api.IViewModel
+import net.n4dev.treespot.core.AbstractViewModel
 import net.n4dev.treespot.db.TreeSpotObjectBox
 import net.n4dev.treespot.db.constants.TreeSpotFriendsConstants
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants
@@ -27,7 +26,7 @@ import net.n4dev.treespot.util.ActivityUtil
 import java.io.FileOutputStream
 import java.util.*
 
-class UserLoginViewModel : ViewModel(), IViewModel {
+class UserLoginViewModel : AbstractViewModel() {
 
     private lateinit var client: Client
     private lateinit var account: Account
@@ -42,8 +41,9 @@ class UserLoginViewModel : ViewModel(), IViewModel {
    override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
         account = Account(client)
-        awDatabase = Database(client)
-        avatars = Avatars(client)
+        awDatabase = super.getAppWriteDatabase(context)
+        avatars = super.getAppWriteAvatars(context)
+
         userBox = TreeSpotObjectBox.getBoxStore().boxFor(net.n4dev.treespot.core.entity.User::class.java)
         friendBox = TreeSpotObjectBox.getBoxStore().boxFor(net.n4dev.treespot.core.entity.Friend::class.java)
         spotBox = TreeSpotObjectBox.getBoxStore().boxFor(net.n4dev.treespot.core.entity.TreeSpot::class.java)

@@ -10,6 +10,7 @@ import net.n4dev.treespot.R
 import net.n4dev.treespot.core.AbstractViewHolder
 import net.n4dev.treespot.databinding.AdapteritemTreespotLocationBinding
 import net.n4dev.treespot.databinding.FragmentMySpotsBinding
+import net.n4dev.treespot.db.query.GetFavoriteUserSpotsQuery
 import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery
 
 class MySpotsFragment() : Fragment() {
@@ -25,6 +26,7 @@ class MySpotsFragment() : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var mySpotsAdapter: MySpotsAdapter
+    private lateinit var myFavoriteSpotsAdapter : MyFavoriteSpotsAdapter
     private lateinit var mySpotsViewHolder: MySpotViewHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,10 +45,13 @@ class MySpotsFragment() : Fragment() {
         _binding = FragmentMySpotsBinding.inflate(inflater, container, false)
 
         val adapterItemBinding = AdapteritemTreespotLocationBinding.inflate(LayoutInflater.from(requireContext()))
-        val query = GetUserTreeSpotsQuery.get(userID)
+        val mySpotsQuery = GetUserTreeSpotsQuery(userID)
+        val myFavoriteSpotsQuery = GetFavoriteUserSpotsQuery(userID)
 
         mySpotsViewHolder = MySpotViewHolder(adapterItemBinding)
-        mySpotsAdapter = MySpotsAdapter(mySpotsViewHolder, query!!, userID)
+        mySpotsAdapter = MySpotsAdapter(mySpotsViewHolder, mySpotsQuery, userID)
+        myFavoriteSpotsAdapter = MyFavoriteSpotsAdapter(mySpotsViewHolder, myFavoriteSpotsQuery, userID)
+
         val layoutManager = LinearLayoutManager(requireContext())
 
         binding.switchMaterial.setOnCheckedChangeListener { compoundButton, isChecked ->
@@ -54,20 +59,19 @@ class MySpotsFragment() : Fragment() {
                 val text = getString(R.string.my_spots)
                 binding.textView.text = text
 
-                val newQuery =  GetUserTreeSpotsQuery.get(userID)
-                mySpotsAdapter.load(newQuery)
+               binding.mySpotsList.adapter = mySpotsAdapter
 
             } else {
                 val text = "Favorite Spots"
                 binding.textView.text = text
 
-//                val newQuery = GetFavoriteUserSpotsQuery.get(userID)
-//                mySpotsAdapter.load(newQuery)
+                binding.mySpotsList.adapter = myFavoriteSpotsAdapter
+
             }
         }
 
-        binding.mySpotsList.adapter = mySpotsAdapter
         binding.mySpotsList.layoutManager = layoutManager
+        binding.mySpotsList.adapter = mySpotsAdapter
 
         AbstractViewHolder.generateItemDecoration(binding.mySpotsList, layoutManager)
 
