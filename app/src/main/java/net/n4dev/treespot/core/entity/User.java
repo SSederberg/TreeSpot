@@ -3,6 +3,7 @@ package net.n4dev.treespot.core.entity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import net.n4dev.treespot.core.AbstractQuery;
 import net.n4dev.treespot.core.api.IUser;
 import net.n4dev.treespot.db.TreeSpotObjectBox;
 import net.n4dev.treespot.db.UUIDConverter;
@@ -143,14 +144,14 @@ public class User implements IUser {
         this.accountCreationDate = date;
     }
 
-    @NonNull
+//    @NonNull
     @Override
     public List<TreeSpot> getUserSpots() {
-        Query<TreeSpot> query = GetUserTreeSpotsQuery.Companion.get(userID.toString());
-        List<TreeSpot> returnedSpots = query.find();
-        query.close();
-        return returnedSpots;
-//        return null;
+        AbstractQuery<TreeSpot> query = new GetUserTreeSpotsQuery(userID.toString());
+//        List<TreeSpot> returnedSpots = query.find();
+//        query.close();
+//        return returnedSpots;
+        return null;
     }
 
     @NonNull
@@ -189,7 +190,7 @@ public class User implements IUser {
         staticMap.put(TreeSpotUserConstants.USER_CREATION_DATE, 4);
         staticMap.put(TreeSpotUserConstants.USER_ACTIVE_SESSION_ID, 5);
         staticMap.put(TreeSpotUserConstants.LAST_ONLINE, 6);
-        return fieldConverter;
+        return staticMap;
     }
 
     public static User convertFromAWUser(io.appwrite.models.User user) {

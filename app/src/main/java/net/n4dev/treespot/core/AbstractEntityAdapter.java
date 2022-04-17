@@ -71,7 +71,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * @param selection - Expects a net.n4dev.treespot..BR variable, it should correspond with
      *                  the xml file being used.
      */
-    public AbstractEntityAdapter(H holder, Query<T> query, int selection, boolean simple, Class<T> klass) {
+    public AbstractEntityAdapter(H holder, AbstractQuery<T> query, int selection, boolean simple, Class<T> klass) {
         this.viewHolder = holder;
         this.br_selection = selection;
         this.isSimple = simple;
@@ -80,7 +80,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
          mainBox = TreeSpotObjectBox.INSTANCE.getBoxStore().boxFor(klass);
 
         try {
-             load((Query<T>) query);
+             load(query);
         } catch (Exception e) {
             Logger.e(e, "Attempted to invoke primary query load but returned exception!");
             this.onNoItemsAvailable(holder);
@@ -132,7 +132,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * @param query
      * @throws Exception
      */
-    public synchronized void load(Query<T> query)
+    public synchronized void load(AbstractQuery<T> query)
             throws Exception
     {
       if(query != null) {
@@ -140,9 +140,8 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
           CopyOnWriteArrayList<IEntity> copyEntities = new CopyOnWriteArrayList<>();
 
           Thread loadThread = new Thread(() -> {
-              List<T> returnedQuery = query.find();
+              List<T> returnedQuery = mainBox.query(query.buildQuery()).build().find();
               copyEntities.addAll(returnedQuery);
-              query.close();
           });
 
           loadThread.start();

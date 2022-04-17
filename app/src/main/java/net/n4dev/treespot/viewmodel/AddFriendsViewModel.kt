@@ -122,13 +122,13 @@ import java.util.*
          val queryArray = ArrayList<String>()
          queryArray.add(Query.notEqual(fieldUserName, usernameInput))
 
-         val friendsQuery = GetUserFriendsQuery.get(userID).find()
+         val friendsQuery = GetUserFriendsQuery(userID)
 
-         for(friend in friendsQuery) {
-             val id = friend.getFriendID().toString()
-
-             queryArray.add(Query.notEqual(userID, id))
-         }
+//         for(friend in friendsQuery) {
+//             val id = friend.getFriendID().toString()
+//
+//             queryArray.add(Query.notEqual(userID, id))
+//         }
          return queryArray
      }
 

@@ -7,14 +7,14 @@ import com.bumptech.glide.Glide
 import com.orhanobut.logger.Logger
 import io.appwrite.Client
 import io.appwrite.services.Avatars
-import io.objectbox.query.Query
 import net.n4dev.treespot.BR
 import net.n4dev.treespot.core.AbstractEntityAdapter
+import net.n4dev.treespot.core.AbstractQuery
 import net.n4dev.treespot.core.entity.Friend
 import net.n4dev.treespot.ui.friends.detail.FriendDetailActivity
 import net.n4dev.treespot.util.ActivityUtil
 
-class MyFriendsAdapter(viewHolder: MyFriendsViewHolder, query : Query<Friend>, val userID: String) :
+class MyFriendsAdapter(viewHolder: MyFriendsViewHolder, query : AbstractQuery<Friend>, val userID: String) :
     AbstractEntityAdapter<Friend, MyFriendsViewHolder>(viewHolder, query, BR.adapterFriend, false, Friend::class.java) {
 
     private lateinit var client : Client

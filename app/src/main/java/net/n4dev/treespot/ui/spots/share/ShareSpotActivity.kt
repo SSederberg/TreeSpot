@@ -48,7 +48,7 @@ class ShareSpotActivity : TreeSpotActivity() {
 
         val viewholder = ShareSpotFriendsViewHolder(adapterItemBinding)
         val userID = currentUser.getUserID().toString()
-        val friendsQuery = GetUserFriendsQuery.get(userID)
+        val friendsQuery = GetUserFriendsQuery(userID)
         val adapter = ShareSpotFriendsAdapter(viewholder, friendsQuery, binding.shareSpotShare)
         val layoutManager = LinearLayoutManager(this)
 

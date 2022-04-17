@@ -43,10 +43,10 @@ class MySpotsFragment() : Fragment() {
         _binding = FragmentMySpotsBinding.inflate(inflater, container, false)
 
         val adapterItemBinding = AdapteritemTreespotLocationBinding.inflate(LayoutInflater.from(requireContext()))
-        val query = GetUserTreeSpotsQuery.get(userID)
+        val query = GetUserTreeSpotsQuery(userID)
 
         mySpotsViewHolder = MySpotViewHolder(adapterItemBinding)
-        mySpotsAdapter = MySpotsAdapter(mySpotsViewHolder, query!!, userID)
+        mySpotsAdapter = MySpotsAdapter(mySpotsViewHolder, query, userID)
         val layoutManager = LinearLayoutManager(requireContext())
 
         binding.switchMaterial.setOnCheckedChangeListener { compoundButton, isChecked ->
@@ -54,7 +54,7 @@ class MySpotsFragment() : Fragment() {
                 val text = getString(R.string.my_spots)
                 binding.textView.text = text
 
-                val newQuery =  GetUserTreeSpotsQuery.get(userID)
+                val newQuery =  GetUserTreeSpotsQuery(userID)
                 mySpotsAdapter.load(newQuery)
 
             } else {

@@ -8,6 +8,7 @@ import net.n4dev.treespot.db.constants.TreeSpotFriendsConstants;
 import net.n4dev.treespot.db.UUIDConverter;
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ import io.objectbox.annotation.Convert;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.NameInDb;
+import io.objectbox.annotation.Transient;
 import io.objectbox.annotation.Unique;
 
 @Entity
@@ -65,6 +67,9 @@ public class Friend implements IFriend {
 
     @NameInDb(TreeSpotUserConstants.LAST_ONLINE)
     private Long lastOnline;
+
+    @Transient
+    public static HashMap<String, Integer> fieldConverter = initHashMap();
 
     public Friend() {}
 
@@ -222,5 +227,20 @@ public class Friend implements IFriend {
                 ", accountCreationDate=" + accountCreationDate +
                 ", currentSessionID='" + currentSessionID + '\'' +
                 '}';
+    }
+
+    private static HashMap<String, Integer> initHashMap() {
+        HashMap<String, Integer> staticMap = new HashMap<>();
+        staticMap.put("localID", 0);
+        staticMap.put(TreeSpotFriendsConstants.FRIEND_ID, 1);
+        staticMap.put(TreeSpotFriendsConstants.FRIENDS_SINCE, 2);
+        staticMap.put(TreeSpotFriendsConstants.USER_ID, 3);
+        staticMap.put(TreeSpotFriendsConstants.FRIEND_PAIR_ID, 4);
+        staticMap.put(TreeSpotUserConstants.USERNAME, 5);
+        staticMap.put(TreeSpotUserConstants.EMAIL_ADDRESS, 6);
+        staticMap.put(TreeSpotUserConstants.USER_CREATION_DATE, 7);
+        staticMap.put(TreeSpotUserConstants.USER_ACTIVE_SESSION_ID, 8);
+        staticMap.put(TreeSpotUserConstants.LAST_ONLINE, 9);
+        return staticMap;
     }
 }

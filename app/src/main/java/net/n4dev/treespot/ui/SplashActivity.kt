@@ -53,9 +53,7 @@ class SplashActivity : TreeSpotActivity() {
 
         val tempResult = tempBox.query(tempQuery.buildQuery()).build().find()
 
-        tempResult.forEach {
-            Logger.i(it.toString())
-        }
+        tempResult.get(0)
 
         performFirstRunCheck()
     }

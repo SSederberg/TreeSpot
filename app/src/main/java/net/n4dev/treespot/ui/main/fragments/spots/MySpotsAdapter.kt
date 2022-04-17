@@ -3,15 +3,17 @@ package net.n4dev.treespot.ui.main.fragments.spots
 import android.content.Context
 import android.os.Bundle
 import com.bumptech.glide.Glide
-import io.objectbox.query.Query
 import net.n4dev.treespot.BR
 import net.n4dev.treespot.core.AbstractEntityAdapter
+import net.n4dev.treespot.core.AbstractQuery
 import net.n4dev.treespot.core.entity.TreeSpot
+import net.n4dev.treespot.core.entity.TreeSpotMedia
+import net.n4dev.treespot.db.TreeSpotObjectBox
 import net.n4dev.treespot.db.query.GetLocationMediaQuery
 import net.n4dev.treespot.ui.spots.detail.TreeSpotDetailActivity
 import net.n4dev.treespot.util.ActivityUtil
 
-class MySpotsAdapter(holder: MySpotViewHolder, query : Query<TreeSpot>, val requestedID : String)
+class MySpotsAdapter(holder: MySpotViewHolder, query : AbstractQuery<TreeSpot>, val requestedID : String)
     : AbstractEntityAdapter<TreeSpot, MySpotViewHolder>(holder, query, BR.myTreeSpot, false, TreeSpot::class.java) {
 
 
@@ -35,10 +37,14 @@ class MySpotsAdapter(holder: MySpotViewHolder, query : Query<TreeSpot>, val requ
             ActivityUtil.forwardToGMaps(entity, holder.itemView.context)
         }
 
-        val mediaQuery = GetLocationMediaQuery.get(entity.getSpotID()).find()
+        val mediaQuery = GetLocationMediaQuery(entity.getSpotID())
 
-        if(mediaQuery.size > 0) {
-            val media = mediaQuery[0]
+        val mediaBox = TreeSpotObjectBox.getBox(TreeSpotMedia::class.java)
+
+        val queryResult = mediaBox.query(mediaQuery.buildQuery()).build().find()
+
+        if(queryResult.size > 0) {
+            val media = queryResult[0]
 
             Glide.with(holder.itemView.context)
                 .asBitmap()

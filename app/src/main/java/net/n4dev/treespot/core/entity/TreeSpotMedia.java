@@ -9,14 +9,17 @@ import androidx.annotation.NonNull;
 
 import net.n4dev.treespot.core.api.ITreeSpotMedia;
 import net.n4dev.treespot.db.constants.TreeSpotMediaConstants;
+import net.n4dev.treespot.db.constants.TreeSpotUserConstants;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.UUID;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.NameInDb;
+import io.objectbox.annotation.Transient;
 
 @Entity
 public class TreeSpotMedia implements ITreeSpotMedia {
@@ -44,6 +47,9 @@ public class TreeSpotMedia implements ITreeSpotMedia {
 
     @NameInDb(TreeSpotMediaConstants.MEDIA_ID)
     private String mediaID;
+
+    @Transient
+    public static HashMap<String, Integer> fieldConverter = initHashMap();
 
     public TreeSpotMedia() { }
 
@@ -173,5 +179,17 @@ public class TreeSpotMedia implements ITreeSpotMedia {
             e.printStackTrace();
         }
         return getBitmap;
+    }
+
+    private static HashMap<String, Integer> initHashMap() {
+        HashMap<String, Integer> staticMap = new HashMap<>();
+        staticMap.put("localID", 0);
+        staticMap.put(TreeSpotMediaConstants.USER_ID, 1);
+        staticMap.put(TreeSpotMediaConstants.SPOT_ID, 2);
+        staticMap.put(TreeSpotMediaConstants.DEVICE_PATH, 3);
+        staticMap.put(TreeSpotMediaConstants.FILENAME, 4);
+        staticMap.put(TreeSpotMediaConstants.TAKEN_AT, 5);
+        staticMap.put(TreeSpotMediaConstants.MEDIA_ID, 6);
+        return staticMap;
     }
 }
