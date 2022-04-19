@@ -3,9 +3,9 @@ This proof of concept application built and designed to be offline first. Capabl
 Utilizing a self-hosted instance of [AppWrite](https://appwrite.io/ "AppWrite") as the backend.
 
 ## Features
-- A friends list to share your "tree spots".
+- A friends list to share your locations, also known as "tree spots".
 - A map of all your personal spots and ability to view the spots of your friends.
-- Add spots, photos, and videos while offline.
+- Add spots, with photos and videos while offline.
 - And more to come!
 
 ## Technologies Used
