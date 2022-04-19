@@ -62,8 +62,13 @@ class ShareSpotActivity : TreeSpotActivity() {
         val locationID = bundle.getString(ARG_LOCATION_ID)!!
         val userID = bundle.getString(ARG_USER_ID)!!
 
+        val userBox = super.getBox(User::class.java)
+        val locationBox = super.getBox(TreeSpot::class.java)
+
         val locationQuery = GetSingleLocationQuery.get(locationID).find()
-        val userQuery = GetSingleUserQuery.getFromUser(userID).find()
+        val userQuery = GetSingleUserQuery(userID)
+
+        val userResult = userBox.query(userQuery.buildQuery()).build().find()
 
         if(locationQuery.size == 1) {
             locationToShare = locationQuery[0]
@@ -71,8 +76,8 @@ class ShareSpotActivity : TreeSpotActivity() {
             Logger.e("Failed to find location to be able to share it!")
         }
 
-        if(userQuery.size == 1) {
-            currentUser = userQuery[0]
+        if(userResult.size == 1) {
+            currentUser = userResult[0]
         } else {
             Logger.e("Failed to find user to associate with sharing!")
         }

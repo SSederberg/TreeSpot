@@ -25,6 +25,7 @@ import net.n4dev.treespot.ui.main.fragments.capture.CaptureSpotFragment
 import net.n4dev.treespot.ui.main.fragments.friends.MyFriendsFragment
 import net.n4dev.treespot.ui.main.fragments.spots.MySpotsFragment
 import net.n4dev.treespot.ui.settings.SettingsActivity
+import net.n4dev.treespot.ui.spots.all.AllUserSpotsActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.GPSUtils
 
@@ -83,13 +84,20 @@ class MainActivity : TreeSpotActivity() {
                 val bundle = Bundle()
                 bundle.putString(AddFriendsActivity.ARG_USER_ID, user!!.getUserID().toString())
                 ActivityUtil.startActivity(bundle, AddFriendsActivity::class.java, this, true)
-            } else false
+            } else if(itemID == R.id.manu_main_spots_all) {
+                val bundle = Bundle()
+                bundle.putString(AllUserSpotsActivity.ARG_USER_ID, user!!.getUserID().toString())
+
+                ActivityUtil.startActivity(bundle, AllUserSpotsActivity::class.java, this, false)
+            }
 
              true
         }
 
 
         binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).isVisible = false
+        binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(2).isVisible = false
+
         setContentView(binding.root)
 
         setupViewPager()
@@ -142,15 +150,18 @@ class MainActivity : TreeSpotActivity() {
                    0 -> {
                        binding.mainIncludeTopbar.mainAppbarBar.title = "My Tree Spots"
                        binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).isVisible = false
+                       binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(2).isVisible = true
                    }
                    1 -> {
                        binding.mainIncludeTopbar.mainAppbarBar.title = ""
                        binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).isVisible = false
+                       binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(2).isVisible = false
                    }
                    2 -> {
                        binding.mainIncludeTopbar.mainAppbarBar.title = "My Friends"
 
                        binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).isVisible = true
+                       binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(2).isVisible = false
                    }
 
                    else -> {
@@ -164,8 +175,11 @@ class MainActivity : TreeSpotActivity() {
 
     private fun getUserFromDB(userID : String) {
       try {
-        val query = GetSingleUserQuery.getFromUser(userID).find()
-          user = query[0]
+          val userBox = super.getBox(User::class.java)
+          val query = GetSingleUserQuery(userID)
+          val result = userBox.query(query.buildQuery()).build().find()
+
+          user = result[0]
       }catch (ex : Exception) {
           ex.printStackTrace()
           user = null

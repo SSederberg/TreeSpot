@@ -144,14 +144,15 @@ public class User implements IUser {
         this.accountCreationDate = date;
     }
 
-//    @NonNull
+    @NonNull
     @Override
     public List<TreeSpot> getUserSpots() {
         AbstractQuery<TreeSpot> query = new GetUserTreeSpotsQuery(userID.toString());
-//        List<TreeSpot> returnedSpots = query.find();
-//        query.close();
-//        return returnedSpots;
-        return null;
+        Box<TreeSpot> treeSpotBox = TreeSpotObjectBox.INSTANCE.getBox(TreeSpot.class);
+
+        List<TreeSpot> results = treeSpotBox.query(query.buildQuery()).build().find();
+
+        return results;
     }
 
     @NonNull

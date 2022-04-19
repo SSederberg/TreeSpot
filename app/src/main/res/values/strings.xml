@@ -48,4 +48,6 @@
     <string name="share_else_where">Share else where</string>
     <string name="share_spot_with_friends">Share Spot With Friends!</string>
     <string name="share_sheet_title">Share Tree Spot With Others!</string>
+    <string name="all_spots_on_map">All Spots On Map</string>
+    <string name="settings">Settings</string>
 </resources>

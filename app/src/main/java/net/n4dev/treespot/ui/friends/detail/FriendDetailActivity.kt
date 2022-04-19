@@ -89,8 +89,9 @@ class FriendDetailActivity : TreeSpotActivity() {
         if(friendID.equals("NULL")) {
             return Friend()
         } else {
-            val singleQuery = GetSingleFriendQuery.get(friendID)
-            val returnedFriend = singleQuery.find()
+            val friendBox = super.getBox(Friend::class.java)
+            val singleQuery = GetSingleFriendQuery(friendID)
+            val returnedFriend = friendBox.query(singleQuery.buildQuery()).build().find()
 
             if(returnedFriend.size > 0) {
                 return returnedFriend[0]

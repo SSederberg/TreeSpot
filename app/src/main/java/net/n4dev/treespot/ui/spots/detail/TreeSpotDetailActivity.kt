@@ -18,10 +18,13 @@ import com.orhanobut.logger.Logger
 import net.n4dev.treespot.R
 import net.n4dev.treespot.core.AbstractViewHolder
 import net.n4dev.treespot.core.api.IUser
+import net.n4dev.treespot.core.entity.Friend
 import net.n4dev.treespot.core.entity.TreeSpot
+import net.n4dev.treespot.core.entity.User
 import net.n4dev.treespot.databinding.ActivityTreeSpotDetailBinding
 import net.n4dev.treespot.databinding.AdapteritemSpotMediaBinding
 import net.n4dev.treespot.db.query.GetLocationMediaQuery
+import net.n4dev.treespot.db.query.GetSingleFriendQuery
 import net.n4dev.treespot.db.query.GetSingleLocationQuery
 import net.n4dev.treespot.db.query.GetSingleUserQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
@@ -139,12 +142,17 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
         this.requestedByID = requestedBy
 
         if (userType.equals(ARG_USER)) {
-            val userQuery = GetSingleUserQuery.getFromUser(ownerID).find()
-            theUser = userQuery[0]
+            val userQuery = GetSingleUserQuery(ownerID)
+            val userBox = super.getBox(User::class.java)
+            val result = userBox.query(userQuery.buildQuery()).build().find()
+            theUser = result[0]
             binding.mainIncludeTopbar.mainAppbarBar.menu[1].isVisible = false
         } else if (userType.equals(ARG_FRIEND)) {
-            val friendQuery = GetSingleUserQuery.getFromFriend(ownerID).find()
-            theUser = friendQuery[0]
+            val friendQuery = GetSingleFriendQuery(ownerID)
+            val friendBox = super.getBox(Friend::class.java)
+            val result = friendBox.query(friendQuery.buildQuery()).build().find()
+
+            theUser = result[0]
         } else {
             Logger.e("Failed to determine user type for Tree Spot Detail!")
         }

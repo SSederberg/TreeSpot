@@ -65,14 +65,7 @@ android {
 
 dependencies {
 
-//    def room_version = "2.4.1"
-//
-//    implementation "androidx.room:room-runtime:$room_version"
-//    annotationProcessor "androidx.room:room-compiler:$room_version"
-//
-//    implementation "androidx.sqlite:sqlite-ktx:2.2.0"
-
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.2'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.3'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
@@ -91,7 +84,6 @@ dependencies {
     implementation "androidx.camera:camera-view:1.1.0-beta03"
     implementation "androidx.camera:camera-lifecycle:${camerax_version}"
     implementation "androidx.camera:camera-extensions:1.1.0-beta03"
-
 
     implementation("io.appwrite:sdk-for-android:0.5.0")
 
