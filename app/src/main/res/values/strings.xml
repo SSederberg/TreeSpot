@@ -50,4 +50,5 @@
     <string name="share_sheet_title">Share Tree Spot With Others!</string>
     <string name="all_spots_on_map">All Spots On Map</string>
     <string name="settings">Settings</string>
+    <string name="attach_video_to_this_new_spot">Attach Video To This New Spot!</string>
 </resources>

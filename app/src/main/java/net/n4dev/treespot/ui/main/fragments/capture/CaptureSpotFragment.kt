@@ -17,6 +17,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.common.util.concurrent.ListenableFuture
 import com.orhanobut.logger.Logger
+import net.n4dev.treespot.core.api.ITreeSpotMedia
+import net.n4dev.treespot.core.entity.TreeSpotMedia
+import net.n4dev.treespot.core.entity.TypeConst
 import net.n4dev.treespot.databinding.FragmentCaptureSpotBinding
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.ui.spots.addspot.AddSpotActivity
@@ -39,7 +42,7 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
     private lateinit var pictureDir : File
     private val cameraRequestCode = 6066
     private var imageCount = 0
-    private var imagesCaptured = ArrayList<String>()
+    private var imagesCaptured = ArrayList<ITreeSpotMedia>()
     private lateinit var userID : String
 
     constructor(userID : String) : this() {
@@ -81,7 +84,12 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
                takePicture()
 
                 val bundle = Bundle()
-                bundle.putStringArrayList(AddSpotActivity.ARG_IMAGES_ARRAY, imagesCaptured)
+                val mediaArray : ArrayList<String> = ArrayList();
+                imagesCaptured.forEach {
+                    mediaArray.add(it.getMediaPath())
+                }
+
+                bundle.putStringArrayList(AddSpotActivity.ARG_IMAGES_ARRAY, mediaArray)
                 bundle.putString(AddSpotActivity.ARG_USER_ID, userID)
                 ActivityUtil.startActivity(bundle, AddSpotActivity::class.java, requireActivity(), false)
            }
@@ -163,7 +171,9 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
         imageCapture?.takePicture(outputFileOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                 val filename = outputFileResults.savedUri.toString()
-                imagesCaptured.add(filename)
+
+                val newMedia = TreeSpotMedia(userID, "NULL", TypeConst.PICTURE, filename, filename)
+                imagesCaptured.add(newMedia)
 
             }
 

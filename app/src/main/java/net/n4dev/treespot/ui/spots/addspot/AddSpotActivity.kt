@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +26,6 @@ import net.n4dev.treespot.core.api.ITreeSpot
 import net.n4dev.treespot.core.api.ITreeSpotMedia
 import net.n4dev.treespot.core.entity.TreeSpot
 import net.n4dev.treespot.core.entity.TreeSpotMedia
-import net.n4dev.treespot.core.entity.TypeConst
 import net.n4dev.treespot.databinding.ActivityAddSpotBinding
 import net.n4dev.treespot.ui.main.MainActivity
 import net.n4dev.treespot.util.ActivityUtil
@@ -44,7 +44,7 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private lateinit var binding : ActivityAddSpotBinding
-    private val photosUriArray = ArrayList<String>()
+    private val photosUriArray = ArrayList<ITreeSpotMedia>()
     private val photosBitmapArray = ArrayList<Bitmap>()
     private var hasPrivateName : Boolean = false
     private lateinit var viewmodel : AddSpotViewModel
@@ -56,6 +56,8 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var userID : String
     private val creationDate = System.currentTimeMillis()
     private val spotID = UUID.randomUUID().toString()
+    val filename = spotID + "_" + creationDate
+    val uri = Uri.parse(filename)
     private lateinit var treeMedia : List<ITreeSpotMedia>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +68,19 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapsFragment = binding.spotDetailMapsFragment.getFragment() as SupportMapFragment
         mapsFragment.getMapAsync(this)
 
+        if(intent.extras != null) {
+            setupFromArgs(intent.extras!!)
+        } else if(savedInstanceState != null) {
+            setupFromArgs(savedInstanceState)
+        }
+
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        val adapter = AddSpotMediaAdapter(photosUriArray)
+
+        binding.photosList.layoutManager = layoutManager
+        binding.photosList.adapter = adapter
+
+
         binding.addSpotNameSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             hasPrivateName = isChecked
             if(isChecked) {
@@ -74,7 +89,7 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
                 binding.spotPrivateName.visibility = View.GONE
             }
         }
-        
+
         binding.addSpotAdd.setOnClickListener {
             val treeSpot = buildTreeSpot(binding.addSpotNameSwitch.isChecked)
 
@@ -87,17 +102,16 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
             finish()
         }
 
-        if(intent.extras != null) {
-            setupFromArgs(intent.extras!!)
-        } else if(savedInstanceState != null) {
-            setupFromArgs(savedInstanceState)
+        val takeVidIntent  = registerForActivityResult(ActivityResultContracts.CaptureVideo()) { result ->
+            val newMedia = TreeSpotMedia()
+
+            adapter.addItem(newMedia)
         }
 
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        val adapter = AddSpotPhotosAdapter(photosBitmapArray)
+        binding.addSpotAddVideo.setOnClickListener {
 
-        binding.photosList.layoutManager = layoutManager
-        binding.photosList.adapter = adapter
+            takeVidIntent.launch(uri)
+        }
 
         setContentView(binding.root)
     }
@@ -143,20 +157,11 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun setupFromArgs(extras: Bundle) {
         val temp = extras.getStringArrayList(ARG_IMAGES_ARRAY)
-        photosUriArray.addAll(temp!!)
-        setupBitmapsFromUri(photosUriArray)
 
-        this.userID = extras.getString(ARG_USER_ID)!!
-        this.treeMedia = buildTreeSpotMedia()
     }
 
-    private fun setupBitmapsFromUri(array : ArrayList<String>) {
+    private fun setupBitmapsFromUri(array : ArrayList<ITreeSpotMedia>) {
 
-        array.forEach {
-            val uri = Uri.parse(it)
-            val bitmap : Bitmap? = decodeUriToBitmap(uri)
-            photosBitmapArray.add(bitmap!!)
-        }
     }
 
     private fun buildTreeSpot(usePrivateDescription : Boolean) : ITreeSpot {
@@ -181,16 +186,16 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun buildTreeSpotMedia() : List<ITreeSpotMedia> {
         val newMedias = ArrayList<ITreeSpotMedia>()
         for (uri in this.photosUriArray) {
-            val filename = uri.substring(uri.lastIndexOf("/") + 1)
-            val media = TreeSpotMedia(
-                userID,
-                spotID,
-                TypeConst.MEDIA,
-                uri,
-                filename
-            )
-
-            newMedias.add(media)
+//            val filename = uri.substring(uri.lastIndexOf("/") + 1)
+//            val media = TreeSpotMedia(
+//                userID,
+//                spotID,
+//                TypeConst.MEDIA,
+//                uri,
+//                filename
+//            )
+//
+//            newMedias.add(media)
         }
 
         return newMedias

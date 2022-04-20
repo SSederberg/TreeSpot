@@ -8,7 +8,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/spot_public_name"
-        app:startIconDrawable="@drawable/ic_public"
         style="@style/Theme.TreeSpot.Text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -18,15 +17,16 @@
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_spot_name_switch"
-        app:startIconContentDescription="Describe this spot as best as possible">
+        app:layout_constraintTop_toBottomOf="@+id/add_spot_add_video"
+        app:startIconContentDescription="Describe this spot as best as possible"
+        app:startIconDrawable="@drawable/ic_public">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/spot_public_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:text="Public name"/>
+            android:text="Public name" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,9 +90,10 @@
         android:id="@+id/add_spot_name_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/different_public_and_private_names"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/spot_public_name"
+        app:layout_constraintEnd_toStartOf="@+id/add_spot_add_video"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
@@ -107,5 +108,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/photos_list"
         tools:context=".MapsActivity" />
+
+    <ImageButton
+        android:id="@+id/add_spot_add_video"
+        style="@style/Theme.TreeSpot.ImageButton"
+        android:contentDescription="@string/attach_video_to_this_new_spot"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_video_call" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
