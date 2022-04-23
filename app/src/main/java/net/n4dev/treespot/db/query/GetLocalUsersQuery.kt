@@ -9,7 +9,7 @@ import net.n4dev.treespot.db.constants.TreeSpotUserConstants
 class GetLocalUsersQuery : AbstractQuery<User>(User::class.java) {
 
 
-    override fun buildConditions(fields: Array<out Property<User>>): QueryCondition<User> {
+    override fun buildConditions(fields: Array<Property<User>>): QueryCondition<User> {
         val field = User.fieldConverter.get(TreeSpotUserConstants.EMAIL_ADDRESS) as Int
         return fields[field].notNull()
     }

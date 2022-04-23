@@ -59,7 +59,7 @@ class UserLoginViewModel : AbstractViewModel() {
                     sharedPreferences.edit().putString(TreeSpotActivity.PREF_ACTIVE_USERNAME_ID, response.userId).apply()
 
                     loggedInUserID = account.get().id
-                    createUserInDB(account.get())
+                    createUserInDB(account.get(), response.id)
 
                     pullUserData(account.get(), context)
 
@@ -123,7 +123,6 @@ class UserLoginViewModel : AbstractViewModel() {
     }
 
 
-
     private suspend fun pullSpotData(get : User) {
         val spotQuery = listOf(Query.equal(TreeSpotsConstants.SPOT_OWNER_ID, get.id))
 
@@ -171,8 +170,8 @@ class UserLoginViewModel : AbstractViewModel() {
     }
 
 
-    private fun createUserInDB(get: User) {
-        val convert = net.n4dev.treespot.core.entity.User.convertFromAWUser(get)
+    private fun createUserInDB(get: User, sessionID : String) {
+        val convert = net.n4dev.treespot.core.entity.User.convertFromAWUser(get, sessionID)
         userBox.removeAll()
         userBox.put(convert)
     }
@@ -234,6 +233,11 @@ class UserLoginViewModel : AbstractViewModel() {
     }
 
     fun sessionExists() : Boolean {
+//        if(userBox.all.size > 0) {
+//            val user = userBox.all[0]
+//
+//            return user.getCurrentSessionID() != null
+//        }
         return false
     }
 

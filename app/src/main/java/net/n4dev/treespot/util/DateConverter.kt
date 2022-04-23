@@ -37,6 +37,7 @@ class DateConverter {
           return null
       }
 
+      @JvmStatic
       fun toPrettyString(count : Long) : String {
           val convertDate = toDate(count)
           val dateTimeFormat = SimpleDateFormat(DATE_UI_PRETTY, Locale.US)

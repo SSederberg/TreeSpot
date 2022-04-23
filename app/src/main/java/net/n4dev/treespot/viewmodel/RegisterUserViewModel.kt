@@ -73,6 +73,6 @@ class RegisterUserViewModel : AbstractViewModel() {
             userLateOnline to time)
 
         //Appwrite Database
-        awDatabase.createDocument(usersCollectionID, awUser.id, data, listOf("role:member"))
+        awDatabase.createDocument(usersCollectionID, awUser.id, data, super.getMemberRole())
     }
 }

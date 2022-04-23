@@ -13,16 +13,14 @@ import net.n4dev.treespot.db.query.GetSingleFriendQuery
 import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.util.ActivityUtil
-import net.n4dev.treespot.util.DateConverter
-import net.n4dev.treespot.viewmodel.FriendDetailViewModel
+import net.n4dev.treespot.viewmodel.FriendViewModel
 
 class FriendDetailActivity : TreeSpotActivity() {
 
     private lateinit var binding : ActivityFriendDetailBinding
-    private var theFriend : Friend? = null
     private lateinit var friendID : String
     private lateinit var userID : String
-    private lateinit var viewModel : FriendDetailViewModel
+    private lateinit var viewModel : FriendViewModel
 
     companion object {
         const val ARG_FRIEND_ID = "ARG_FRIEND_ID"
@@ -32,8 +30,7 @@ class FriendDetailActivity : TreeSpotActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFriendDetailBinding.inflate(layoutInflater)
-        viewModel = ViewModelProvider(this).get(FriendDetailViewModel::class.java)
-        viewModel.init(this)
+        viewModel = ViewModelProvider(this).get(FriendViewModel::class.java)
 
         if(intent.extras != null) {
             buildFromBundle(intent.extras!!)
@@ -41,18 +38,19 @@ class FriendDetailActivity : TreeSpotActivity() {
             buildFromBundle(savedInstanceState)
         }
 
-        theFriend = getFriend()
-        binding.friendDetail = theFriend
+        viewModel = getFriend()
+        binding.friendDetail = viewModel
 
-        val friendSinceString = DateConverter.toPrettyString(theFriend!!.getFriendsSince())
-        val accountCreatedString = DateConverter.toPrettyString(theFriend!!.getAccountCreationDate())
 
-        binding.friendDetailFrendSinceText.setText(friendSinceString)
-        binding.friendDetailJoinedText.setText(accountCreatedString)
-
-//        binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).setVisible(false)
+        binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).setVisible(false)
         loadAvatar(friendID)
 
+       generateSpotsList()
+
+        setContentView(binding.root)
+    }
+
+    private fun generateSpotsList() {
         val adapterItemBinding  = AdapteritemTreespotLocationBinding.inflate(layoutInflater)
         val viewHolder = FriendDetailSpotsViewHolder(adapterItemBinding)
         val query = GetUserTreeSpotsQuery(friendID)
@@ -64,8 +62,6 @@ class FriendDetailActivity : TreeSpotActivity() {
         binding.friendDetailSpotsList.adapter = adapter
 
         AbstractViewHolder.generateItemDecoration(binding.friendDetailSpotsList, layoutManager)
-
-        setContentView(binding.root)
     }
 
     private fun loadAvatar(friendID: String) {
@@ -85,19 +81,20 @@ class FriendDetailActivity : TreeSpotActivity() {
         userID = bundle.getString(ARG_USER_ID)!!
     }
 
-    private fun getFriend() : Friend {
+    private fun getFriend() : FriendViewModel {
         if(friendID.equals("NULL")) {
-            return Friend()
+            return FriendViewModel()
         } else {
             val friendBox = super.getBox(Friend::class.java)
             val singleQuery = GetSingleFriendQuery(friendID)
             val returnedFriend = friendBox.query(singleQuery.buildQuery()).build().find()
 
             if(returnedFriend.size > 0) {
-                return returnedFriend[0]
+                val model = FriendViewModel(returnedFriend[0])
+                return model
             }
         }
 
-        return Friend()
+        return FriendViewModel()
     }
 }

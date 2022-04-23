@@ -59,14 +59,24 @@ import java.util.*
 
      fun createFriendshipTemp(user: String, friend : String) {
          viewModelScope.launch {
+             val currentTime = System.currentTimeMillis()
+             val newPairID = UUID.randomUUID().toString()
              val data = mapOf(
                  TreeSpotFriendsConstants.FRIEND_ID to friend,
                  TreeSpotFriendsConstants.USER_ID to user,
-                 TreeSpotFriendsConstants.FRIEND_PAIR_ID to UUID.randomUUID().toString(),
-                 TreeSpotFriendsConstants.FRIENDS_SINCE to System.currentTimeMillis()
+                 TreeSpotFriendsConstants.FRIEND_PAIR_ID to newPairID,
+                 TreeSpotFriendsConstants.FRIENDS_SINCE to currentTime
              )
 
-             val createFriends = awDatabase.createDocument(friendsCollectionID, "unique()", data, arrayListOf("role:member"))
+             val reverseData = mapOf(
+                 TreeSpotFriendsConstants.FRIEND_ID to user,
+                 TreeSpotFriendsConstants.USER_ID to friend,
+                 TreeSpotFriendsConstants.FRIEND_PAIR_ID to newPairID,
+                 TreeSpotFriendsConstants.FRIENDS_SINCE to currentTime
+             )
+
+             val createFriends = awDatabase.createDocument(friendsCollectionID, "unique()", data, super.getMemberRole())
+             val createFriendsReverse = awDatabase.createDocument(friendsCollectionID, "unique()", reverseData, super.getMemberRole())
          }
      }
 

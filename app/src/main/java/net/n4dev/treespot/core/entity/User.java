@@ -194,10 +194,11 @@ public class User implements IUser {
         return staticMap;
     }
 
-    public static User convertFromAWUser(io.appwrite.models.User user) {
+    public static User convertFromAWUser(io.appwrite.models.User user, String newSessionID) {
         User returnedUser = new User(user.getName(), user.getEmail(), UUID.fromString(user.getId()));
         returnedUser.setAccountCreationDate(user.getRegistration());
-        returnedUser.setLastOnline(0);
+        returnedUser.setLastOnline(System.currentTimeMillis());
+        returnedUser.setCurrentSessionID(newSessionID);
         return returnedUser;
     }
 

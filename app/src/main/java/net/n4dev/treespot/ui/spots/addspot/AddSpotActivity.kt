@@ -33,19 +33,18 @@ import net.n4dev.treespot.util.GPSUtils
 import net.n4dev.treespot.viewmodel.AddSpotViewModel
 import java.io.FileNotFoundException
 import java.io.InputStream
-import java.util.*
 
 
 class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         const val ARG_IMAGES_ARRAY = "ARG_IMAGES_ARRAY"
-        const val ARG_USER_ID = "ARG_USER_ID";
+        const val ARG_USER_ID = "ARG_USER_ID"
+        const val ARG_SPOT_ID = "ARG_SPOT_ID"
     }
 
     private lateinit var binding : ActivityAddSpotBinding
     private val photosUriArray = ArrayList<ITreeSpotMedia>()
-    private val photosBitmapArray = ArrayList<Bitmap>()
     private var hasPrivateName : Boolean = false
     private lateinit var viewmodel : AddSpotViewModel
     private val cancelToken = CancellationTokenSource()
@@ -55,10 +54,13 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
     private var long : Double = 0.0
     private lateinit var userID : String
     private val creationDate = System.currentTimeMillis()
-    private val spotID = UUID.randomUUID().toString()
-    val filename = spotID + "_" + creationDate
-    val uri = Uri.parse(filename)
+    private lateinit var spotID : String
+    private lateinit var filename : String
+    private lateinit var uri : Uri
+//    val filename = spotID + "_" + creationDate
+//    val uri = Uri.parse(filename)
     private lateinit var treeMedia : List<ITreeSpotMedia>
+    private lateinit var mediaIDs : List<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +82,7 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.photosList.layoutManager = layoutManager
         binding.photosList.adapter = adapter
 
+        filename = spotID + "_" + creationDate
 
         binding.addSpotNameSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             hasPrivateName = isChecked
@@ -156,11 +159,9 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setupFromArgs(extras: Bundle) {
-        val temp = extras.getStringArrayList(ARG_IMAGES_ARRAY)
-
-    }
-
-    private fun setupBitmapsFromUri(array : ArrayList<ITreeSpotMedia>) {
+        mediaIDs  = extras.getStringArrayList(ARG_IMAGES_ARRAY)!!
+        spotID = extras.getString(ARG_SPOT_ID)!!
+        userID = extras.getString(ARG_USER_ID)!!
 
     }
 
@@ -183,23 +184,6 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
         return newSpot
     }
 
-    private fun buildTreeSpotMedia() : List<ITreeSpotMedia> {
-        val newMedias = ArrayList<ITreeSpotMedia>()
-        for (uri in this.photosUriArray) {
-//            val filename = uri.substring(uri.lastIndexOf("/") + 1)
-//            val media = TreeSpotMedia(
-//                userID,
-//                spotID,
-//                TypeConst.MEDIA,
-//                uri,
-//                filename
-//            )
-//
-//            newMedias.add(media)
-        }
-
-        return newMedias
-    }
 
     private fun decodeUriToBitmap(sendUri: Uri): Bitmap? {
         var getBitmap: Bitmap? = null

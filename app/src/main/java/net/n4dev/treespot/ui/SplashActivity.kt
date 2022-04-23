@@ -96,7 +96,8 @@ class SplashActivity : TreeSpotActivity() {
 
     private fun doesUserAccountExist() : Boolean {
         val box = super.getBox(net.n4dev.treespot.core.entity.User::class.java)
-        return box.all.size > 0
+        val usersExist = box.all.size > 0
+        return usersExist
     }
 
     private fun userIsAuthorized(): Boolean {
@@ -106,16 +107,17 @@ class SplashActivity : TreeSpotActivity() {
             if(users.size == 0) {
                 return false
             } else {
+                val user = users[0]
                 if(DeviceConnectionHelper.getConnectionType(this) > 0) {
 
                     //TODO Verify session is still valid before returning true
-                    val user = users[0]
+
                     val storedSession = user.getCurrentSessionID()
                     return userAuthorizedViewModel.isAuthorized(storedSession);
                 } else {
                     // Since we can't verify the user since they are offline,
                     // we will have to trust them until they go online.
-                    return users.size > 0
+                    return user.getCurrentSessionID() != null
                 }
             }
         }catch (exception : Exception) {

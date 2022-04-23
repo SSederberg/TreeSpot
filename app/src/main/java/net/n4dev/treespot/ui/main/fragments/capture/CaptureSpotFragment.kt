@@ -21,10 +21,12 @@ import net.n4dev.treespot.core.api.ITreeSpotMedia
 import net.n4dev.treespot.core.entity.TreeSpotMedia
 import net.n4dev.treespot.core.entity.TypeConst
 import net.n4dev.treespot.databinding.FragmentCaptureSpotBinding
+import net.n4dev.treespot.db.TreeSpotObjectBox
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.ui.spots.addspot.AddSpotActivity
 import net.n4dev.treespot.util.ActivityUtil
 import java.io.File
+import java.util.*
 import java.util.concurrent.ExecutionException
 
 
@@ -44,6 +46,7 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
     private var imageCount = 0
     private var imagesCaptured = ArrayList<ITreeSpotMedia>()
     private lateinit var userID : String
+    private var newSpotID : String? = null
 
     constructor(userID : String) : this() {
         this.userID = userID
@@ -86,11 +89,12 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
                 val bundle = Bundle()
                 val mediaArray : ArrayList<String> = ArrayList();
                 imagesCaptured.forEach {
-                    mediaArray.add(it.getMediaPath())
+                    mediaArray.add(it.getMediaID())
                 }
 
                 bundle.putStringArrayList(AddSpotActivity.ARG_IMAGES_ARRAY, mediaArray)
                 bundle.putString(AddSpotActivity.ARG_USER_ID, userID)
+                bundle.putString(AddSpotActivity.ARG_SPOT_ID, newSpotID)
                 ActivityUtil.startActivity(bundle, AddSpotActivity::class.java, requireActivity(), false)
            }
 
@@ -172,8 +176,13 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                 val filename = outputFileResults.savedUri.toString()
 
-                val newMedia = TreeSpotMedia(userID, "NULL", TypeConst.PICTURE, filename, filename)
+                if(newSpotID != null) {
+                    newSpotID = UUID.randomUUID().toString()
+                }
+
+                val newMedia = TreeSpotMedia(userID, newSpotID, TypeConst.PICTURE, filename, filename)
                 imagesCaptured.add(newMedia)
+                TreeSpotObjectBox.getBox(TreeSpotMedia::class.java).put(newMedia)
 
             }
 

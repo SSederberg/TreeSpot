@@ -8,14 +8,7 @@ import net.n4dev.treespot.db.constants.TreeSpotsConstants
 
 class GetUserTreeSpotsQuery(private val ownerID : String) : AbstractQuery<TreeSpot>(TreeSpot::class.java) {
 
-    //   companion object {
-//       private val queryBox = TreeSpotObjectBox.getBoxStore().boxFor(TreeSpot::class.java)
-//       fun get(ownerID : String) : Query<TreeSpot>? {
-//           return queryBox.query(TreeSpot_.spotOwnerID.equal(ownerID)).build()
-//       }
-//   }
-
-    override fun buildConditions(fields: Array<out Property<TreeSpot>>): QueryCondition<TreeSpot> {
+    override fun buildConditions(fields: Array<Property<TreeSpot>>): QueryCondition<TreeSpot> {
         val field = TreeSpot.fieldConverter[TreeSpotsConstants.SPOT_OWNER_ID] as Int
         return fields[field].equal(ownerID)
     }
