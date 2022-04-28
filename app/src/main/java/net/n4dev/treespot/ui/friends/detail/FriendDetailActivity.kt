@@ -2,9 +2,12 @@ package net.n4dev.treespot.ui.friends.detail
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.MenuItem
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import net.n4dev.treespot.R
 import net.n4dev.treespot.core.AbstractViewHolder
 import net.n4dev.treespot.core.entity.Friend
 import net.n4dev.treespot.databinding.ActivityFriendDetailBinding
@@ -12,10 +15,11 @@ import net.n4dev.treespot.databinding.AdapteritemTreespotLocationBinding
 import net.n4dev.treespot.db.query.GetSingleFriendQuery
 import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
+import net.n4dev.treespot.ui.spots.all.AllUserSpotsActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.viewmodel.FriendViewModel
 
-class FriendDetailActivity : TreeSpotActivity() {
+class FriendDetailActivity : TreeSpotActivity(), Toolbar.OnMenuItemClickListener {
 
     private lateinit var binding : ActivityFriendDetailBinding
     private lateinit var friendID : String
@@ -43,11 +47,23 @@ class FriendDetailActivity : TreeSpotActivity() {
 
 
         binding.mainIncludeTopbar.mainAppbarBar.menu.getItem(1).setVisible(false)
+        binding.mainIncludeTopbar.mainAppbarBar.setOnMenuItemClickListener(this)
         loadAvatar(friendID)
 
        generateSpotsList()
 
         setContentView(binding.root)
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        val itemID = item.itemId
+        if(itemID == R.id.manu_main_spots_all) {
+            val bundle = Bundle()
+            bundle.putString(AllUserSpotsActivity.ARG_USER_ID, viewModel.getUserID().toString())
+
+            ActivityUtil.startActivity(bundle, AllUserSpotsActivity::class.java, this, false)
+        }
+        return true
     }
 
     private fun generateSpotsList() {

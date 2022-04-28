@@ -94,7 +94,7 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
 
                 bundle.putStringArrayList(AddSpotActivity.ARG_IMAGES_ARRAY, mediaArray)
                 bundle.putString(AddSpotActivity.ARG_USER_ID, userID)
-                bundle.putString(AddSpotActivity.ARG_SPOT_ID, newSpotID)
+                bundle.putString(AddSpotActivity.ARG_SPOT_ID, newSpotID!!)
                 ActivityUtil.startActivity(bundle, AddSpotActivity::class.java, requireActivity(), false)
            }
 
@@ -176,7 +176,7 @@ class CaptureSpotFragment() : Fragment(), ActivityCompat.OnRequestPermissionsRes
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                 val filename = outputFileResults.savedUri.toString()
 
-                if(newSpotID != null) {
+                if(newSpotID == null) {
                     newSpotID = UUID.randomUUID().toString()
                 }
 

@@ -57,8 +57,6 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var spotID : String
     private lateinit var filename : String
     private lateinit var uri : Uri
-//    val filename = spotID + "_" + creationDate
-//    val uri = Uri.parse(filename)
     private lateinit var treeMedia : List<ITreeSpotMedia>
     private lateinit var mediaIDs : List<String>
 
@@ -96,7 +94,7 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.addSpotAdd.setOnClickListener {
             val treeSpot = buildTreeSpot(binding.addSpotNameSwitch.isChecked)
 
-            viewmodel.addSpot(treeSpot, treeMedia as List<TreeSpotMedia>, this)
+            viewmodel.addSpot(treeSpot, this)
 
             val bundle = Bundle()
             bundle.putString(MainActivity.ARG_USER_ID, userID)
@@ -112,7 +110,6 @@ class AddSpotActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         binding.addSpotAddVideo.setOnClickListener {
-
             takeVidIntent.launch(uri)
         }
 

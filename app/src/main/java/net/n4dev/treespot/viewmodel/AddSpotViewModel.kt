@@ -7,6 +7,7 @@ import io.objectbox.Box
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.core.AbstractViewModel
 import net.n4dev.treespot.core.api.ITreeSpot
+import net.n4dev.treespot.core.api.ITreeSpotMedia
 import net.n4dev.treespot.core.entity.TreeSpot
 import net.n4dev.treespot.core.entity.TreeSpotMedia
 import net.n4dev.treespot.db.constants.TreeSpotsConstants
@@ -23,10 +24,10 @@ class AddSpotViewModel : AbstractViewModel() {
         mediaBox = super.getBox(TreeSpotMedia::class.java)
     }
 
-    fun addSpot(spot : ITreeSpot, media : List<TreeSpotMedia>, context: Context) {
+    fun addSpot(spot : ITreeSpot, media : List<ITreeSpotMedia>, context: Context) {
         //Local saving
         spotBox.put(spot as TreeSpot)
-        mediaBox.put(media)
+        mediaBox.put(media as TreeSpotMedia)
 
         viewModelScope.launch {
 
@@ -58,6 +59,29 @@ class AddSpotViewModel : AbstractViewModel() {
 //                getMemberRole())
 //            }
 //
+            val spotData = mapOf(
+                TreeSpotsConstants.SPOT_CREATION_DATE to spot.getCreationDate(),
+                TreeSpotsConstants.SPOT_DESCRIPTION to spot.getDescription(),
+                TreeSpotsConstants.SPOT_LAT_NORTH to spot.getLatNorth(),
+                TreeSpotsConstants.SPOT_LONG_WEST to spot.getLongWest(),
+                TreeSpotsConstants.SPOT_OWNER_ID to spot.getSpotOwnerID(),
+                TreeSpotsConstants.SPOT_UUID to spot.getSpotID(),
+                TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION to spot.getPrivateDescription()
+            )
+
+            val spotsData = Data.Builder()
+                .putAll(spotData)
+                .build()
+
+            val uploadWorker = WorkerUtil.generateOneTimeWorkRequest(UploadTreeSpotWorker::class.java, spotsData, WorkerUtil.networkRequiredConstraints, TreeSpotsConstants.WORKER_UPLOAD_SPOT)
+
+            WorkerUtil.enqueueWork(context, uploadWorker)
+        }
+    }
+
+    fun addSpot(spot: ITreeSpot, context: Context) {
+        spotBox.put(spot as TreeSpot)
+        viewModelScope.launch {
             val spotData = mapOf(
                 TreeSpotsConstants.SPOT_CREATION_DATE to spot.getCreationDate(),
                 TreeSpotsConstants.SPOT_DESCRIPTION to spot.getDescription(),
