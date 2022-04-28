@@ -278,11 +278,6 @@
           "id": "10:2592971082320312668",
           "name": "spot_private_description",
           "type": 9
-        },
-        {
-          "id": "11:6023332712721440477",
-          "name": "spot_favorite",
-          "type": 1
         }
       ],
       "relations": []
@@ -297,7 +292,8 @@
   "retiredEntityUids": [],
   "retiredIndexUids": [],
   "retiredPropertyUids": [
-    1836873287318200532
+    1836873287318200532,
+    6023332712721440477
   ],
   "retiredRelationUids": [],
   "version": 1

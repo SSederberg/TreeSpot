@@ -40,6 +40,7 @@ public class TreeSpotMedia implements ITreeSpotMedia {
     @NameInDb(TreeSpotMediaConstants.FILENAME)
     private String fileName;
 
+    @Transient
     private boolean isUploaded = false;
 
     @NameInDb(TreeSpotMediaConstants.TAKEN_AT)

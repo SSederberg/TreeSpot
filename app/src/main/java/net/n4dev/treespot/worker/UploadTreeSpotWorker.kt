@@ -15,12 +15,11 @@ class UploadTreeSpotWorker(val context: Context, workerParams: WorkerParameters)
     private var awDatabase: Database = Database(client)
 
     override suspend fun doWork(): Result = coroutineScope {
-
        try {
            awDatabase.createDocument(
                TreeSpotsConstants.name,
                "unique()",
-               inputData,
+               inputData.keyValueMap,
                listOf("role:member"),
                listOf("role:member")
            )

@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.orhanobut.logger.Logger
 import net.n4dev.treespot.core.api.ITreeSpotMedia
 import net.n4dev.treespot.databinding.AdapteritemPhotoAddBinding
+import java.io.File
 
 class AddSpotMediaAdapter(private val medias : ArrayList<ITreeSpotMedia>) : RecyclerView.Adapter<AddSpotPhotosViewHolder>() {
 
@@ -16,13 +17,12 @@ class AddSpotMediaAdapter(private val medias : ArrayList<ITreeSpotMedia>) : Recy
     }
 
     override fun onBindViewHolder(holder: AddSpotPhotosViewHolder, position: Int) {
-        Logger.i("POS: $position")
         val media = medias[position]
+        Logger.i("POS: $position ${media.getMediaPath()}")
 
       Glide
           .with(holder.itemView.context)
-          .asDrawable()
-          .load(media.getMediaPath())
+          .load(File(media.getMediaPath()))
           .into(holder.getXMLBinding().photoToAdd)
     }
 
