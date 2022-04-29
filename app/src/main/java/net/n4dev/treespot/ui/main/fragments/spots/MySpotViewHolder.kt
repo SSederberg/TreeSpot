@@ -9,8 +9,8 @@ import net.n4dev.treespot.databinding.AdapteritemTreespotLocationBinding
 class MySpotViewHolder(private val binding : AdapteritemTreespotLocationBinding) : AbstractViewHolder<AdapteritemTreespotLocationBinding>(binding) {
 
     override fun getDataBinding(
-        context: Context?,
-        parent: ViewGroup?,
+        context: Context,
+        parent: ViewGroup,
         attach: Boolean
     ): AdapteritemTreespotLocationBinding {
       return AdapteritemTreespotLocationBinding.inflate(LayoutInflater.from(context), parent, attach)

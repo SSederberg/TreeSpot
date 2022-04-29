@@ -9,8 +9,8 @@ import net.n4dev.treespot.databinding.AdapteritemFriendsBinding
 class MyFriendsViewHolder(private val binding : AdapteritemFriendsBinding) : AbstractViewHolder<AdapteritemFriendsBinding>(binding) {
 
     override fun getDataBinding(
-        context: Context?,
-        parent: ViewGroup?,
+        context: Context,
+        parent: ViewGroup,
         attach: Boolean
     ): AdapteritemFriendsBinding {
         return AdapteritemFriendsBinding.inflate(LayoutInflater.from(context), parent, attach)

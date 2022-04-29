@@ -3,15 +3,19 @@ package net.n4dev.treespot.core.entity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import net.n4dev.treespot.core.AbstractQuery;
 import net.n4dev.treespot.core.api.IFriend;
+import net.n4dev.treespot.db.TreeSpotObjectBox;
 import net.n4dev.treespot.db.constants.TreeSpotFriendsConstants;
 import net.n4dev.treespot.db.UUIDConverter;
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants;
+import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import io.objectbox.Box;
 import io.objectbox.annotation.ConflictStrategy;
 import io.objectbox.annotation.Convert;
 import io.objectbox.annotation.Entity;
@@ -195,7 +199,12 @@ public class Friend implements IFriend {
     @NonNull
     @Override
     public List<TreeSpot> getUserSpots() {
-        return null;
+        AbstractQuery<TreeSpot> query = new GetUserTreeSpotsQuery(friendID.toString());
+        Box<TreeSpot> treeSpotBox = TreeSpotObjectBox.INSTANCE.getBox(TreeSpot.class);
+
+        List<TreeSpot> results = treeSpotBox.query(query.buildQuery()).build().find();
+
+        return results;
     }
 
     @NonNull

@@ -50,6 +50,7 @@ class UserLoginViewModel : AbstractViewModel() {
     }
 
     fun attemptLogin(emailAddress : String, password : String, sharedPreferences: SharedPreferences, context: Context) {
+//        val context = activity.applicationContext
         viewModelScope.launch {
             try {
                 if (!sessionExists()) {

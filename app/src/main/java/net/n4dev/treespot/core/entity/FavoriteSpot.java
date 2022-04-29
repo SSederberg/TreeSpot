@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import net.n4dev.treespot.core.api.IFavoriteTreeSpot;
+import net.n4dev.treespot.core.api.ITreeSpotMedia;
 import net.n4dev.treespot.db.UUIDConverter;
 import net.n4dev.treespot.db.constants.TreeSpotFavoriteConstants;
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants;
 import net.n4dev.treespot.db.constants.TreeSpotsConstants;
 
 import java.util.HashMap;
+import java.util.List;
 
 import io.objectbox.annotation.ConflictStrategy;
 import io.objectbox.annotation.Convert;
@@ -212,5 +214,11 @@ public class FavoriteSpot implements IFavoriteTreeSpot {
         staticMap.put(TreeSpotFavoriteConstants.SPOT_FAV_USER_ID, 8);
         staticMap.put(TreeSpotFavoriteConstants.SPOT_FAV_DATE, 9);
         return staticMap;
+    }
+
+    @NonNull
+    @Override
+    public List<ITreeSpotMedia> getSpotPhotos() {
+        return null;
     }
 }

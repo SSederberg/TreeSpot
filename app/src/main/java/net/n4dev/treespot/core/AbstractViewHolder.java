@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.ColorFilter;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.BlendModeColorFilterCompat;
 import androidx.core.graphics.BlendModeCompat;
@@ -18,7 +19,7 @@ import net.n4dev.treespot.core.api.IEntity;
 public abstract class AbstractViewHolder<B extends ViewDataBinding> extends RecyclerView.ViewHolder {
     private final B binding;
 
-    public abstract B getDataBinding(Context context, ViewGroup parent, boolean attach);
+    public abstract B getDataBinding(@NonNull Context context, @NonNull ViewGroup parent, @NonNull boolean attach);
 
     /**
      * Returns a fresh instance of {@link AbstractViewHolder<B>} to be used by

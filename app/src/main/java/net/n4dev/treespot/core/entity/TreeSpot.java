@@ -3,12 +3,19 @@ package net.n4dev.treespot.core.entity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import net.n4dev.treespot.core.AbstractQuery;
 import net.n4dev.treespot.core.api.ITreeSpot;
+import net.n4dev.treespot.core.api.ITreeSpotMedia;
+import net.n4dev.treespot.db.TreeSpotObjectBox;
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants;
 import net.n4dev.treespot.db.constants.TreeSpotsConstants;
+import net.n4dev.treespot.db.query.GetLocationMediaQuery;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import io.objectbox.Box;
 import io.objectbox.annotation.ConflictStrategy;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
@@ -190,5 +197,23 @@ public class TreeSpot implements ITreeSpot {
         staticMap.put(TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION, 6);
         staticMap.put(TreeSpotsConstants.SPOT_OWNER_ID, 7);
         return staticMap;
+    }
+
+    @NonNull
+    @Override
+    public List<ITreeSpotMedia> getSpotPhotos() {
+        ArrayList<ITreeSpotMedia> mediaArrayList = new ArrayList<>();
+        AbstractQuery<TreeSpotMedia> mediaQuery = new GetLocationMediaQuery(spotID);
+        Box<TreeSpotMedia> mediaBox = TreeSpotObjectBox.INSTANCE.getBox(TreeSpotMedia.class);
+
+        List<TreeSpotMedia> results = mediaBox.query(mediaQuery.buildQuery()).build().find();
+
+        if(results.size() > 0) {
+            mediaArrayList.addAll(results);
+        } else {
+            // Return empty list
+            return mediaArrayList;
+        }
+        return mediaArrayList;
     }
 }

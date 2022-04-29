@@ -43,4 +43,6 @@ interface ITreeSpot : IEntity {
      */
     fun getPrivateDescription(): String
     fun setPrivateDescription(string: String)
+
+    fun getSpotPhotos() : List<ITreeSpotMedia>
 }

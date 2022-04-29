@@ -59,7 +59,7 @@ class FriendDetailActivity : TreeSpotActivity(), Toolbar.OnMenuItemClickListener
         val itemID = item.itemId
         if(itemID == R.id.manu_main_spots_all) {
             val bundle = Bundle()
-            bundle.putString(AllUserSpotsActivity.ARG_USER_ID, viewModel.getUserID().toString())
+            bundle.putString(AllUserSpotsActivity.ARG_USER_ID, viewModel.getFriendID().toString())
 
             ActivityUtil.startActivity(bundle, AllUserSpotsActivity::class.java, this, false)
         }
