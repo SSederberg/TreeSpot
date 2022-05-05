@@ -45,7 +45,6 @@ class AddSpotActivity : TreeSpotActivity(), OnMapReadyCallback {
     }
 
     private lateinit var binding : ActivityAddSpotBinding
-    private val photosUriArray = ArrayList<ITreeSpotMedia>()
     private var hasPrivateName : Boolean = false
     private lateinit var viewmodel : AddSpotViewModel
     private val cancelToken = CancellationTokenSource()
@@ -96,7 +95,7 @@ class AddSpotActivity : TreeSpotActivity(), OnMapReadyCallback {
         binding.addSpotAdd.setOnClickListener {
             val treeSpot = buildTreeSpot(binding.addSpotNameSwitch.isChecked)
 
-            viewmodel.addSpot(treeSpot, this)
+            viewmodel.addSpot(treeSpot, treeMedia, this)
 
             val bundle = Bundle()
             bundle.putString(MainActivity.ARG_USER_ID, userID)

@@ -47,7 +47,6 @@ class MySpotsAdapter(holder: MySpotViewHolder, query : AbstractQuery<TreeSpot>, 
             val media = queryResult[0]
 
             Glide.with(holder.itemView.context)
-                .asBitmap()
                 .load(media.getMediaPath())
                 .into(holder.xmlBinding.aiTreespotPreview)
 

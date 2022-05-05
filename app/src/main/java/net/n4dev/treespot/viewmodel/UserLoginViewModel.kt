@@ -12,12 +12,14 @@ import io.appwrite.models.User
 import io.appwrite.services.Account
 import io.appwrite.services.Avatars
 import io.appwrite.services.Database
+import io.appwrite.services.Storage
 import io.objectbox.Box
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.core.AbstractViewModel
 import net.n4dev.treespot.db.TreeSpotObjectBox
 import net.n4dev.treespot.db.constants.TreeSpotFriendsConstants
+import net.n4dev.treespot.db.constants.TreeSpotMediaConstants
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants
 import net.n4dev.treespot.db.constants.TreeSpotsConstants
 import net.n4dev.treespot.ui.TreeSpotActivity
@@ -32,6 +34,7 @@ class UserLoginViewModel : AbstractViewModel() {
     private lateinit var account: Account
     private lateinit var avatars: Avatars
     private lateinit var awDatabase: Database
+    private lateinit var awFiles : Storage
 
     private lateinit var userBox: Box<net.n4dev.treespot.core.entity.User>
     private lateinit var friendBox : Box<net.n4dev.treespot.core.entity.Friend>
@@ -40,9 +43,10 @@ class UserLoginViewModel : AbstractViewModel() {
 
    override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
-        account = Account(client)
         awDatabase = super.getAppWriteDatabase(context)
         avatars = super.getAppWriteAvatars(context)
+        account = Account(client)
+        awFiles = Storage(client)
 
         userBox = TreeSpotObjectBox.getBoxStore().boxFor(net.n4dev.treespot.core.entity.User::class.java)
         friendBox = TreeSpotObjectBox.getBoxStore().boxFor(net.n4dev.treespot.core.entity.Friend::class.java)
@@ -141,7 +145,6 @@ class UserLoginViewModel : AbstractViewModel() {
             val spotID = spotData[TreeSpotsConstants.SPOT_UUID]
             val description = spotData[TreeSpotsConstants.SPOT_DESCRIPTION]
             val privateDescription = spotData[TreeSpotsConstants.SPOT_PRIVATE_DESCRIPTION]
-            val isFavorite = spotData[TreeSpotsConstants.SPOT_FAVORITE]
 
             if(privateDescription == null) {
                 val tempSpot = net.n4dev.treespot.core.entity.TreeSpot(
@@ -154,6 +157,7 @@ class UserLoginViewModel : AbstractViewModel() {
                 )
 
                 spotBox.put(tempSpot)
+
             } else {
                 val tempSpot = net.n4dev.treespot.core.entity.TreeSpot(
                     latNorth as String,
@@ -167,7 +171,14 @@ class UserLoginViewModel : AbstractViewModel() {
 
                 spotBox.put(tempSpot)
             }
+            pullSpotMediaData(spotID)
         }
+    }
+
+    private suspend fun pullSpotMediaData(spotID: String) {
+        val mediaQuery = listOf(Query.equal(TreeSpotMediaConstants.SPOT_ID, spotID))
+
+        val mediaFileResponse = awFiles.listFiles("ts_bucket_pictures", spotID)
     }
 
 
