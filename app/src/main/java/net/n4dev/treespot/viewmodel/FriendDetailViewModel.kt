@@ -3,9 +3,9 @@ package net.n4dev.treespot.viewmodel
 import android.content.Context
 import io.appwrite.Client
 import io.appwrite.services.Avatars
-import net.n4dev.treespot.core.AbstractViewModel
+import net.n4dev.treespot.core.AppwriteViewModel
 
-class FriendDetailViewModel : AbstractViewModel() {
+class FriendDetailViewModel : AppwriteViewModel() {
 
     private lateinit var client : Client
     private lateinit var avatars: Avatars

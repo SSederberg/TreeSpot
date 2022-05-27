@@ -16,7 +16,7 @@ import io.appwrite.services.Storage
 import io.objectbox.Box
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
-import net.n4dev.treespot.core.AbstractViewModel
+import net.n4dev.treespot.core.AppwriteViewModel
 import net.n4dev.treespot.db.TreeSpotObjectBox
 import net.n4dev.treespot.db.constants.TreeSpotFriendsConstants
 import net.n4dev.treespot.db.constants.TreeSpotMediaConstants
@@ -28,7 +28,7 @@ import net.n4dev.treespot.util.ActivityUtil
 import java.io.FileOutputStream
 import java.util.*
 
-class UserLoginViewModel : AbstractViewModel() {
+class UserLoginViewModel : AppwriteViewModel() {
 
     private lateinit var client: Client
     private lateinit var account: Account

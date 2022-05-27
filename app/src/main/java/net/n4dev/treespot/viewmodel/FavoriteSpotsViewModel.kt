@@ -3,7 +3,7 @@ package net.n4dev.treespot.viewmodel
 import android.content.Context
 import androidx.work.Data
 import io.objectbox.Box
-import net.n4dev.treespot.core.AbstractViewModel
+import net.n4dev.treespot.core.AppwriteViewModel
 import net.n4dev.treespot.core.entity.FavoriteSpot
 import net.n4dev.treespot.core.entity.TreeSpot
 import net.n4dev.treespot.db.TreeSpotObjectBox
@@ -12,7 +12,7 @@ import net.n4dev.treespot.db.query.GetSingleFavoriteSpotQuery
 import net.n4dev.treespot.worker.UploadFavoriteTreeSpotWorker
 import net.n4dev.treespot.worker.WorkerUtil
 
-class FavoriteSpotViewModel : AbstractViewModel() {
+class FavoriteSpotsViewModel : AppwriteViewModel() {
 
     private lateinit var favoriteBox : Box<FavoriteSpot>
 

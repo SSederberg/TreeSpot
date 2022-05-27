@@ -11,12 +11,12 @@ import io.appwrite.services.Account
 import io.appwrite.services.Database
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
-import net.n4dev.treespot.core.AbstractViewModel
+import net.n4dev.treespot.core.AppwriteViewModel
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants
 import net.n4dev.treespot.ui.TreeSpotActivity
 import java.util.*
 
-class RegisterUserViewModel : AbstractViewModel() {
+class RegisterUserViewModel : AppwriteViewModel() {
 
     private lateinit var client: Client
     private lateinit var account: Account

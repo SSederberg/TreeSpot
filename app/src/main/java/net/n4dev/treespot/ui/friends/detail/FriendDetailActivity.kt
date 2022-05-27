@@ -17,7 +17,7 @@ import net.n4dev.treespot.db.query.GetUserTreeSpotsQuery
 import net.n4dev.treespot.ui.TreeSpotActivity
 import net.n4dev.treespot.ui.spots.all.AllUserSpotsActivity
 import net.n4dev.treespot.util.ActivityUtil
-import net.n4dev.treespot.viewmodel.FriendViewModel
+import net.n4dev.treespot.viewmodel.entity.FriendViewModel
 
 class FriendDetailActivity : TreeSpotActivity(), Toolbar.OnMenuItemClickListener {
 

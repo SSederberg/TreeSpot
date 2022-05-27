@@ -32,7 +32,7 @@ import net.n4dev.treespot.ui.settings.SettingsActivity
 import net.n4dev.treespot.ui.spots.share.ShareSpotActivity
 import net.n4dev.treespot.util.ActivityUtil
 import net.n4dev.treespot.util.DateConverter
-import net.n4dev.treespot.viewmodel.FavoriteSpotViewModel
+import net.n4dev.treespot.viewmodel.FavoriteSpotsViewModel
 
 class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
     PopupMenu.OnMenuItemClickListener {
@@ -50,14 +50,14 @@ class TreeSpotDetailActivity : TreeSpotActivity(), OnMapReadyCallback,
     private lateinit var theSpot: TreeSpot
     private lateinit var theUser: IUser
     private lateinit var popupMenu: PopupMenu
-    private lateinit var favoriteModel : FavoriteSpotViewModel
+    private lateinit var favoriteModel : FavoriteSpotsViewModel
     private lateinit var requestedByID : String
     private var isFavorite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTreeSpotDetailBinding.inflate(layoutInflater)
-        favoriteModel = ViewModelProvider(this).get(FavoriteSpotViewModel::class.java)
+        favoriteModel = ViewModelProvider(this).get(FavoriteSpotsViewModel::class.java)
 
         if (intent.extras != null) {
             this.buildFromBundle(intent.extras!!)

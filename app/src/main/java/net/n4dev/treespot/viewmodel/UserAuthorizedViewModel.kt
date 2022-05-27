@@ -7,9 +7,9 @@ import io.appwrite.exceptions.AppwriteException
 import io.appwrite.services.Account
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
-import net.n4dev.treespot.core.AbstractViewModel
+import net.n4dev.treespot.core.AppwriteViewModel
 
-class UserAuthorizedViewModel : AbstractViewModel() {
+class UserAuthorizedViewModel : AppwriteViewModel() {
 
     private lateinit var client: Client
     private lateinit var account: Account

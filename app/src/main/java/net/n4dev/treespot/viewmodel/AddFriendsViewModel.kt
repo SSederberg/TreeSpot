@@ -11,14 +11,14 @@ import io.appwrite.models.User
 import io.appwrite.services.Avatars
 import io.appwrite.services.Database
 import kotlinx.coroutines.launch
-import net.n4dev.treespot.core.AbstractViewModel
+import net.n4dev.treespot.core.AppwriteViewModel
 import net.n4dev.treespot.db.constants.TreeSpotFriendRequestConstants
 import net.n4dev.treespot.db.constants.TreeSpotFriendsConstants
 import net.n4dev.treespot.db.constants.TreeSpotUserConstants
 import net.n4dev.treespot.ui.friends.add.AddFriendsAdapter
 import java.util.*
 
- class AddFriendsViewModel : AbstractViewModel() {
+ class AddFriendsViewModel : AppwriteViewModel() {
 
     private lateinit var awDatabase: Database
     private lateinit var avatars: Avatars

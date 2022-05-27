@@ -7,7 +7,7 @@ import io.appwrite.services.Database
 import io.appwrite.services.Storage
 import io.objectbox.Box
 import kotlinx.coroutines.launch
-import net.n4dev.treespot.core.AbstractViewModel
+import net.n4dev.treespot.core.AppwriteViewModel
 import net.n4dev.treespot.core.api.ITreeSpot
 import net.n4dev.treespot.core.api.ITreeSpotMedia
 import net.n4dev.treespot.core.entity.TreeSpot
@@ -17,7 +17,7 @@ import net.n4dev.treespot.db.constants.TreeSpotsConstants
 import net.n4dev.treespot.worker.UploadTreeSpotWorker
 import net.n4dev.treespot.worker.WorkerUtil
 
-class AddSpotViewModel : AbstractViewModel() {
+class AddSpotViewModel : AppwriteViewModel() {
 
     private lateinit var spotBox: Box<TreeSpot>
     private lateinit var mediaBox: Box<TreeSpotMedia>

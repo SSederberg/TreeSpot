@@ -1,8 +1,7 @@
-package net.n4dev.treespot.viewmodel
+package net.n4dev.treespot.viewmodel.entity
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import net.n4dev.treespot.core.AbstractViewModel
+import net.n4dev.treespot.core.EntityViewModel
 import net.n4dev.treespot.core.TreeSpotException
 import net.n4dev.treespot.core.api.IFriend
 import net.n4dev.treespot.core.entity.Friend
@@ -10,7 +9,7 @@ import net.n4dev.treespot.core.entity.TreeSpot
 import net.n4dev.treespot.core.entity.TypeConst
 import java.util.*
 
-class FriendViewModel() : AbstractViewModel(), IFriend {
+class FriendViewModel() : EntityViewModel<Friend>(), IFriend {
 
     private var friendID = MutableLiveData<UUID>()
     private var friendsSince = MutableLiveData<Long>()
@@ -32,10 +31,6 @@ class FriendViewModel() : AbstractViewModel(), IFriend {
         emailAddress.value = friend.getEmailAddress()
         accountCreationDate.value = friend.getAccountCreationDate()
         lastOnline.value = friend.getLastOnline()
-    }
-
-    override fun init(context: Context) {
-        throw TreeSpotException("FriendViewModel.init() is intended for AppWrite operations based View Models!")
     }
 
     override fun getFriendID(): UUID {
@@ -136,5 +131,13 @@ class FriendViewModel() : AbstractViewModel(), IFriend {
 
     override fun isTreeSpot(): Boolean {
         return false
+    }
+
+    override fun copyFrom(entity: Friend) {
+
+    }
+
+    override fun copyTo(entity: Friend) {
+
     }
 }
