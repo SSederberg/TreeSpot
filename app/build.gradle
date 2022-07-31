@@ -65,11 +65,11 @@ android {
 
 dependencies {
 
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.5'
-    implementation 'com.google.android.gms:play-services-maps:18.0.2'
-    implementation 'com.google.android.gms:play-services-location:19.0.1'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.6'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.1'
 
     debugImplementation("io.objectbox:objectbox-android-objectbrowser:$objectboxVersion")
     releaseImplementation("io.objectbox:objectbox-android:$objectboxVersion")
@@ -95,7 +95,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
 
     implementation group: 'commons-validator', name: 'commons-validator', version: '1.7'
 
@@ -106,12 +106,12 @@ dependencies {
     }
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
-    implementation 'com.google.android.exoplayer:exoplayer:2.17.1'
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

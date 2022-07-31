@@ -8,7 +8,7 @@ class UUIDConverter : PropertyConverter<UUID, String?> {
         return UUID.fromString(databaseValue)
     }
 
-    override fun convertToDatabaseValue(entityProperty: UUID): String? {
+    override fun convertToDatabaseValue(entityProperty: UUID): String {
         return entityProperty.toString()
     }
 }
