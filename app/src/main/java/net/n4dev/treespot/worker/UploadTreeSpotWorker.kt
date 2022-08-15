@@ -3,7 +3,6 @@ package net.n4dev.treespot.worker
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import io.appwrite.services.Database
 import io.appwrite.services.Storage
 import kotlinx.coroutines.coroutineScope
 import net.n4dev.treespot.TreeSpotApplication
@@ -11,7 +10,7 @@ import net.n4dev.treespot.TreeSpotApplication
 class UploadTreeSpotWorker(val context: Context, workerParams: WorkerParameters) : CoroutineWorker(context, workerParams) {
 
     val client = TreeSpotApplication.getClient(context)
-    private var awDatabase: Database = Database(client)
+//    private var awDatabase: Databases = Databases(client)
     private var awStorage : Storage = Storage(client)
 
     override suspend fun doWork(): Result = coroutineScope {

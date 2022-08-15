@@ -3,7 +3,7 @@ package net.n4dev.treespot.viewmodel
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import androidx.work.Data
-import io.appwrite.services.Database
+import io.appwrite.services.Databases
 import io.appwrite.services.Storage
 import io.objectbox.Box
 import kotlinx.coroutines.launch
@@ -22,14 +22,14 @@ class AddSpotViewModel : AppwriteViewModel() {
     private lateinit var spotBox: Box<TreeSpot>
     private lateinit var mediaBox: Box<TreeSpotMedia>
 
-    private lateinit var awDatabase: Database
+    private lateinit var awDatabase: Databases
     private lateinit var awStorage: Storage
 
     override fun init(context: Context) {
         spotBox = super.getBox(TreeSpot::class.java)
         mediaBox = super.getBox(TreeSpotMedia::class.java)
 
-        awDatabase = super.getAppWriteDatabase(context)
+        awDatabase = super.getAppWriteDatabase(context, TreeSpotsConstants.name)
         awStorage = Storage(super.getAppWriteClient(context))
     }
 

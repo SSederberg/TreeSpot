@@ -3,7 +3,7 @@ package net.n4dev.treespot.core
 import android.content.Context
 import io.appwrite.Client
 import io.appwrite.services.Avatars
-import io.appwrite.services.Database
+import io.appwrite.services.Databases
 import io.objectbox.Box
 import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.core.api.IEntity
@@ -21,9 +21,9 @@ abstract class AppwriteViewModel : AbstractViewModel(), IViewModel {
         return TreeSpotApplication.getClient(context)
     }
 
-    fun getAppWriteDatabase(context: Context) : Database {
+    fun getAppWriteDatabase(context: Context, databaseId : String) : Databases {
         val client = getAppWriteClient(context)
-        return Database(client)
+        return Databases(client, databaseId)
     }
 
     fun getAppWriteAvatars(context: Context) : Avatars {

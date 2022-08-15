@@ -9,7 +9,7 @@ import io.appwrite.models.Document
 import io.appwrite.models.DocumentList
 import io.appwrite.models.User
 import io.appwrite.services.Avatars
-import io.appwrite.services.Database
+import io.appwrite.services.Databases
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.core.AppwriteViewModel
 import net.n4dev.treespot.db.constants.TreeSpotFriendRequestConstants
@@ -20,7 +20,7 @@ import java.util.*
 
  class AddFriendsViewModel : AppwriteViewModel() {
 
-    private lateinit var awDatabase: Database
+    private lateinit var awDatabase: Databases
     private lateinit var avatars: Avatars
 
     private val friendRequestCollectionID = TreeSpotFriendRequestConstants.name
@@ -30,7 +30,7 @@ import java.util.*
      private lateinit var userID : String
 
     override fun init(context: Context) {
-        awDatabase = super.getAppWriteDatabase(context)
+        awDatabase = super.getAppWriteDatabase(context, friendsCollectionID)
         avatars = super.getAppWriteAvatars(context)
     }
 

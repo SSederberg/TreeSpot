@@ -25,6 +25,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import io.objectbox.Box;
 import io.objectbox.query.Query;
 
+/**
+ * A custom {@link RecyclerView.Adapter} designed to help easily display a list of IEntity objects.
+ * Designed to be used with Data Binding XML files and using a {@link AbstractViewHolder}
+ * @param <T>
+ * @param <H>
+ */
 public abstract class AbstractEntityAdapter<T extends IEntity, H extends AbstractViewHolder> extends RecyclerView.Adapter<H> {
 
     private final SortedList<T> entities;
@@ -59,6 +65,10 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      */
     protected abstract void onNoItemsAvailable(@NonNull H holder);
 
+    /**
+     * Removes item from data list and updating the UI to reflect said change.
+     * @param position - The position of the object in the data list.
+     */
     public void removeItem(int position) {
         getEntities().removeItemAt(position);
         super.notifyItemRemoved(position);
@@ -87,6 +97,12 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
         }
     }
 
+    /**
+     * Create the custom viewholder based on the {@link AbstractViewHolder}
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public final H onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -184,6 +200,10 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
         loadSecondaryThread.join();
     }
 
+    /**
+     * Save the specified entity and its data to the local database.
+     * @param entity
+     */
     public void save(IEntity entity) {
 
         Thread saveThread = new Thread(() -> {
@@ -199,7 +219,10 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
         }
     }
 
-
+    /**
+     * Delete the specified entity and its data from the local database.
+     * @param entity
+     */
     public void delete(IEntity entity) {
 
         Thread deleteThread = new Thread(() -> {
@@ -220,20 +243,25 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
         return callback;
     }
 
+    /**
+     * The data list being supplied to the UI
+     * @return
+     */
     public SortedList<T> getEntities() {
         return entities;
     }
 
     /**
+     * <p>
      * Converts the default SortedList into a ArrayList.
-     * SortedLists does NOT extend or implement the List internface,
+     * SortedLists does NOT extend or implement the List interface,
      * so certain operations such as iterating and addAll do not work.
      *
      * Calling this method should be done with caution and should
      * only be used when screens require a search function. The less this is called,
      * the better performance overall.
-     *
-     * @return A ArrayList of T objects.
+     *</p>
+     * @return A ArrayList of {@link T} objects.
      */
     public ArrayList<T> getEntitiesAsArrayList() {
         ArrayList<T> converted = new ArrayList<>();

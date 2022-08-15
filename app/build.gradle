@@ -46,7 +46,7 @@ android {
         }
 
         debug {
-            buildConfigField "String", "APPWRITE_URL", "\"http://192.168.1.245/v1\""
+            buildConfigField "String", "APPWRITE_URL", "\"http://192.168.1.231/v1\""
             buildConfigField "String", "PROJECT_ID", "\"treespot-dev\""
         }
     }
@@ -85,13 +85,13 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:${camerax_version}"
     implementation "androidx.camera:camera-extensions:1.1.0-beta03"
 
-    implementation("io.appwrite:sdk-for-android:0.6.1")
+    implementation("io.appwrite:sdk-for-android:0.7.0")
 
     implementation platform('com.google.firebase:firebase-bom:29.1.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

@@ -11,7 +11,7 @@ import io.appwrite.exceptions.AppwriteException
 import io.appwrite.models.User
 import io.appwrite.services.Account
 import io.appwrite.services.Avatars
-import io.appwrite.services.Database
+import io.appwrite.services.Databases
 import io.appwrite.services.Storage
 import io.objectbox.Box
 import kotlinx.coroutines.launch
@@ -33,7 +33,7 @@ class UserLoginViewModel : AppwriteViewModel() {
     private lateinit var client: Client
     private lateinit var account: Account
     private lateinit var avatars: Avatars
-    private lateinit var awDatabase: Database
+    private lateinit var awDatabase: Databases
     private lateinit var awFiles : Storage
 
     private lateinit var userBox: Box<net.n4dev.treespot.core.entity.User>
@@ -43,7 +43,7 @@ class UserLoginViewModel : AppwriteViewModel() {
 
    override fun init(context: Context) {
         client = TreeSpotApplication.getClient(context)
-        awDatabase = super.getAppWriteDatabase(context)
+//        awDatabase = super.getAppWriteDatabase(context)
         avatars = super.getAppWriteAvatars(context)
         account = Account(client)
         awFiles = Storage(client)
@@ -59,7 +59,7 @@ class UserLoginViewModel : AppwriteViewModel() {
             try {
                 if (!sessionExists()) {
 
-                    val response = account.createSession(emailAddress, password)
+                    val response = account.createEmailSession(emailAddress, password)
                     sharedPreferences.edit().putString(TreeSpotActivity.PREF_ACTIVE_SESSION_ID, response.id).apply()
                     sharedPreferences.edit().putString(TreeSpotActivity.PREF_ACTIVE_USERNAME_ID, response.userId).apply()
 

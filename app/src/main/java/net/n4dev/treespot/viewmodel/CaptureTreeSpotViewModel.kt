@@ -2,7 +2,7 @@ package net.n4dev.treespot.viewmodel
 
 import android.content.Context
 import androidx.lifecycle.viewModelScope
-import io.appwrite.services.Database
+import io.appwrite.services.Databases
 import io.appwrite.services.Storage
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
@@ -11,13 +11,13 @@ import java.io.File
 
 class CaptureTreeSpotViewModel : AppwriteViewModel() {
 
-    private lateinit var awDatabase: Database
+    private lateinit var awDatabase: Databases
     private lateinit var awStorage : Storage
 
     override fun init(context: Context) {
         val client = TreeSpotApplication.getClient(context)
 
-        awDatabase = super.getAppWriteDatabase(context)
+        awDatabase = super.getAppWriteDatabase(context, "NULL")
         awStorage = Storage(client)
     }
 

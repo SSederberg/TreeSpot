@@ -8,7 +8,7 @@ import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.models.User
 import io.appwrite.services.Account
-import io.appwrite.services.Database
+import io.appwrite.services.Databases
 import kotlinx.coroutines.launch
 import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.core.AppwriteViewModel
@@ -20,7 +20,7 @@ class RegisterUserViewModel : AppwriteViewModel() {
 
     private lateinit var client: Client
     private lateinit var account: Account
-    private lateinit var awDatabase: Database
+    private lateinit var awDatabase: Databases
 
     private val usersCollectionID = TreeSpotUserConstants.name
     private val userAttEmail = TreeSpotUserConstants.EMAIL_ADDRESS
@@ -34,7 +34,7 @@ class RegisterUserViewModel : AppwriteViewModel() {
         client = TreeSpotApplication.getClient(context)
         account = Account(client)
 
-        awDatabase = super.getAppWriteDatabase(context)
+        awDatabase = super.getAppWriteDatabase(context, usersCollectionID)
     }
 
     fun registerAccount(emailAddress : String, password : String, username : String, userID: UUID) {

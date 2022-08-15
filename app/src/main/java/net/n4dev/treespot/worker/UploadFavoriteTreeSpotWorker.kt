@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.orhanobut.logger.Logger
-import io.appwrite.services.Database
+import io.appwrite.services.Databases
 import net.n4dev.treespot.TreeSpotApplication
 import net.n4dev.treespot.db.constants.TreeSpotFavoriteConstants
 
@@ -15,7 +15,7 @@ class UploadFavoriteTreeSpotWorker(val context: Context, workerParams: WorkerPar
     }
 
     val client = TreeSpotApplication.getClient(context)
-    private val awDatabase: Database = Database(client)
+    private val awDatabase: Databases = Databases(client, TreeSpotFavoriteConstants.name)
 
     override suspend fun doWork(): Result {
         val ownerID = inputData.getString(TreeSpotFavoriteConstants.SPOT_OWNER_ID)

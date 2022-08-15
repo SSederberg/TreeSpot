@@ -1,6 +1,8 @@
 package net.n4dev.treespot.core
 
-abstract class EntityViewModel<T> : AbstractViewModel() {
+import net.n4dev.treespot.core.api.IEntity
+
+abstract class EntityViewModel<T : IEntity> : AbstractViewModel() {
 
     /**
      * Take variables from T object and copy them locally to this viewmodel.

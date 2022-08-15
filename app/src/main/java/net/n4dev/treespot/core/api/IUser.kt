@@ -14,7 +14,7 @@ interface IUser : IEntity {
     fun setUsername(username : String)
 
     /**
-     * The email address associated with this acoount
+     * The email address associated with this account
      */
     fun getEmailAddress() : String
     fun setEmailAddress(email : String)
