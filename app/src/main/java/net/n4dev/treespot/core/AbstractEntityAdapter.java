@@ -13,7 +13,6 @@ import com.orhanobut.logger.Logger;
 
 import net.n4dev.treespot.core.api.IEntity;
 import net.n4dev.treespot.core.api.IFriend;
-import net.n4dev.treespot.core.api.IQuery;
 import net.n4dev.treespot.core.api.ITreeSpot;
 import net.n4dev.treespot.core.api.ITreeSpotMedia;
 import net.n4dev.treespot.db.TreeSpotObjectBox;
@@ -69,6 +68,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
      * Removes item from data list and updating the UI to reflect said change.
      * @param position - The position of the object in the data list.
      */
+    @SuppressWarnings("unused")
     public void removeItem(int position) {
         getEntities().removeItemAt(position);
         super.notifyItemRemoved(position);
@@ -98,7 +98,7 @@ public abstract class AbstractEntityAdapter<T extends IEntity, H extends Abstrac
     }
 
     /**
-     * Create the custom viewholder based on the {@link AbstractViewHolder}
+     * Create the custom view holder based on the {@link AbstractViewHolder}
      * @param parent
      * @param viewType
      * @return

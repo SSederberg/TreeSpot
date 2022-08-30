@@ -23,7 +23,6 @@ class FriendViewModel() : EntityViewModel<Friend>(), IFriend {
 
     constructor(friend: Friend) : this() {
         friendID.value = friend.getFriendID()
-        friendID.value = friend.getFriendID()
         friendsSince.value = friend.getFriendsSince()
         userID.value = friend.getUserID()
         friendPairID.value = friend.getFriendPairID()

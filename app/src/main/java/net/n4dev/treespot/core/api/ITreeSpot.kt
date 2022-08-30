@@ -41,7 +41,7 @@ interface ITreeSpot : IEntity {
     /**
      * The Owner only visible description of this spot.
      */
-    fun getPrivateDescription(): String
+    fun getPrivateDescription(): String?
     fun setPrivateDescription(string: String)
 
     fun getSpotPhotos() : List<ITreeSpotMedia>
